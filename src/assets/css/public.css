@@ -1,0 +1,156 @@
+/* 清除内外边距 */
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, /* structural elements 结构元素 */
+dl, dt, dd, ul, ol, li, /* list elements 列表元素 */
+pre, /* text formatting elements 文本格式元素 */
+fieldset,button, input, textarea, /* form elements 表单元素 */
+th, td { /* table elements 表格元素 */
+    margin: 0;
+    padding: 0;
+}
+
+/* 设置默认字体 */
+body,
+button, input, select, textarea { /* for ie */
+    /*font: 12px/1 Tahoma, Helvetica, Arial, "宋体", sans-serif;*/
+    font: 14px/1 "Microsoft YaHei", "Arial",Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif; /* 用 ascii 字符表示，使得在任何编码下都无问题 */
+}
+
+h1 { font-size: 18px; /* 18px / 12px = 1.5 */ }
+h2 { font-size: 16px; }
+h3 { font-size: 14px; }
+h4, h5, h6 { font-size: 100%; }
+
+address, cite, dfn, em, var { font-style: normal; } /* 将斜体扶正 */
+code, kbd, pre, samp, tt { font-family: "Courier New", Courier, monospace; } /* 统一等宽字体 */
+small { font-size: 12px; } /* 小于 12px 的中文很难阅读，让 small 正常化 */
+
+/* 重置列表元素 */
+ul, ol { list-style: none; }
+
+/* 重置文本格式元素 */
+a { text-decoration: none;outline:none; }
+a:hover { text-decoration: none; }
+
+abbr[title], acronym[title] { /* 注：1.ie6 不支持 abbr; 2.这里用了属性选择符，ie6 下无效果 */
+    border-bottom: 1px dotted;
+    cursor: help;
+}
+
+q:before, q:after { content: ''; }
+
+/* 重置表单元素 */
+legend { color: #000; } /* for ie6 */
+fieldset, img { border: none; } /* img 搭车：让链接里的 img 无边框 */
+/* 注：optgroup 无法扶正 */
+button, input, select, textarea {
+    font-size: 100%; /* 使得表单元素在 ie 下能继承字体大小 */
+    outline:none;
+}
+/* 重置表格元素 */
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/* 重置 hr */
+hr {
+    border: none;
+    height: 1px;
+}
+i,em{ font-style:normal}
+a:hover{ text-decoration:none;}
+
+input:disabled,input[disabled]{
+    border: none;
+    background-color:#fff;
+    color:#999;
+}
+input[type="radio"],input[type="checkbox"]{vertical-align: middle;}
+
+.clearfix:before,.clearfix:after{ content:"";  display:table; }
+.clearfix:after{clear:both;}
+.clearfix{ *zoom:1;}
+.fl{float: left}
+.fr{float: right}
+.box-flex{ display: -webkit-box; display: -webkit-flex; display: flex;}
+.box-flex-media-box{display: -webkit-box; display: -webkit-flex; display: flex; -webkit-box-align: center; -webkit-algin-items:center; align-items: center;}
+.box-flex-media-box p{cursor: pointer}
+.flex1{-webkit-box-flex: 1; -webkit-flex:1; flex: 1;}
+.flex2{-webkit-box-flex: 2; -webkit-flex:1; flex: 2;}
+.flex3{-webkit-box-flex: 3; -webkit-flex:1; flex: 3;}
+/*对默认的饿了吗样式 进行修改*/
+.el-button--text{ font-size: 16px; color: #4c4c4c; padding: 7px 15px;}
+.el-button--text:focus, .el-button--text:hover {color: #1f2e65;}
+.el-button--sure,.el-button--cancle{ font-size: 16px; padding: 7px 15px; color: #fff;background-color: #161f40; border-color: #161f40;}
+.el-button--sure.is-active, .el-button--sure:hover , .el-button--sure:focus{ background: #1f2e65;  border-color: #1f2e65; color: #fff;}
+.el-date-editor--datetimerange.el-input{ width: 100%;}
+.el-button--cancle{ background: #b5b5b5;  border-color: #b5b5b5;}
+.el-button--cancle.is-active, .el-button--cancle:hover , .el-button--cancle:focus{ background: #999; border-color: #999; color: #fff;}
+.el-button--diy{ font-size: 16px; color: #161f40; padding: 7px 15px; border-color: #161f40;background:none;}
+.el-button--diy:hover,.el-button--diy:focus{ border-color: #1f2e65; color: #1f2e65}
+/*header-wrapper*/
+body{ background: #f7f7f7; color: #4c4c4c;}
+.header-wrapper{ width: 100%; height: 120px; background: #fff; margin-bottom: 0;box-shadow: 0px 10px 10px 0px rgba(6, 0, 1, 0.15); position: relative; z-index: 20; min-width: 1200px;}
+.header-main{ width: 1200px; margin: 0 auto;}
+.header-logo{ width: auto; height: 100%; float: left;}
+.header-logo a{ display: block; padding-top: 24px; cursor: pointer;}
+.nav-wrap .el-button{ margin-left: 1px;}
+.header-main-right{ float: right;}
+.header-main-right .el-badge{vertical-align: top;}
+.header-main-right .el-button+.el-button{ margin-left: 1px;}
+.login-yes-nav,.nav-wrap {display: block;width: 100%; float: right; text-align: right; padding-top: 20px;}
+.login-yes-nav .el-badge__content.is-fixed{ top: 5px; right: 22px;}
+.user-header{ display: block; width: 30px; height: 30px; margin-right:10px; box-sizing: border-box; border: 1px solid #51b2fa; border-radius: 50%;}
+.user-header img{ display: block;width: 100%; height: 100%; border-radius: 50%;}
+.login-yes-nav .name{font-size: 16px; color: #4c4c4c;}
+.login-yes-nav .name:hover{ opacity: .8;}
+.header-user-a{ margin-right: 15px; display: block}
+.footer-wrapper{ 
+    /* margin-top: 20px;  */
+    background:#333333; 
+    height: 67px;     
+    /*display: block;*/
+     position: relative; 
+    bottom: 0;
+    width: 100%;
+    z-index: 1;
+}
+.footer-wrapper p{ text-align: center; color: #fff; font-size: 14px; line-height: 67px;}
+
+/*###############header 新版###############*/
+.new-header{width: 100%;}
+.header-top{ background: #161f40;}
+.header-top-main{height: 40px;  width: 1200px; margin: 0 auto; color: #fff;}
+.header-top-main a{ color: #fff;}
+.htm-jh{ height: 40px;}
+.htm-jh .people{ width: 26px; height: 26px; border: 1px solid #fff; border-radius: 50%; margin-right: 10px;}
+.htm-jh .people img{ width: 100%; height: 100%; display: block; border-radius: 50%;}
+.htm-jh .nh-a-01{ margin-right: 15px;}
+.htm-jh .nh-a-02{  margin-right: 15px;}
+.htm-jh .nh-a-04{margin: 0 5px;}
+.htm-jh p .nh-a-03:first-child{ margin-right: 5px;}
+.htm-jh p .nh-a-03:last-child{ margin-left: 5px;}
+.htm-jh a:hover{ opacity: .8}
+.header-content{ width: 1200px; margin: 0 auto; padding: 10px 0;}
+.h1-logo img{ height: 30px; width: auto; display: block;margin-top: 15px;}
+.nav-ul-jh a{ width: 95px; height:32px; color: #161f40; display: block; margin-left: 15px; font-size: 18px; text-align: center; line-height: 32px; border-radius: 5px;}
+.nav-ul-jh a.active,.nav-ul-jh a:hover{  background: #161f40; color: #fff;}
+.mar-15{ margin-right: 15px;}
+
+@media (max-width: 1440px){
+    .header-top-main,.htm-jh{height: 36px; }
+    .htm-jh .people{ width: 20px; height: 20px; }
+    .nav-ul-jh a{ font-size: 14px;}
+    .nh-a-04,.nh-a-03,.nh-a-02,.nh-a-01{ font-size: 14px;}
+    .header-wrapper{ height: 106px;}
+    .header-content { padding: 5px 0}
+
+}
+.chart-msg{
+    margin-top: 100px;
+    text-align: center;
+}
+
+
+
+
