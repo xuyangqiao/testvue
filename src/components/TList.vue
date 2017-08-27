@@ -36,7 +36,7 @@
             <div class="task-set-wrap" :class="childTaskState == -1 ? '' : 'zrw-task-set-wrap'">
                 <el-row :gutter="20">
                     <el-col :span="6" v-for="(item,i) in tasklist" :key="i">
-                        <Card :stateName="getTo(item.state).name" :to="{ name: getTo(item.state).path||'error', query: Object.assign({ id: item.id ,taskId:item.taskId,state:item.state},(getTo(item.state).querys||{}))}" :state="item.state" :projectName="item.projectName" :time="item.taskEndTime" :total="item.total" :totalType="item.totalType" :userType="userType" :imageUrl="item.url"></Card>
+                        <Card :stateName="getTo(item.state).name" :to="{ name: getTo(item.state).path||'error', query: Object.assign({ id: item.id ,taskId:item.taskId,state:item.state},(getTo(item.state).querys||{}))}" :state="item.state" :projectName="item.projectName" :time="item.taskEndTime" :total="item.total" :totalType="item.totalType" :userType="userType" :imageUrl="item.url" :unread="item.unread" />
                     </el-col>
                 </el-row>
                 <div class="page-wrap clearfix">
@@ -56,6 +56,9 @@
 import { TaskList, subTaskList, taskWall, entryList } from '@/apis/task'
 import { getTaskParam, getUser } from '@/apis/storage'
 import { getTackParam, TaskState, ChildTaskState } from '@/apis/task'//注意一下 = =
+
+import { statusList } from '@/apis/notices'
+
 import Card from '@/components/Card'
 import TypeSelect from '@/components/TypeSelect'
 import SlideBtns from '@/components/SlideBtns'
@@ -225,8 +228,11 @@ export default {
                 }
             }
             if (res) {
-                console.log("....", res)
-                this.tasklist = res.list;
+                let sList = (await statusList()).data;
+                console.log(res.list, sList);
+                this.tasklist = res.list.map(o => {
+                    return o.unread = !!sList.filter(s => s.taskId == o.id)[0], o;
+                });
                 this.pagination.total = res.total;
             }
 

@@ -1,7 +1,7 @@
 <template>
     <div class="notices" v-loading="loading">
         <el-tabs v-model="tab" @tab-click="tabChange($event,1)">
-            <el-tab-pane name="system" label="系统通知">
+            <el-tab-pane name="system" :label="$lang('系统通知')">
                 <div class="tab system" v-for="(item,i) in page.system.data" :key="i">
                     <div class="item">
                         <div class="img" :class="{unread:item.state=='0'}">
@@ -91,7 +91,7 @@ export default {
         async remove(type, id) {
             this.loading = true;
             let res = await { system: delSystem, person: delPerson }[type](id);
-            this.$message[res.success ? 'success' : 'error'](res.success ? '删除成功' : res.msg);
+            this.$message[res.success ? 'success' : 'error'](res.success ? $lang('删除成功') : res.msg);
             if (res.success) this.tabChange({ name: this.tab }, this.page[this.tab].index);
             this.loading = false;
         },

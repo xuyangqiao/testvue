@@ -22,7 +22,7 @@ async function readSystem(id) {
     return (await axios.post(`/msg/readSysMsg`, { id })).data;
 }
 async function statusList() {
-    return (await axios.post(`/msg/statusList`)).data;
+    return (await axios.get(`/msg/statusList`)).data;
 }
 
 export {
