@@ -2,8 +2,8 @@
     <!-- 我的钱包  -->
     <div class="my-bag-wrapper">
         <div class="userinfo-nav">
-            <el-button :type="navIndex==1?'sure':'text'" @click="navIndex=1">我的资金</el-button>
-            <el-button :type="navIndex==2?'sure':'text'" @click="recordList('-1',1),navIndex=2">我的账单</el-button>
+            <el-button :type="navIndex==1?'sure':'text'" @click="navIndex=1">{{$lang('我的资金')}}</el-button>
+            <el-button :type="navIndex==2?'sure':'text'" @click="recordList('-1',1),navIndex=2">{{$lang('我的账单')}}</el-button>
         </div>
         <!-- 我的钱包-资金 -->
         <div class="mybag-zj-wrap" v-if="navIndex==1">
@@ -12,11 +12,11 @@
                 <div class="mybag-zj">
                     <div class="zj-edu">
                         <p>￥{{totalMoney}}</p>
-                        <p>总资产（元）</p>
+                        <p>{{$lang('总资产（元）')}}</p>
                     </div>
                     <div class="zj-btn">
                         <el-col :span="16" :offset="4">
-                            <el-button type="sure" class="fr" @click="toTixian">提现</el-button>
+                            <el-button type="sure" class="fr" @click="toTixian">{{$lang('提现')}}</el-button>
                         </el-col>
                     </div>
                 </div>
@@ -24,44 +24,44 @@
             <!-- 我的钱包-提现 -->
             <div class="mybag-zj-tx" v-if="operateType=='cash'">
                 <div class="mybag-tx-wrap" v-loading="loading">
-                    <h3 class="main-title">提现</h3>
+                    <h3 class="main-title">{{$lang('提现')}}</h3>
                     <div class="txcz-wrap">
                         <el-form ref="cashForm" :model="cashForm" label-width="130px" :rules="rules">
-                            <el-form-item label="请选择提现方式">
+                            <el-form-item :label="$lang('请选择提现方式')">
                                 <template>
                                     <ul class="clearfix">
                                         <li class="zffs-li" :class="cashForm.atmType==1&&'active'" @click="changeType(1)">
                                             <span class="zf-zfb"><i></i></span>
-                                            <p>支付宝提现</p>
+                                            <p>{{$lang('支付宝提现')}}</p>
                                         </li>
                                         <li class="zffs-li" :class="cashForm.atmType==2&&'active'" @click="changeType(2)">
                                             <span class="zf-yl"><i></i></span>
-                                            <p>银联提现</p>
+                                            <p>{{$lang('银联提现')}}</p>
                                         </li>
                                     </ul>
                                 </template>
                             </el-form-item>
-                            <el-form-item label="请输入提现金额" prop="money">
-                                <el-input placeholder="请输入提现金额" v-model="cashForm.money"></el-input>
+                            <el-form-item :label="$lang('请输入提现金额')" prop="money">
+                                <el-input :placeholder="$lang('请输入提现金额')" v-model="cashForm.money"></el-input>
                             </el-form-item>
-                            <el-form-item label="请输入账户名称" prop="name">
-                                <el-input placeholder="请输入账户名称" v-model="cashForm.name"></el-input>
+                            <el-form-item :label="$lang('请输入账户名称')" prop="name">
+                                <el-input :placeholder="$lang('请输入账户名称')" v-model="cashForm.name"></el-input>
                             </el-form-item>
 
-                            <el-form-item label="请输入支付宝账号" v-show="cashForm.atmType==1">
-                                <el-input placeholder="请输入支付宝账号" v-model="cashForm.cardNum"></el-input>
+                            <el-form-item :label="$lang('请输入支付宝账号')" v-show="cashForm.atmType==1">
+                                <el-input :placeholder="$lang('请输入支付宝账号')" v-model="cashForm.cardNum"></el-input>
                             </el-form-item>
-                            <el-form-item label="请输入银行卡号" v-show="cashForm.atmType==2" prop="cardNum">
-                                <el-input placeholder="请输入银行卡号" v-model="cashForm.cardNum"></el-input>
+                            <el-form-item :label="$lang('请输入银行卡号')" v-show="cashForm.atmType==2" prop="cardNum">
+                                <el-input :placeholder="$lang('请输入银行卡号')" v-model="cashForm.cardNum"></el-input>
                             </el-form-item>
-                            <el-form-item label="请输入开户行" v-show="cashForm.atmType==2" >
-                                <el-input placeholder="请输入开户行" v-model="cashForm.bankName"></el-input>
+                            <el-form-item :label="$lang('请输入开户行')" v-show="cashForm.atmType==2" >
+                                <el-input :placeholder="$lang('请输入开户行')" v-model="cashForm.bankName"></el-input>
                             </el-form-item>
 
                         </el-form>
                         <el-row>
                             <el-col :span="16" :offset="4">
-                                <el-button type="sure" class="fr" @click="addAtms">提现</el-button>
+                                <el-button type="sure" class="fr" @click="addAtms">{{$lang('提现')}}</el-button>
                             </el-col>
                         </el-row>
                     </div>
@@ -72,25 +72,25 @@
         <!-- 我的钱包-账单 -->
         <div class="mybag-zd-wrap" v-if="navIndex==2">
             <ul class="zd-nav-ul clearfix">
-                <li class="zd-nav" :class="billIndex==1?'active':null"><a href="javascript:;" @click="recordList('-1',1)">全部</a></li>
-                <li class="zd-nav" :class="billIndex==2?'active':null"><a href="javascript:;" @click="recordList('项目收入',2)">项目收入</a></li>
-                <li class="zd-nav" :class="billIndex==3?'active':null"><a href="javascript:;" @click="recordList('提现',3)">提现</a></li>
+                <li class="zd-nav" :class="billIndex==1?'active':null"><a href="javascript:;" @click="recordList('-1',1)">{{$lang('全部')}}</a></li>
+                <li class="zd-nav" :class="billIndex==2?'active':null"><a href="javascript:;" @click="recordList('项目收入',2)">{{$lang('项目收入')}}</a></li>
+                <li class="zd-nav" :class="billIndex==3?'active':null"><a href="javascript:;" @click="recordList('提现',3)">{{$lang('提现')}}</a></li>
             </ul>
             <div class="zd-list-wrap" v-if="billIndex==1">
                 <ul class="zd-list-ul">
                     <li class="zd-list-li clearfix" v-for="bill in billTable1">
                         <p >
-                            <span v-if="bill.type=='提现'">流水号：{{bill.serialNumber}}</span>
-                            <span v-if="bill.type=='项目收入'">任务ID：{{bill.bindTaskId}}</span>
-                            <span>金额：￥{{formatNum(bill.money)}}</span>
+                            <span v-if="bill.type=='提现'">{{$lang('流水号：')}}{{bill.serialNumber}}</span>
+                            <span v-if="bill.type=='项目收入'">{{$lang('任务ID：')}}{{bill.bindTaskId}}</span>
+                            <span>{{$lang('金额：')}}￥{{formatNum(bill.money)}}</span>
                         </p>
                         <p>
-                            <span>类型：{{bill.type}}</span>
-                            <span>创建时间：{{bill.createTime}}</span>
+                            <span>{{$lang('类型：')}}{{bill.type}}</span>
+                            <span>{{$lang('创建时间：')}}{{bill.createTime}}</span>
                         </p>
                         <p>
-                            <span>手续费：￥{{formatNum(bill.poundage)}}</span>
-                            <span>实际金额：￥{{formatNum(bill.realMoney)}}</span>
+                            <span>{{$lang('手续费：')}}￥{{formatNum(bill.poundage)}}</span>
+                            <span>{{$lang('实际金额：')}}￥{{formatNum(bill.realMoney)}}</span>
                         </p>
                     </li>
                 </ul>
@@ -112,16 +112,16 @@
                 <ul class="zd-list-ul">
                     <li class="zd-list-li clearfix" v-for="bill in billTable2">
                         <p>
-                            <span>任务ID：{{bill.bindTaskId}}</span>
-                            <span>金额：￥{{formatNum(bill.money)}}</span>
+                            <span>{{$lang('任务ID：')}}{{bill.bindTaskId}}</span>
+                            <span>{{$lang('金额：')}}￥{{formatNum(bill.money)}}</span>
                         </p>
                         <p>
-                            <span>类型：{{bill.type}}</span>
-                            <span>创建时间：{{bill.createTime}}</span>
+                            <span>{{$lang('类型：')}}{{bill.type}}</span>
+                            <span>{{$lang('创建时间：')}}{{bill.createTime}}</span>
                         </p>
                         <p>
-                            <span>手续费：￥{{formatNum(bill.poundage)}}</span>
-                            <span>实际金额：￥{{formatNum(bill.realMoney)}}</span>
+                            <span>{{$lang('手续费：')}}￥{{formatNum(bill.poundage)}}</span>
+                            <span>{{$lang('实际金额：')}}￥{{formatNum(bill.realMoney)}}</span>
                         </p>
                     </li>
                 </ul>
@@ -143,16 +143,16 @@
                 <ul class="zd-list-ul">
                     <li class="zd-list-li clearfix" v-for="bill in billTable3">
                         <p>
-                            <span>流水号：{{bill.serialNumber}}</span>
-                            <span>金额：￥{{formatNum(bill.money)}}</span>
+                            <span>{{$lang('流水号：')}}{{bill.serialNumber}}</span>
+                            <span>{{$lang('金额：')}}￥{{formatNum(bill.money)}}</span>
                         </p>
                         <p>
-                            <span>类型：{{bill.type}}</span>
-                            <span>创建时间：{{bill.createTime}}</span>
+                            <span>{{$lang('类型：')}}{{bill.type}}</span>
+                            <span>{{$lang('创建时间：')}}{{bill.createTime}}</span>
                         </p>
                         <p>
-                            <span>手续费：￥{{formatNum(bill.poundage)}}</span>
-                            <span>实际金额：￥{{formatNum(bill.realMoney)}}</span>
+                            <span>{{$lang('手续费：')}}￥{{formatNum(bill.poundage)}}</span>
+                            <span>{{$lang('实际金额：')}}￥{{formatNum(bill.realMoney)}}</span>
                         </p>
                     </li>
                 </ul>
@@ -176,10 +176,10 @@
             :visible.sync="dialogVisible"
             size="tiny"
            >
-            <span>是否放弃编辑？</span>
+            <span>{{$lang('是否放弃编辑？')}}</span>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogVisible = false;nextTo=false;">取消</el-button>
-                <el-button type="sure" @click="cancalEdit">确定</el-button>
+                <el-button @click="dialogVisible = false;nextTo=false;">{{$lang('取消')}}</el-button>
+                <el-button type="sure" @click="cancalEdit">{{$lang('确定')}}</el-button>
             </span>
         </el-dialog>
     </div>

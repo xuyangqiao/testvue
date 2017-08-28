@@ -9,10 +9,10 @@
               <div class="ui-slide-left">
                   <ul class="slide-nav-ul">
                      <li class="snu-li-01" :class="{ active: navIndx=='base' }" >
-                        <router-link  :to="{ name: 'S-userInfo-base' }">基本信息</router-link>
+                        <router-link  :to="{ name: 'S-userInfo-base' }">{{$lang('基本信息')}}</router-link>
                     </li>
                      <li class="snu-li-03" :class="{ active: navIndx=='manage' }" >
-                        <router-link :to="{ name: 'S-userInfo-manage' }">信息管理</router-link>
+                        <router-link :to="{ name: 'S-userInfo-manage' }">{{$lang('信息管理')}}</router-link>
                     </li>
                   </ul>
               </div>

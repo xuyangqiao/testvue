@@ -5,20 +5,20 @@
             <h4 class="chart-k-title" v-html="chatConfig.youname"></h4>
             <div class="chart-k-body" id="wrapperasdfghj">
                 <div class="tips-news" v-if="isLoad" @click="loadmore()">
-                    <p>加载更多数据</p>
+                    <p>{{$lang('加载更多数据')}}</p>
                 </div>
                 <div class="tips-news" v-else>
-                    <p>暂无聊天记录</p>
+                    <p>{{$lang('暂无聊天记录')}}</p>
                 </div>
                 <Message :isLeft="!item.isAdmin" :role="item.role" :time="item.time" :isEnd="item.isEnd" :isStart="item.isStart" :value="item.data" :src="item.src" v-for="(item,i) in messages"
                     :key="i"></Message>
                     <!--<Message :isLeft="false"></Message>-->
                     <!--<div class="tips-news">
-                    <p>以上为昨日聊天记录</p>
+                    <p>{{$lang('以上为昨日聊天记录')}}</p>
                 </div>
                 <div class="tips-news">
                     <span>2017-06-05  19:03</span>
-                    <p>V端已上传文件</p>
+                    <p>{{$lang('V端已上传文件')}}</p>
                 </div>-->
             </div>
             <div class="chart-k-footer" v-if="!isHistory">
@@ -32,10 +32,10 @@
                     </ul>
                 </div>
 
-                <textarea placeholder="请输入……" rows="4" v-model="content"></textarea>
+                <textarea :placeholder="$lang('请输入……')" rows="4" v-model="content"></textarea>
                 <div class="btn-right">
-                    <el-button type="sure" :disabled="isdisabled"  @click="sendGroupText">发送</el-button>
-                    <el-button type="sure" v-if="chatConfig.userphone&&chatConfig.youphone" :disabled="Boolean(istimeout)"  @click="sendMessageText">短信发送({{istimeout}}s)</el-button>
+                    <el-button type="sure" :disabled="isdisabled"  @click="sendGroupText">{{$lang('发送')}}</el-button>
+                    <el-button type="sure" v-if="chatConfig.userphone&&chatConfig.youphone" :disabled="Boolean(istimeout)"  @click="sendMessageText">{{$lang('短信发送')}}({{istimeout}}s)</el-button>
                 </div>
             </div>
         </div>

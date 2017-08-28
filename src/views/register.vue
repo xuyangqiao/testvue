@@ -7,30 +7,30 @@
                 <div class="lr-radius">
                     <img src="../assets/images/logon-left.jpg"/>
                 </div>
-                <router-link :to="{ path: '/' }" class="back-index">返回首页</router-link>
+                <router-link :to="{ path: '/' }" class="back-index">{{$lang('返回首页')}}</router-link>
             </div>
             <div class="flex1">
                 <div class="lr-main-right reg-wrapper">
-                   <h3 class="main-title">欢迎注册VSWORK成为会员</h3>
+                   <h3 class="main-title">{{$lang('欢迎注册VSWORK成为会员')}}</h3>
                    <div class="lr-form-wrap">
                         <el-form ref="form" :model="form" label-width="0" :rules="rules">      
                             <VerifyCode ref="VerifyCode" :phone="form.phone"  :code="form.code" :getData="getData" :parentClass="'reg-wrapper'" :type="'register'" ></VerifyCode>
                             <el-form-item prop='password1'>
-                               <el-input v-model="form.password1" type="password" placeholder="请输入密码"></el-input>
+                               <el-input v-model="form.password1" type="password" :placeholder="$lang('请输入密码')"></el-input>
                             </el-form-item>
                             <el-form-item prop='password2'>
-                               <el-input v-model="form.password2" type="password" placeholder="请再次输入密码" ></el-input>
+                               <el-input v-model="form.password2" type="password" :placeholder="$lang('请再次输入密码')" ></el-input>
                             </el-form-item>
                              <el-form-item class="mag-botm-5">
-                                <el-checkbox v-model="form.checked">已阅读并同意<a  class="yhxz-a">《VSWORK用户协议》</a></el-checkbox>
+                                <el-checkbox v-model="form.checked">{{$lang('已阅读并同意')}}<a  class="yhxz-a">{{$lang('《VSWORK用户协议》')}}</a></el-checkbox>
                             </el-form-item>
                             <el-form-item>
-                               <el-button type="sure" @click="register" :disabled="!(form.checked&&validCode)">注册</el-button>
+                               <el-button type="sure" @click="register" :disabled="!(form.checked&&validCode)">{{$lang('注册')}}</el-button>
                             </el-form-item>
                         </el-form>
                    </div>
                    <div class="reg-set-btn">
-                        <p>我已注册，现在<router-link :to="{ name: 'login' }">登录</router-link></p>
+                        <p>{{$lang('我已注册，现在')}}<router-link :to="{ name: 'login' }">{{$lang('登录')}}</router-link></p>
                    </div>
                 </div>
             </div>
@@ -69,18 +69,18 @@ export default {
     methods:{
         validatePwd(rule, value, callback){
             if (value === '') {
-                callback(new Error('密码不能为空'));
+                callback(new Error($lang('密码不能为空')));
             } else if(value.length<6||value.length>12){
-                callback(new Error('6-12个字符'));
+                callback(new Error($lang('6-12个字符')));
             } else {
             callback();
             }
         },
         validateCheckpwd(rule, value, callback){
             if (value === '') {
-                callback(new Error('密码不能为空'));
+                callback(new Error($lang('密码不能为空')));
             } else if(value!==this.form.password1){
-                callback(new Error('两次密码不一致'));
+                callback(new Error($lang('两次密码不一致')));
             } else {
             callback();
             }
@@ -105,7 +105,7 @@ export default {
             }
             const res=await Register(param);
             if(res.success){
-                this.$message.success("注册成功！")
+                this.$message.success($lang("注册成功！"))
                 this.$router.push({name:'login'})
 
                 //注册聊天

@@ -6,22 +6,22 @@
                 <div class="new-task-base">
                     <el-row>
                         <el-col :span="12">
-                            <el-form-item label="项目名称:">
+                            <el-form-item :label="$lang('项目名称:')">
                                 <el-input v-model="form.projectName"></el-input>
                             </el-form-item>
-                            <el-form-item label="发包类型:">
+                            <el-form-item :label="$lang('发包类型:')">
                                 <el-radio-group v-model="form.packageType">
-                                    <el-radio label="0">公开</el-radio>
-                                    <el-radio label="1">私密</el-radio>
+                                    <el-radio label="0">{{$lang('公开')}}</el-radio>
+                                    <el-radio label="1">{{$lang('私密')}}</el-radio>
                                 </el-radio-group>
                             </el-form-item>
-                            <el-form-item label="意向出价:">
+                            <el-form-item :label="$lang('意向出价:')">
                                 <el-input v-model="form.total"></el-input>
                             </el-form-item>
-                            <el-form-item label="报名结束时间~任务截止时间:">
-                                <el-date-picker v-model="form.rangeTime" type="datetimerange" placeholder="报名结束时间~任务截止时间" format="yyyy-MM-dd HH:mm:ss" :picker-options="pickerOptions0"></el-date-picker>
+                            <el-form-item :label="$lang('报名结束时间~任务截止时间:')">
+                                <el-date-picker v-model="form.rangeTime" type="datetimerange" :placeholder="$lang('报名结束时间~任务截止时间')" format="yyyy-MM-dd HH:mm:ss" :picker-options="pickerOptions0"></el-date-picker>
                             </el-form-item>
-                            <!--<el-form-item label="任务截止时间:">
+                            <!--<el-form-item :label="$lang('任务截止时间:">
                                                                                                                                                     <el-date-picker v-model="form.taskEndTime" type="datetime" placeholder="请选择时间" format="yyyy-MM-dd HH:mm:ss" :picker-options="pickerOptions0"></el-date-picker>
                                                                                                                                                 </el-form-item>-->
                         </el-col>
@@ -38,53 +38,53 @@
                     <el-row>
                         <el-row>
                             <el-col :span="12">
-                                <el-form-item label="应用领域:">
-                                    <el-select v-model="form.appAreas" placeholder="请选择" class="select-width-all">
+                                <el-form-item :label="$lang('应用领域:')">
+                                    <el-select v-model="form.appAreas" :placeholder="$lang('请选择')" class="select-width-all">
                                         <el-option v-for="item in configs.areaList" :key="item.key" :label="item.cnValue" :value="item.key"></el-option>
                                     </el-select>
                                 </el-form-item>
-                                <el-form-item label="应用环境:">
-                                    <el-select v-model="form.vevironments" placeholder="请选择" class="select-width-all">
+                                <el-form-item :label="$lang('应用环境:')">
+                                    <el-select v-model="form.vevironments" :placeholder="$lang('请选择')" class="select-width-all">
                                         <el-option v-for="item in configs.enviList" :key="item.key" :label="item.cnValue" :value="item.key"></el-option>
                                     </el-select>
                                 </el-form-item>
-                                <el-form-item label="应用类别:">
+                                <el-form-item :label="$lang('应用类别:')">
                                     <Type-Select :onChange="AppClassChange" :value="form.appType" :dataSource="configs.AppClass"></Type-Select>
                                 </el-form-item>
-                                <el-form-item label="贴图属性:">
+                                <el-form-item :label="$lang('贴图属性:')">
                                     <el-tree ref="tree" :data="configs.mapAtrr" show-checkbox node-key="id" :props="{
                                                                                                                                                                     children: 'children',
                                                                                                                                                                     label: 'label'
                                                                                                                                                                 }">
                                     </el-tree>
                                 </el-form-item>
-                                <el-form-item label="模型风格:">
-                                    <el-select v-model="form.chartlatFormat" placeholder="请选择" class="select-width-all">
+                                <el-form-item :label="$lang('模型风格:')">
+                                    <el-select v-model="form.chartlatFormat" :placeholder="$lang('请选择')" class="select-width-all">
                                         <el-option v-for="item in configs.mapModelList" :key="item.key" :label="item.cnValue" :value="item.key"></el-option>
                                     </el-select>
                                 </el-form-item>
-                                <el-form-item label="贴图大小:">
-                                    <el-select v-model="form.chartlatSize" placeholder="请选择" class="select-width-all">
+                                <el-form-item :label="$lang('贴图大小:')">
+                                    <el-select v-model="form.chartlatSize" :placeholder="$lang('请选择')" class="select-width-all">
                                         <el-option v-for="item in configs.mapSizeList" :key="item.key" :label="item.cnValue" :value="item.key"></el-option>
                                     </el-select>
                                 </el-form-item>
-                                <el-form-item label="模型格式:">
-                                    <el-select v-model="form.modelStyle" multiple placeholder="请选择" class="select-width-all">
+                                <el-form-item :label="$lang('模型格式:')">
+                                    <el-select v-model="form.modelStyle" multiple :placeholder="$lang('请选择')" class="select-width-all">
                                         <el-option v-for="item in configs.mapModelStyleList" :key="item.key" :label="item.cnValue" :value="item.key"></el-option>
                                     </el-select>
                                 </el-form-item>
-                                <el-form-item label="贴图格式:">
-                                    <el-select v-model="form.chartlatProperty2" placeholder="请选择" class="select-width-all">
+                                <el-form-item :label="$lang('贴图格式:')">
+                                    <el-select v-model="form.chartlatProperty2" :placeholder="$lang('请选择')" class="select-width-all">
                                         <el-option v-for="item in configs.mapStyle" :key="item.key" :label="item.cnValue" :value="item.key"></el-option>
                                     </el-select>
                                 </el-form-item>
-                                <el-form-item label="模型精度:">
-                                    <el-select v-model="form.chartlatProperty3" placeholder="请选择" class="select-width-all">
+                                <el-form-item :label="$lang('模型精度:')">
+                                    <el-select v-model="form.chartlatProperty3" :placeholder="$lang('请选择')" class="select-width-all">
                                         <el-option v-for="item in configs.modelAccuracy" :key="item.key" :label="item.cnValue" :value="item.key"></el-option>
                                     </el-select>
                                 </el-form-item>
-                                <el-form-item label="场景制作单位:">
-                                    <el-select v-model="form.chartlatProperty4" placeholder="请选择" class="select-width-all">
+                                <el-form-item :label="$lang('场景制作单位:')">
+                                    <el-select v-model="form.chartlatProperty4" :placeholder="$lang('请选择')" class="select-width-all">
                                         <el-option v-for="item in configs.sightUnit" :key="item.key+'/'+item.cnValue" :label="item.cnValue" :value="item.key+'/'+item.cnValue"></el-option>
                                     </el-select>
                                 </el-form-item>
@@ -94,61 +94,61 @@
                         <div class="jdx-add-task">
 
                             <div class="jdx-title clearfix">
-                                <h3 class="th-title fl">阶段性任务分配</h3>
+                                <h3 class="th-title fl">{{$lang('阶段性任务分配')}}</h3>
                             </div>
 
                             <el-row v-for="(item,i) in form.taskStages" :key="i">
                                 <el-col :span="12">
-                                    <el-form-item label="阶段名称:">
+                                    <el-form-item :label="$lang('阶段名称:')">
                                         <el-input v-model="item.backup.stageName" v-if="item.editable"></el-input>
                                         <span v-else>{{item.stageName}}</span>
                                     </el-form-item>
                                 </el-col>
                                 <el-col :span="12">
-                                    <el-form-item label="截止时间:">
-                                        <el-date-picker v-model="item.backup.stageEndTime" format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="选择时间" :picker-options="pickerOptions0" v-if="item.editable"></el-date-picker>
+                                    <el-form-item :label="$lang('截止时间:')">
+                                        <el-date-picker v-model="item.backup.stageEndTime" format="yyyy-MM-dd HH:mm:ss" type="datetime" :placeholder="$lang('选择时间')" :picker-options="pickerOptions0" v-if="item.editable"></el-date-picker>
                                         <span v-else>{{item.stageEndTime}}</span>
                                     </el-form-item>
                                 </el-col>
                                 <el-col :span="22">
-                                    <el-form-item label="阶段说明:">
-                                        <el-input type="textarea" v-model="item.backup.stageRemarks" :rows="5" placeholder="请输入内容" v-if="item.editable"></el-input>
+                                    <el-form-item :label="$lang('阶段说明:')">
+                                        <el-input type="textarea" v-model="item.backup.stageRemarks" :rows="5" :placeholder="$lang('请输入内容')" v-if="item.editable"></el-input>
                                         <span v-else>{{item.stageRemarks}}</span>
                                     </el-form-item>
                                 </el-col>
                                 <el-col :span="22" class="tr" v-if="item.editable">
-                                    <el-button type="sure" @click="saveStage(item)">保存</el-button>
-                                    <el-button type="sure" @click="cancelStage(item)">取消</el-button>
+                                    <el-button type="sure" @click="saveStage(item)">{{$lang('保存')}}</el-button>
+                                    <el-button type="sure" @click="cancelStage(item)">{{$lang('取消')}}</el-button>
                                 </el-col>
                                 <el-col :span="22" class="tr" v-else>
-                                    <el-button type="sure" @click="editStage(item)">修改</el-button>
-                                    <el-button type="sure" @click="removeStage(item)">删除</el-button>
+                                    <el-button type="sure" @click="editStage(item)">{{$lang('修改')}}</el-button>
+                                    <el-button type="sure" @click="removeStage(item)">{{$lang('删除')}}</el-button>
                                 </el-col>
                             </el-row>
 
                             <el-row>
                                 <el-col :span="12">
-                                    <el-form-item label="阶段名称:">
+                                    <el-form-item :label="$lang('阶段名称:')">
                                         <el-input v-model="stage.stageName"></el-input>
                                     </el-form-item>
                                 </el-col>
                                 <el-col :span="12">
-                                    <el-form-item label="截止时间:">
-                                        <el-date-picker v-model="stage.stageEndTime" format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="选择时间" :picker-options="pickerOptions0"></el-date-picker>
+                                    <el-form-item :label="$lang('截止时间:')">
+                                        <el-date-picker v-model="stage.stageEndTime" format="yyyy-MM-dd HH:mm:ss" type="datetime" :placeholder="$lang('选择时间')" :picker-options="pickerOptions0"></el-date-picker>
                                     </el-form-item>
                                 </el-col>
                                 <el-col :span="22">
-                                    <el-form-item label="阶段说明:">
-                                        <el-input type="textarea" v-model="stage.stageRemarks" :rows="5" placeholder="请输入内容"></el-input>
+                                    <el-form-item :label="$lang('阶段说明:')">
+                                        <el-input type="textarea" v-model="stage.stageRemarks" :rows="5" :placeholder="$lang('请输入内容')"></el-input>
                                     </el-form-item>
                                 </el-col>
                                 <el-col :span="22" class="tr">
-                                    <el-button type="sure" @click="createStage">添加</el-button>
+                                    <el-button type="sure" @click="createStage">{{$lang('添加')}}</el-button>
                                 </el-col>
                             </el-row>
                         </div>
 
-                        <el-form-item label="参考图片:" class="update-images-list">
+                        <el-form-item :label="$lang('参考图片:')" class="update-images-list">
                             <el-upload ref="ReferencePicture" action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" :on-remove="removeFile" :on-change="ReferencePictureChange" :file-list="ReferencePictureFileList" :auto-upload="false" :multiple=true>
                                 <i class="el-icon-plus"></i>
                             </el-upload>
@@ -158,44 +158,44 @@
                         </el-form-item>
                         <el-row>
                             <el-col :span="12" class="update-text">
-                                <el-form-item label="附件:">
+                                <el-form-item :label="$lang('附件:')">
                                     <el-upload class="upload-demo" ref="EnclosureFile" action="https://jsonplaceholder.typicode.com/posts/" :on-remove="removeFile" :file-list="EnclosureFileList" :auto-upload="false" :multiple=true>
-                                        <el-button slot="trigger" size="small" type="primary">添加文件</el-button>
+                                        <el-button slot="trigger" size="small" type="primary">{{$lang('添加文件')}}</el-button>
                                     </el-upload>
                                 </el-form-item>
                             </el-col>
                         </el-row>
-                        <el-form-item label="状态:">
-                            <el-select v-model="form.state" placeholder="请选择">
-                                <el-option label="草稿" value="0"></el-option>
-                                <el-option label="待确认" value="1"></el-option>
-                                <el-option label="待支付" value="2"></el-option>
+                        <el-form-item :label="$lang('状态:')">
+                            <el-select v-model="form.state" :placeholder="$lang('请选择')">
+                                <el-option :label="$lang('草稿')" value="0"></el-option>
+                                <el-option :label="$lang('待确认')" value="1"></el-option>
+                                <el-option :label="$lang('待支付')" value="2"></el-option>
                             </el-select>
                         </el-form-item>
 
-                        <el-form-item label="备注:">
-                            <el-input type="textarea" v-model="form.remarks" :rows="5" placeholder="请输入内容" class="textarea-width-790"></el-input>
+                        <el-form-item :label="$lang('备注:')">
+                            <el-input type="textarea" v-model="form.remarks" :rows="5" :placeholder="$lang('请输入内容')" class="textarea-width-790"></el-input>
                         </el-form-item>
 
                     </el-row>
                     <div class="creart-task-btn" v-if="!childid">
-                        <el-button type="cancle" @click="$router.go(-1)">取消</el-button>
-                        <el-button type="sure" @click="submitTask">提交任务</el-button>
+                        <el-button type="cancle" @click="$router.go(-1)">{{$lang('取消')}}</el-button>
+                        <el-button type="sure" @click="submitTask">{{$lang('提交任务')}}</el-button>
                     </div>
                     <div class="creart-task-btn" v-if="childid">
-                        <el-button type="cancle" @click="$router.go(-1)">取消</el-button>
-                        <el-button type="sure" @click="updateTask">修改任务</el-button>
+                        <el-button type="cancle" @click="$router.go(-1)">{{$lang('取消')}}</el-button>
+                        <el-button type="sure" @click="updateTask">{{$lang('修改任务')}}</el-button>
                     </div>
                 </div>
             </el-form>
         </div>
-        <el-dialog title="提示" :visible.sync="dialogVisible" size="tiny" :before-close="handleClose">
+        <el-dialog :title="$lang('提示')" :visible.sync="dialogVisible" size="tiny" :before-close="handleClose">
             <div class="">
-                <el-input placeholder="请输入分组名称" v-model="groupName"></el-input>
+                <el-input :placeholder="$lang('请输入分组名称')" v-model="groupName"></el-input>
             </div>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="submitGroup">确 定</el-button>
+                <el-button @click="dialogVisible = false">{{$lang('取 消')}}</el-button>
+                <el-button type="primary" @click="submitGroup">{{$lang('确 定')}}</el-button>
             </span>
         </el-dialog>
         <SlideBtns :type="'back'"></SlideBtns>
@@ -242,7 +242,7 @@ export default {
     components: { TypeSelect, SlideBtns },
     data() {
         return {
-            title: "任务拆分",
+            title: $lang("任务拆分"),
             pickerOptions0: {
                 disabledDate(time) {
                     return time.getTime() < Date.now() - 8.64e7;
@@ -283,16 +283,16 @@ export default {
                 // state:''
             },
             rules: {
-                projectName: [{ required: true, message: '请输入活动名称', trigger: 'blur' }],
-                total: [{ required: true, message: '请输入意向出价', trigger: 'change' }],
-                taskEndTime: [{ required: true, message: '请输入任务结束时间', trigger: 'change', type: 'date', }],
-                entryEndTime: [{ required: true, message: '请输入报名结束时间', trigger: 'change', type: 'date', }],
-                appType: [{ required: true, message: '请输入应用类别', trigger: 'change' }],
-                appAreas: [{ required: true, message: '请输入应用领域', trigger: 'change' }],
-                vevironments: [{ required: true, message: '请输入应用环境', trigger: 'change' }],
-                chartlatFormat: [{ required: true, message: '请输入模型风格', trigger: 'change' }],
-                chartlatSize: [{ required: true, message: '请输入贴图大小', trigger: 'change' }],
-                modelStyle: [{ required: true, message: '请输入模型格式', trigger: 'change', type: 'array' }]
+                projectName: [{ required: true, message: $lang('请输入活动名称'), trigger: 'blur' }],
+                total: [{ required: true, message: $lang('请输入意向出价'), trigger: 'change' }],
+                taskEndTime: [{ required: true, message: $lang('请输入任务结束时间'), trigger: 'change', type: 'date', }],
+                entryEndTime: [{ required: true, message: $lang('请输入报名结束时间'), trigger: 'change', type: 'date', }],
+                appType: [{ required: true, message: $lang('请输入应用类别'), trigger: 'change' }],
+                appAreas: [{ required: true, message: $lang('请输入应用领域'), trigger: 'change' }],
+                vevironments: [{ required: true, message: $lang('请输入应用环境'), trigger: 'change' }],
+                chartlatFormat: [{ required: true, message: $lang('请输入模型风格'), trigger: 'change' }],
+                chartlatSize: [{ required: true, message: $lang('请输入贴图大小'), trigger: 'change' }],
+                modelStyle: [{ required: true, message: $lang('请输入模型格式'), trigger: 'change', type: 'array' }]
             },
             stage: {
                 stageName: "",
@@ -361,7 +361,7 @@ export default {
 
         const childid = this.$route.query.childid;
         if (childid) {
-            this.title = "任务编辑"
+            this.title = $lang("任务编辑")
             this.childid = childid;
             this.isUpdate = true;
             const resc = await ChildTaskInfo(childid);
@@ -459,7 +459,7 @@ export default {
             if (this.groupName) {
                 const res = await CreateGroup(this.groupName)
                 this.$message({
-                    message: res.msg || '添加成功',
+                    message: res.msg || $lang('添加成功'),
                     type: res.success ? 'success' : 'error',
                     onClose: () => {
                         if (res.success) {
@@ -469,7 +469,7 @@ export default {
                     }
                 });
             } else {
-                this.$message.warning("分组名称不可为空")
+                this.$message.warning($lang("分组名称不可为空"))
             }
 
         },
@@ -527,19 +527,19 @@ export default {
             //     modelStyle:[{required: true, message: '请输入模型格式', trigger: 'change',type: 'array'}],
             // },
             if (!this.form.projectName) {
-                this.$message.warning("项目名称不可为空")
+                this.$message.warning($lang("项目名称不可为空"))
                 return false
             }
             if (!this.form.total) {
-                this.$message.warning("项目金额不可为空")
+                this.$message.warning($lang("项目金额不可为空"))
                 return false
             }
             if (!this.form.total) {
-                this.$message.warning("项目金额不可为空")
+                this.$message.warning($lang("项目金额不可为空"))
                 return false
             }
             if (isNaN(this.form.total)) {
-                this.$message.warning("项目金额格式错误")
+                this.$message.warning($lang("项目金额格式错误"))
                 return false
             }
             //验证有问题，下个版本做
@@ -552,7 +552,7 @@ export default {
             //     return false
             // }
             if (!(this.form.rangeTime.length == 2)) {
-                this.$message.warning("请输入报名时间和截至时间")
+                this.$message.warning($lang("请输入报名时间和截至时间"))
                 return false
             }
             // if(new Date(this.form.taskEndTime)<new Date(this.form.entryEndTime)){
@@ -560,31 +560,31 @@ export default {
             //     return false
             // }
             if (!this.form.appType) {
-                this.$message.warning("请输入应用类别")
+                this.$message.warning($lang("请输入应用类别"))
                 return false
             }
             if (!this.form.appAreas) {
-                this.$message.warning("请输入应用领域")
+                this.$message.warning($lang("请输入应用领域"))
                 return false
             }
             if (!this.form.vevironments) {
-                this.$message.warning("请输入应用环境")
+                this.$message.warning($lang("请输入应用环境"))
                 return false
             }
             if (!this.form.chartlatFormat) {
-                this.$message.warning("请输入模型风格")
+                this.$message.warning($lang("请输入模型风格"))
                 return false
             }
             if (!this.form.chartlatSize) {
-                this.$message.warning("请输入贴图大小")
+                this.$message.warning($lang("请输入贴图大小"))
                 return false
             }
             if (!this.form.modelStyle.length) {
-                this.$message.warning("请输入模型格式")
+                this.$message.warning($lang("请输入模型格式"))
                 return false
             }
             if (!this.form.taskStages.length) {
-                this.$message.warning("请添加阶段性任务")
+                this.$message.warning($lang("请添加阶段性任务"))
                 return false
             }
             return true;
@@ -642,15 +642,15 @@ export default {
         },
         async createStage() {
             if (!this.stage.stageName) {
-                this.$message.warning("请填入阶段名称");
+                this.$message.warning($lang("请填入阶段名称"));
                 return;
             }
             if (!this.stage.stageEndTime) {
-                this.$message.warning("请选择阶段时间");
+                this.$message.warning($lang("请选择阶段时间"));
                 return;
             }
             if (!this.stage.stageRemarks) {
-                this.$message.warning("请填入阶段内容");
+                this.$message.warning($lang("请填入阶段内容"));
                 return;
             }
 
@@ -700,12 +700,12 @@ export default {
 
             const fileName = file.name.slice(file.name.lastIndexOf(".") + 1).toLowerCase();
             if (!(fileName == "jpg" || fileName == "bmp" || fileName == "png")) {
-                this.$message('只能上传jpg、png、bmp文件');
+                this.$message($lang('只能上传jpg、png、bmp文件'));
                 me.$refs.ReferencePicture.uploadFiles.pop();
                 return false
             }
             if (file.size > 10485760) {
-                this.$message('文件大小不能超过10M');
+                this.$message($lang('文件大小不能超过10M'));
                 me.$refs.ReferencePicture.uploadFiles.pop();
                 return false
             }

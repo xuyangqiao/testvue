@@ -1,33 +1,33 @@
 <template>
     <div class="base-account-wrapper">
         <div class="userinfo-nav">
-            <el-button :type="navIndex==1?'sure':'text'" @click="navIndex=1">基本信息</el-button>
-            <el-button :type="navIndex==2?'sure':'text'" @click="navIndex=2">工作区间</el-button>
+            <el-button :type="navIndex==1?'sure':'text'" @click="navIndex=1">{{$lang('基本信息')}}</el-button>
+            <el-button :type="navIndex==2?'sure':'text'" @click="navIndex=2">{{$lang('工作区间')}}</el-button>
         </div>
         <BaseUserInfo ref="baseInfo" :userId="userId" :hasEdit="hasEdit" v-if="navIndex==1"></BaseUserInfo>
         <div v-if="navIndex==2" class="gzqj-wrap" v-loading="loading">
             <el-form ref="form" label-width="90">
-                <el-form-item label="工作区间:">
-                    <el-time-select placeholder="起始时间" v-model="startTime" :disabled="!hasEdit">
+                <el-form-item :label="$lang('工作区间:')">
+                    <el-time-select :placeholder="$lang('起始时间')" v-model="startTime" :disabled="!hasEdit">
                     </el-time-select>
-                    <el-time-select placeholder="结束时间" v-model="endTime" :disabled="!hasEdit" :picker-options="{ minTime: startTime }">
+                    <el-time-select :placeholder="$lang('结束时间')" v-model="endTime" :disabled="!hasEdit" :picker-options="{ minTime: startTime }">
                     </el-time-select>
                 </el-form-item>
             </el-form>
             <div class="gzqj-btn" style="padding:10px 0 0 70px;" v-if="hasEdit">
                 <el-col :span="11">
-                    <el-button type="sure" @click='modifyWorkInterval'>确定</el-button>
+                    <el-button type="sure" @click='modifyWorkInterval'>{{$lang('确定')}}</el-button>
                 </el-col>
                 <el-col :span="11" :offset="2">
-                    <el-button type="cancle" @click='cancle'>取消</el-button>
+                    <el-button type="cancle" @click='cancle'>{{$lang('取消')}}</el-button>
                 </el-col>
             </div>
         </div>
         <el-dialog title="Tips" :visible.sync="dialogVisible" size="tiny">
-            <span>是否放弃编辑？</span>
+            <span>{{$lang('是否放弃编辑？')}}</span>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogVisible=false,nextTo=false">取消</el-button>
-                <el-button type="sure" @click="cancalEdit">确定</el-button>
+                <el-button @click="dialogVisible=false,nextTo=false">{{$lang('取消')}}</el-button>
+                <el-button type="sure" @click="cancalEdit">{{$lang('确定')}}</el-button>
             </span>
         </el-dialog>
     </div>
@@ -82,9 +82,9 @@ export default {
         },
         async modifyWorkInterval() {
             if (!this.startTime) {
-                this.$message.warning('请选择起始时间');
+                this.$message.warning($lang('请选择起始时间'));
             } else if (!this.endTime) {
-                this.$message.warning('请选择结束时间');
+                this.$message.warning($lang('请选择结束时间'));
             } else {
                 this.loading = true;
                 let param = {
@@ -95,7 +95,7 @@ export default {
                 const res = await UpdateWorkIntervalV(param);
                 this.loading = false;
                 if (res.success) {
-                    this.$message.success("操作成功！")
+                    this.$message.success($lang("操作成功！"))
                     let workInterval = res.data.workInterval;
                     [this.startTime, this.endTime] = [this.oldStartTime, this.oldendTime] = workInterval.split('-');
                     this.navIndex = 1;

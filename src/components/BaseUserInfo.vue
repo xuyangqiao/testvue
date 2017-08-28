@@ -6,11 +6,11 @@
                 <div class="base-img-wrap">
                     <img :src='oldImageUrl'/>
                 </div>
-                <p>昵称：{{form.nickName}}</p>
-                <p>联系方式：{{form.contact}}</p>
+                <p>{{$lang('昵称：')}}{{form.nickName}}</p>
+                <p>{{$lang('联系方式：')}}{{form.contact}}</p>
                 <p>{{userType == "B" ? '企业介绍：' : '个人介绍：'}}</p>
                 <p>{{form.profile}}</p>
-                <el-button type="text" icon="edit" class="edit" @click="editBaseInfo" v-if="hasEdit">编辑</el-button>
+                <el-button type="text" icon="edit" class="edit" @click="editBaseInfo" v-if="hasEdit">{{$lang('编辑')}}</el-button>
             </div>
         </div>
         <!-- 基本信息-编辑 -->
@@ -27,11 +27,11 @@
                         <img v-if="imageUrl" :src="imageUrl" class="avatar">
                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload>
-                    <div class="el-upload__tip" slot="tip">更换头像（支持10M以下的jpg、png、BMP文件）</div>
+                    <div class="el-upload__tip" slot="tip">{{$lang('更换头像（支持10M以下的jpg、png、BMP文件）')}}</div>
                 </div>
                 <el-form ref="form" :model="form1" label-width="0" :rules="rules">
                     <el-form-item>
-                        <el-input v-model="form1.nickName" placeholder="请输入姓名"></el-input>
+                        <el-input v-model="form1.nickName" :placeholder="$lang('请输入姓名')"></el-input>
                     </el-form-item>
                     <VerifyCode :phone="form1.contact" :code="form1.code" :parentClass="'add-sun-cont'" :type="'baseInfo'" :getData="getData"></VerifyCode>
                     <el-form-item>
@@ -39,10 +39,10 @@
                     </el-form-item>
                     <el-form-item>
                         <el-col :span="11">
-                            <el-button type="sure" class="fr" @click="save" :disabled="!validCode">提交</el-button>
+                            <el-button type="sure" class="fr" @click="save" :disabled="!validCode">{{$lang('提交')}}</el-button>
                         </el-col>
                         <el-col :span="11" :offset="2">
-                            <el-button type="cancle" class="fr" @click="edit=false">取消</el-button>
+                            <el-button type="cancle" class="fr" @click="edit=false">{{$lang('取消')}}</el-button>
                         </el-col>
                     </el-form-item>
                 </el-form>
@@ -122,12 +122,12 @@
                 const me = this;
                 const fileName = file.name.slice(file.name.lastIndexOf(".")+1).toLowerCase();
                 if(!(fileName == "jpg" || fileName == "bmp" || fileName == "png")){
-                    this.$message('只能上传jpg、png、bmp文件');
+                    this.$message($lang('只能上传jpg、png、bmp文件'));
                     me.$refs.headImage.uploadFiles.pop();
                     return
                 }
                 if(file.size > 10485760){
-                    this.$message('文件大小不能超过10M');
+                    this.$message($lang('文件大小不能超过10M'));
                     me.$refs.headImage.uploadFiles.pop();
                     return
                 }
@@ -185,7 +185,7 @@
                 const res = await UpdateInfoV(this.form1);
                 this.loading=false;
                 if (res.success) {
-                    this.$message.success("操作成功！")
+                    this.$message.success($lang("操作成功！"))
                     sessionStorage.setItem("UserInfo", JSON.stringify(res.data));
                     me.$router.go(0);
                 } else {

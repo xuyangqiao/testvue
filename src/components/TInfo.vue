@@ -11,7 +11,7 @@
 
                     <el-col :span="12">
                         <div>
-                            <h4 class="th-title">参考图片</h4>
+                            <h4 class="th-title">{{$lang('参考图片')}}</h4>
                             <ul class="pic-list-wrap clearfix">
                                 <li class="pic-list-item" v-for="(item,i) in imgList" :key="i">
                                     <img @click="handlePictureCardPreview(i)" :src="item"/>
@@ -25,67 +25,67 @@
                             </ul>
                         </div>
                         <div>
-                            <h4 class="th-title">附件（{{fileList.length}} 个）</h4>
+                            <h4 class="th-title">{{$lang('附件（')}}{{fileList.length}} {{$lang('个）')}}</h4>
                             <ul class="file-list-wrap clearfix">
                                 <li class="file-list-item" v-for="(item,i) in fileList" :key="i">
                                     <p>{{item.fileName}}</p>
                                     <!--:href="item.url" :download="item.fileName"-->
-                                    <a href="javascript:void(0)" @click="downloadFile(item.url, item.fileName)">下载</a>
+                                    <a href="javascript:void(0)" @click="downloadFile(item.url, item.fileName)">{{$lang('下载')}}</a>
                                 </li>
                                 <!--<li class="file-list-item">-->
                                     <!--<p>VSWORk</p>-->
-                                    <!--<a href="javascript:;">下载</a>-->
+                                    <!--<a href="javascript:;">{{$lang('下载')}}</a>-->
                                 <!--</li>-->
                                 <!--<li class="file-list-item">-->
                                     <!--<p>VSWORk</p>-->
-                                    <!--<a href="javascript:;">下载</a>-->
+                                    <!--<a href="javascript:;">{{$lang('下载')}}</a>-->
                                 <!--</li>-->
                             </ul>
                         </div>
                     </el-col>
                     <el-col :span="12">
-                        <h4 class="th-title pad-left-40">任务特性</h4>
+                        <h4 class="th-title pad-left-40">{{$lang('任务特性')}}</h4>
                         <div class="pad-left-40">
                             <dl class="box-flex info-show">
-                                <dt>应用领域:</dt>
+                                <dt>{{$lang('应用领域:')}}</dt>
                                 <dd class="flex1">{{form.appAreasName}}</dd>
                             </dl>
                              <dl class="box-flex info-show">
-                                <dt>应用类别:</dt>
+                                <dt>{{$lang('应用类别:')}}</dt>
                                 <dd class="flex1">{{form.vevironmentsName}}</dd>
                             </dl>
                             <dl class="box-flex info-show">
-                                <dt>应用环境:</dt>
+                                <dt>{{$lang('应用环境:')}}</dt>
                                 <dd class="flex1">{{form.appTypeName}}</dd>
                             </dl>
                             <dl class="box-flex info-show" v-if="form.chartlatProperty1">
-                                <dt>贴图属性:</dt>
+                                <dt>{{$lang('贴图属性:')}}</dt>
                                 <dd class="flex1">{{form.chartlatProperty1}}</dd>
                             </dl>
                             <dl class="box-flex info-show" v-if="form.chartlatFormat">
-                                <dt>模型风格:</dt>
+                                <dt>{{$lang('模型风格:')}}</dt>
                                 <dd class="flex1">{{form.chartlatFormat}}</dd>
                             </dl>
                             <dl class="box-flex info-show" v-if="form.chartlatSize">
-                                <dt>贴图大小:</dt>
+                                <dt>{{$lang('贴图大小:')}}</dt>
                                 <dd class="flex1">{{form.chartlatSize}}</dd>
                             </dl>
                             <dl class="box-flex info-show" v-if="form.modelStyle">
-                                <dt>模型格式:</dt>
+                                <dt>{{$lang('模型格式:')}}</dt>
                                 <dd class="flex1">{{form.modelStyle}}</dd>
                             </dl>
 
                             <!--<dl class="box-flex info-show">-->
-                            <!--<dt>应用类别:</dt>-->
-                            <!--<dd class="flex1">工业模型  军事</dd>-->
+                            <!--<dt>{{$lang('应用类别:')}}</dt>-->
+                            <!--<dd class="flex1">{{$lang('工业模型  军事')}}</dd>-->
                             <!--</dl>-->
                             <!--<dl class="box-flex info-show">-->
-                            <!--<dt>应用类别:</dt>-->
-                            <!--<dd class="flex1">工业模型  军事</dd>-->
+                            <!--<dt>{{$lang('应用类别:')}}</dt>-->
+                            <!--<dd class="flex1">{{$lang('工业模型  军事')}}</dd>-->
                             <!--</dl>-->
                             <dl class="box-flex info-show">
-                                <dt>备注:</dt>
-                                <dd class="flex1" style="word-break: break-all;">{{form.remarks}}<!--这些看上去彼此没有太多联系的连续创业者，现在有了一个共同的身份——共享电单车玩家。当然，除了李如彬、夏涛和张天雄这些互联网创业者之外，扎堆在这一领域的还有十几位来自传统电动车行业的“老炮儿”。而他们的共同目标是——成为共享电单车界的摩拜或ofo。--></dd>
+                                <dt>{{$lang('备注:')}}</dt>
+                                <dd class="flex1" style="word-break: break-all;">{{form.remarks}}<!--{{$lang('这些看上去彼此没有太多联系的连续创业者，现在有了一个共同的身份——共享电单车玩家。当然，除了李如彬、夏涛和张天雄这些互联网创业者之外，扎堆在这一领域的还有十几位来自传统电动车行业的“老炮儿”。而他们的共同目标是——成为共享电单车界的摩拜或ofo。')}}--></dd>
                             </dl>
                         </div>
                     </el-col>
@@ -96,7 +96,7 @@
         <!--图片预览的小弹窗-->
         <!--封装的时候:visible.sync="dialogVisible"作为父元素传给子元素的属性有问题-->
         <el-dialog
-            title="图片预览"
+            :title="$lang('图片预览')"
             :visible.sync="dialogVisible"
             size="large">
             <div class="dialog-img-preview">

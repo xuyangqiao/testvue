@@ -9,10 +9,10 @@
                 
                   <ul class="slide-nav-ul" >
                      <li class="snu-li-01" :class="{ active: navIndx=='base' }" >
-                        <router-link :to="{ name: 'S-BuserInfo-base', query: { userId: userId } }" >基本信息</router-link>
+                        <router-link :to="{ name: 'S-BuserInfo-base', query: { userId: userId } }" >{{$lang('基本信息')}}</router-link>
                     </li>
                      <li class="snu-li-02" :class="{ active: navIndx=='account' }" >
-                          <router-link :to="{ name: 'S-BuserInfo-account', query: { userId: userId }}" >账户管理</router-link>
+                          <router-link :to="{ name: 'S-BuserInfo-account', query: { userId: userId }}" >{{$lang('账户管理')}}</router-link>
                     </li>
                   </ul>
               </div>

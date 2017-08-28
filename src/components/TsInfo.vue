@@ -11,35 +11,35 @@
                 <el-col :span="10">
                     <div class="">
                         <dl class="box-flex info-show">
-                            <dt>任务ID:</dt>
+                            <dt>{{$lang('任务ID:')}}</dt>
                             <dd class="flex1">{{form.id}}</dd>
                         </dl>
                         <dl class="box-flex info-show">
-                            <dt>项目名称:</dt>
+                            <dt>{{$lang('项目名称:')}}</dt>
                             <dd class="flex1">{{form.projectName}}</dd>
                         </dl>
                         <dl class="box-flex info-show">
-                            <dt>发包类型:</dt>
+                            <dt>{{$lang('发包类型:')}}</dt>
                             <dd class="flex1">{{packageTypeName}}</dd>
                         </dl>
                         <dl class="box-flex info-show" v-if="!isZong">
-                            <dt>任务报名时间:</dt>
+                            <dt>{{$lang('任务报名时间:')}}</dt>
                             <dd class="flex1">{{form.entryEndTime}}</dd>
                         </dl>
                         <dl class="box-flex info-show">
-                            <dt>任务结束时间:</dt>
+                            <dt>{{$lang('任务结束时间:')}}</dt>
                             <dd class="flex1">{{form.taskEndTime}}</dd>
                         </dl>
                         <dl class="box-flex info-show" v-if="isZong">
-                            <dt>任务分组:</dt>
+                            <dt>{{$lang('任务分组:')}}</dt>
                             <dd class="flex1">{{form.groupName}}</dd>
                         </dl>
                         <dl class="box-flex info-show" v-if="form.audit&&form.audit.objection">
-                            <dt>驳回理由:</dt>
+                            <dt>{{$lang('驳回理由:')}}</dt>
                             <dd class="flex1">{{form.audit.objection}}</dd>
                         </dl>
                         <dl class="box-flex info-show" v-if="form.subTaskExit&&form.subTaskExit.remarks">
-                            <dt>退款驳回原因:</dt>
+                            <dt>{{$lang('退款驳回原因:')}}</dt>
                             <dd class="flex1">{{form.subTaskExit.remarks}}</dd>
                         </dl>
                     </div>
@@ -50,7 +50,7 @@
                 </el-col>
                 <el-col :span="3" v-if="isZong">
                     <p class="all-task-price" v-if="form.totalType==2"><em>¥</em>{{form.total}}</p>
-                    <p class="all-task-price" v-else><em>询价</em></p>
+                    <p class="all-task-price" v-else><em>{{$lang('询价')}}</em></p>
                 </el-col>
                 <el-col :span="3" v-else>
                     <p class="all-task-price"><em>¥</em>{{form.total}}</p>
@@ -61,7 +61,7 @@
             <div class="user-header" @click="toBuserInfo">
                 <img :src="User.headUrl"/>
             </div>
-            <p>雇主：{{User.nickName}}</p>
+            <p>{{$lang('雇主：')}}{{User.nickName}}</p>
          </div>
         <SlideBtns :type="'back'"></SlideBtns>
 
@@ -82,7 +82,7 @@
             onload: Function,
             title: {
                 type: String,
-                default: "总任务详情"
+                default: $lang("总任务详情")
             },
             isZong: {
                 type: Boolean,

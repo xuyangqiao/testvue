@@ -23,7 +23,7 @@
         <p v-html="value"></p>
     </div>
     <div class="tips-news" v-if="isEnd">
-        <p>以上为聊天记录</p>
+        <p>{{$lang('以上为聊天记录')}}</p>
     </div>
 </div>
 </template>
