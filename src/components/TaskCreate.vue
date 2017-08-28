@@ -6,38 +6,38 @@
                 <el-row>
                     <el-col :span="10">
                         <el-form ref="form" :model="form" label-width="80px">
-                            <el-form-item label="项目名称:">
+                            <el-form-item :label="$lang('项目名称:')">
                                 <el-input v-model="form.projectName"></el-input>
                             </el-form-item>
-                            <el-form-item label="发包类型:">
+                            <el-form-item :label="$lang('发包类型:')">
                                 <el-radio-group v-model="form.packageType">
-                                    <el-radio :label="0">公开</el-radio>
-                                    <el-radio :label="1">私密</el-radio>
+                                    <el-radio :label="0">{{$lang('公开')}}</el-radio>
+                                    <el-radio :label="1">{{$lang('私密')}}</el-radio>
                                 </el-radio-group>
                             </el-form-item>
-                            <el-form-item label="意向出价:">
+                            <el-form-item :label="$lang('意向出价:')">
                                 <el-col :span="11">
-                                    <el-select v-model="form.totalType" placeholder="请选择">
-                                        <el-option label="询价" value="1"></el-option>
-                                        <el-option label="定价" value="2"></el-option>
+                                    <el-select v-model="form.totalType" :placeholder="$lang('请选择')">
+                                        <el-option :label="$lang('询价')" value="1"></el-option>
+                                        <el-option :label="$lang('定价')" value="2"></el-option>
                                     </el-select>
                                 </el-col>
                                 <el-col :span="11" :push="2" v-show="form.totalType==1 ? 0 : 1">
                                     <el-input v-model="form.total"></el-input>
                                 </el-col>
                             </el-form-item>
-                            <el-form-item label="任务时间:">
-                                <el-date-picker v-model="form.taskEndTime" type="datetime" :picker-options="pickerOptions" placeholder="请选择时间" format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
+                            <el-form-item :label="$lang('任务时间:')">
+                                <el-date-picker v-model="form.taskEndTime" type="datetime" :picker-options="pickerOptions" :placeholder="$lang('请选择时间')" format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
                             </el-form-item>
-                            <el-form-item label="任务组:">
+                            <el-form-item :label="$lang('任务组:')">
                                 <el-col :span="18">
-                                    <el-select v-model="form.groupId" placeholder="请选择" class="group-select">
+                                    <el-select v-model="form.groupId" :placeholder="$lang('请选择')" class="group-select">
                                         <!--<el-option label="世界制造大会" value="1"></el-option>-->
                                         <el-option v-for="(item,i) in taskGroup" :label="item.groupName" :value="item.id" :key="i"></el-option>
                                     </el-select>
                                 </el-col>
                                 <el-col :span="4" :push="1">
-                                    <a href="javascript:;" class="new-group-a" @click="createGroup = true">新建分组</a>
+                                    <a href="javascript:;" class="new-group-a" @click="createGroup = true">{{$lang('新建分组')}}</a>
                                 </el-col>
                             </el-form-item>
                         </el-form>
@@ -54,7 +54,7 @@
                                 <img v-if="imageUrl" :src="imageUrl" class="avatar">
                                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                             </el-upload>
-                            <p class="tips">*支持jpg，png，每张图片大小不超过1M</p>
+                            <p class="tips">{{$lang('*支持jpg，png，每张图片大小不超过1M')}}</p>
                         </div>
                     </el-col>
                 </el-row>
@@ -65,25 +65,25 @@
                     <el-form ref="form" :model="form1" label-width="80px">
                         <el-row>
                             <el-col :span="10">
-                                <el-form-item label="应用领域:">
-                                    <el-select v-model="form1.appAreas" placeholder="请选择" class="select-width-all">
+                                <el-form-item :label="$lang('应用领域:')">
+                                    <el-select v-model="form1.appAreas" :placeholder="$lang('请选择')" class="select-width-all">
                                         <!--<el-option label="VR" value="1"></el-option>-->
                                         <el-option v-for="(item,i) in areaList" :label="item.cnValue" :value="item.key" :key="i"></el-option>
                                     </el-select>
                                 </el-form-item>
-                                <el-form-item label="应用环境:">
-                                    <el-select v-model="form1.vevironments" placeholder="请选择" class="select-width-all">
+                                <el-form-item :label="$lang('应用环境:')">
+                                    <el-select v-model="form1.vevironments" :placeholder="$lang('请选择')" class="select-width-all">
                                         <!--<el-option label="Unity" value="1"></el-option>-->
                                         <el-option v-for="(item,i) in enviList" :label="item.cnValue" :value="item.key" :key="i"></el-option>
                                     </el-select>
                                 </el-form-item>
-                                <el-form-item label="应用类别:" class="zy-select">
+                                <el-form-item :label="$lang('应用类别:')" class="zy-select">
                                     <Type-Select :onChange="typeSelectChange" :dataSource="AppClass" :value="TypeSelectValue"></Type-Select>
                                 </el-form-item>
                             </el-col>
                         </el-row>
 
-                        <el-form-item label="参考图片:" class="update-images-list">
+                        <el-form-item :label="$lang('参考图片:')" class="update-images-list">
                             <el-upload
                                 ref="ReferencePicture"
                                 action="https://jsonplaceholder.typicode.com/posts/"
@@ -101,15 +101,15 @@
                         </el-form-item>
                         <el-row>
                             <el-col :span="10" class="update-text">
-                                <el-form-item label="附件:">
+                                <el-form-item :label="$lang('附件:')">
                                     <!--<el-upload-->
                                     <!--ref="enclosureFile"-->
                                     <!--class="upload-demo"-->
                                     <!--action="https://jsonplaceholder.typicode.com/posts/"-->
                                     <!--:on-change="handleChange"-->
                                     <!--:file-list="fileList3">-->
-                                    <!--<el-button size="small" type="sure">选择文件</el-button>-->
-                                    <!--<div slot="tip" class="el-upload__tip" @click="chooseEnclosure">只能上传jpg/png文件，且不超过500kb</div>-->
+                                    <!--<el-button size="small" type="sure">{{$lang('选择文件')}}</el-button>-->
+                                    <!--<div slot="tip" class="el-upload__tip" @click="chooseEnclosure">{{$lang('只能上传jpg/png文件，且不超过500kb')}}</div>-->
                                     <!--</el-upload>-->
                                     <el-upload
                                         class="upload-demo"
@@ -119,39 +119,39 @@
                                         :file-list="EnclosureFileList"
                                         :auto-upload="false"
                                         :multiple=true>
-                                        <el-button slot="trigger" size="small" type="primary">添加文件</el-button>
+                                        <el-button slot="trigger" size="small" type="primary">{{$lang('添加文件')}}</el-button>
                                         <!--<el-progress :percentage="0"></el-progress>-->
-                                        <!--<el-button style="margin-left: 10px;" size="small" type="success" @click="uploadEnclosure">上传到服务器</el-button>-->
-                                        <!--<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
+                                        <!--<el-button style="margin-left: 10px;" size="small" type="success" @click="uploadEnclosure">{{$lang('上传到服务器')}}</el-button>-->
+                                        <!--<div slot="tip" class="el-upload__tip">{{$lang('只能上传jpg/png文件，且不超过500kb')}}</div>-->
                                     </el-upload>
                                     <!--<input id="enclosureFlie" multiple="multiple" type="file">-->
-                                    <!--<el-button type="sure" @click="uploadEnclosure">上 传</el-button>-->
+                                    <!--<el-button type="sure" @click="uploadEnclosure">{{$lang('上 传')}}</el-button>-->
                                 </el-form-item>
                             </el-col>
                         </el-row>
 
-                        <el-form-item label="备注:">
-                            <el-input type="textarea" v-model="form1.remarks" :rows="5" placeholder="请输入内容" class="textarea-width-790"></el-input>
+                        <el-form-item :label="$lang('备注:')">
+                            <el-input type="textarea" v-model="form1.remarks" :rows="5" :placeholder="$lang('请输入内容')" class="textarea-width-790"></el-input>
                         </el-form-item>
                     </el-form>
                 </el-row>
                 <div class="creart-task-btn">
-                    <el-button type="cancle" @click="$router.go(-1)">取消</el-button>
-                    <el-button type="sure" @click="btnHandle(1)">托管提交发布任务</el-button>
-                    <el-button type="info" @click="btnHandle(0)">保存</el-button>
+                    <el-button type="cancle" @click="$router.go(-1)">{{$lang('取消')}}</el-button>
+                    <el-button type="sure" @click="btnHandle(1)">{{$lang('托管提交发布任务')}}</el-button>
+                    <el-button type="info" @click="btnHandle(0)">{{$lang('保存')}}</el-button>
                 </div>
             </div>
         </div>
         <el-dialog
-            title="新建分组"
+            :title="$lang('新建分组')"
             :visible.sync="createGroup"
             size="tiny">
             <div class="">
-                <el-input placeholder="请输入分组名称" v-model="groupName"></el-input>
+                <el-input :placeholder="$lang('请输入分组名称')" v-model="groupName"></el-input>
             </div>
             <span slot="footer" class="dialog-footer">
-                <el-button type="cancle" @click="createGroup = false">取 消</el-button>
-                <el-button type="sure" @click="createGroupConfirm">确 定</el-button>
+                <el-button type="cancle" @click="createGroup = false">{{$lang('取 消')}}</el-button>
+                <el-button type="sure" @click="createGroupConfirm">{{$lang('确 定')}}</el-button>
             </span>
         </el-dialog>
         <div id="progress-bar" style="background: #ddd;height: 10px;"></div>
@@ -318,12 +318,12 @@
 
                 const fileName = file.name.slice(file.name.lastIndexOf(".") + 1).toLowerCase();
                 if (!(fileName == "jpg" || fileName == "bmp" || fileName == "png")) {
-                    this.$message('只能上传jpg、png、bmp文件');
+                    this.$message($lang('只能上传jpg、png、bmp文件'));
                     me.$refs.LogoUpload.uploadFiles.pop();
                     return false
                 }
                 if (file.size > 10485760) {
-                    this.$message('文件大小不能超过10M');
+                    this.$message($lang('文件大小不能超过10M'));
                     me.$refs.LogoUpload.uploadFiles.pop();
                     return false
                 }
@@ -339,12 +339,12 @@
 
                 const fileName = file.name.slice(file.name.lastIndexOf(".") + 1).toLowerCase();
                 if (!(fileName == "jpg" || fileName == "bmp" || fileName == "png")) {
-                    this.$message('只能上传jpg、png、bmp文件');
+                    this.$message($lang('只能上传jpg、png、bmp文件'));
                     me.$refs.ReferencePicture.uploadFiles.pop();
                     return false
                 }
                 if (file.size > 10485760) {
-                    this.$message('文件大小不能超过10M');
+                    this.$message($lang('文件大小不能超过10M'));
                     me.$refs.ReferencePicture.uploadFiles.pop();
                     return false
                 }
@@ -458,7 +458,7 @@
 //                    }
 //                });
                 this.$message({
-                    message: res.msg || '操作成功',
+                    message: res.msg || $lang('操作成功'),
                     type: res.success ? 'success' : 'error'
                 });
                 this.$router.push({name: "B_list"})
@@ -485,7 +485,7 @@
                         const id = res.data.id;
                         me.uploadAllFile(id);
                     } else {
-                        me.$message.error(res.msg || '未知错误');
+                        me.$message.error(res.msg || $lang('未知错误'));
                         this.loadinginstace.close();
                     }
 //                    this.$message({
@@ -504,7 +504,7 @@
                         const id = res.data.id;
                         me.uploadAllFile(id);
                     } else {
-                        me.$message.error(res.msg || '未知错误');
+                        me.$message.error(res.msg || $lang('未知错误'));
                         this.loadinginstace.close();
                     }
 //                    this.$message({
@@ -525,39 +525,39 @@
                 const form1 = me.form1;
                 if (state == 1) {
                     if (form.projectName == '') {
-                        me.$message.error('任务名不能为空');
+                        me.$message.error($lang('任务名不能为空'));
                         return;
                     }
                     if (form.totalType == '') {
-                        me.$message.error('意向出价类型不能为空');
+                        me.$message.error($lang('意向出价类型不能为空'));
                         return;
                     }
                     if (form.totalType == 2 && form.total == "") {
-                        me.$message.error('意向出价价格不能为空');
+                        me.$message.error($lang('意向出价价格不能为空'));
                         return;
                     }
                     if (form.totalType == 2 && !/^\d+(\.\d{2})?$/.test(form.total * 1)) {
-                        me.$message.error('价格格式不对，请输入正确的价格');
+                        me.$message.error($lang('价格格式不对，请输入正确的价格'));
                         return;
                     }
                     if (form.taskEndTime == '') {
-                        me.$message.error('任务时间不能为空');
+                        me.$message.error($lang('任务时间不能为空'));
                         return;
                     }
                     if (form1.vevironments == '') {
-                        me.$message.error('应用环境不能为空');
+                        me.$message.error($lang('应用环境不能为空'));
                         return;
                     }
                     if (form1.appType == '') {
-                        me.$message.error('应用类别不能为空');
+                        me.$message.error($lang('应用类别不能为空'));
                         return;
                     }
                     if (form1.remarks == '') {
-                        me.$message.error('备注不能为空');
+                        me.$message.error($lang('备注不能为空'));
                         return;
                     }
                     if (me.$refs.ReferencePicture.uploadFiles.length == 0) {
-                        me.$message.error('至少需要一张参考图');
+                        me.$message.error($lang('至少需要一张参考图'));
                         return;
                     }
                 }

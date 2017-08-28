@@ -5,7 +5,7 @@
                 <div class="flex1 chart-left-title">
                     <h3>{{subTask.projectName}}</h3>
                 </div>
-                <el-button type="sure" @click="toDetail('S_SonTaskInfo')">查看任务&gt;</el-button>
+                <el-button type="sure" @click="toDetail('S_SonTaskInfo')">{{$lang('查看任务')}}&gt;</el-button>
             </div>
             <div class="chart-left-list">
                 <ul class="chart-left-ul">
@@ -23,17 +23,17 @@
                             <!--<span v-if="uploading[i]">{{progress[i]}}...</span>-->
                             <el-progress type="circle" style="margin-right: 10px" v-if="uploading[i]" :percentage="progress[i]" :width='36'></el-progress>
                             <div class="upload-sc" v-else>
-                                <el-button type="info" size="small" v-if="!isOnlyChat">上传文件</el-button>
+                                <el-button type="info" size="small" v-if="!isOnlyChat">{{$lang('上传文件')}}</el-button>
                                 <input class="upload-file-btn" type="file" v-if="!isOnlyChat" @change="chooseFile(i, $event.target.files[0])" />
                             </div>
-                            <el-button type="info" size="small" @click="toRedirect('S_History', i)">查看记录</el-button>
+                            <el-button type="info" size="small" @click="toRedirect('S_History', i)">{{$lang('查看记录')}}</el-button>
                         </div>
                         <dl class="box-flex cl-info">
-                            <dt>截止时间：</dt>
+                            <dt>{{$lang('截止时间：')}}</dt>
                             <dd class="flex1">{{item.stageEndTime}}</dd>
                         </dl>
                         <dl class="box-flex cl-info">
-                            <dt>阶段详情：</dt>
+                            <dt>{{$lang('阶段详情：')}}</dt>
                             <dd class="flex1">{{item.stageRemarks}}</dd>
                         </dl>
                     </li>
@@ -43,18 +43,18 @@
                                 <em>{{taskStage.length + 1}}</em>
                             </p>
                             <a href="javascript:;" class="title flex1">
-                                <h4>验收</h4>
+                                <h4>{{$lang('验收')}}</h4>
                             </a>
-                            <el-button type="info" size="small" @click="uploadChecked" v-if="!isOnlyChat">上传文件</el-button>
-                            <el-button type="info" size="small" @click="toSubmit" v-if="!isOnlyChat&&uploaded">提交验收</el-button>
-                            <el-button type="info" size="small" @click="toRedirect('S_History', '-1')">查看记录</el-button>
+                            <el-button type="info" size="small" @click="uploadChecked" v-if="!isOnlyChat">{{$lang('上传文件')}}</el-button>
+                            <el-button type="info" size="small" @click="toSubmit" v-if="!isOnlyChat&&uploaded">{{$lang('提交验收')}}</el-button>
+                            <el-button type="info" size="small" @click="toRedirect('S_History', '-1')">{{$lang('查看记录')}}</el-button>
                         </div>
                         <dl class="box-flex cl-info">
-                            <dt>截止时间：</dt>
+                            <dt>{{$lang('截止时间：')}}</dt>
                             <dd class="flex1">{{subTask.taskEndTime}}</dd>
                         </dl>
                         <dl class="box-flex cl-info">
-                            <dt>阶段详情：</dt>
+                            <dt>{{$lang('阶段详情：')}}</dt>
                             <dd class="flex1">{{subTask.remarks}}</dd>
                         </dl>
                     </li>
@@ -67,21 +67,21 @@
         <div v-else class="chart-right" style="background: none">
             <div class="chart-msg">{{msg}}</div>
         </div>
-        <el-dialog title="上传文件" ref="toSubmitUpload" :visible.sync="toSubmitUploadShow" size="tiny" :before-close="toSubmitUploadClose" v-loading.body="loading">
+        <el-dialog :title="$lang('上传文件')" ref="toSubmitUpload" :visible.sync="toSubmitUploadShow" size="tiny" :before-close="toSubmitUploadClose" v-loading.body="loading">
             <el-form>
-                <el-form-item label="版本号：">
-                    <el-select v-model="form.fileVersion" placeholder="请选择">
+                <el-form-item :label="$lang('版本号：')">
+                    <el-select v-model="form.fileVersion" :placeholder="$lang('请选择')">
                         <el-option :label="o.valueExp" :value="o.key" v-for="o in versionList" :key="o.id"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="资源文件：">
+                <el-form-item :label="$lang('资源文件：')">
                     <el-upload class="upload-demo undelete" action="https://jsonplaceholder.typicode.com/posts/" ref="indexFile" :file-list="IndexFileList" :on-change="IndexFileChange" :on-remove="IndexFileRemove" :autoUpload="false">
-                        <el-button size="small" type="primary">点击上传</el-button>
+                        <el-button size="small" type="primary">{{$lang('点击上传')}}</el-button>
                     </el-upload>
                 </el-form-item>
             </el-form>
             <div slot="footer">
-                <el-button type="primary" @click="submit">确 定</el-button>
+                <el-button type="primary" @click="submit">{{$lang('确 定')}}</el-button>
             </div>
         </el-dialog>
     </div>
@@ -119,7 +119,7 @@ export default {
             IndexFileList: [],
             ReleaseFileList: [],
             chatConfig: {},
-            msg: "正在加载中...",
+            msg: $lang("正在加载中..."),
             isOnlyChat: false,
 
             versionList: [],
@@ -141,7 +141,7 @@ export default {
         const id = this.$route.query.id;
 
         const qq = await getTalkByGroupId(id);
-        console.log(id + "获取聊天组信息", qq)
+        console.log(id + $lang("获取聊天组信息"), qq)
         if (qq.success) {
             if (qq.data && qq.data.groupDetails && qq.data.groupDetails.data && qq.data.sChatUser && qq.data.sChatUser.entities) {
                 this.chatConfig = {
@@ -161,7 +161,7 @@ export default {
                     id: id
                 }
             } else {
-                this.msg = "聊天相关数据出现异常";
+                this.msg = $lang("聊天相关数据出现异常");
             }
         } else {
             this.msg = qq.msg;
@@ -279,7 +279,7 @@ export default {
                         //                            console.log('上传完成', data);
                     }).catch(data => {
                         me.$message({
-                            message: data.message + ' 将清除当前文件断点信息',
+                            message: data.message + $lang(' 将清除当前文件断点信息'),
                             type: 'error'
                         });
                         me.$set(me.uploading, index, false);
@@ -290,7 +290,7 @@ export default {
                 });
 
             } else {
-                this.$message("请选择要上传的文件");
+                this.$message($lang("请选择要上传的文件"));
             }
         },
         async addFileToServer(param, index) {
@@ -339,7 +339,7 @@ export default {
         },
         toSubmitUploadClose() {
             const me = this;
-            me.$confirm('确认关闭当前窗口？(如果上传过index.html并且关闭弹框，重新打开将生成新的版本号)').then(data => {
+            me.$confirm($lang('确认关闭当前窗口？(如果上传过index.html并且关闭弹框，重新打开将生成新的版本号)')).then(data => {
                 if (data == 'confirm') {
                     me.toSubmitUploadShow = false;
                     if (me.$refs.indexFile.uploadFiles.length > 0) {
@@ -357,7 +357,7 @@ export default {
             const me = this;
             const res = await addFile(param);
             if (res.success) {
-                me.$message('保存文件成功，文件名为' + param.alias)
+                me.$message($lang('保存文件成功，文件名为') + param.alias)
                 me.$refs.chat.sendMessage(param.alias)
             }
         },
@@ -365,7 +365,7 @@ export default {
             if ((/.vsdata$/).test(file.name)) {
                 this.selectedFile = file;
             } else {
-                this.$message.warning('选择的文件格式不正确')
+                this.$message.warning($lang('选择的文件格式不正确'))
                 fileList.pop();
             }
         },
@@ -373,9 +373,9 @@ export default {
             let file = this.selectedFile,
                 version = this.form.fileVersion;
             if (!version) {
-                this.$message.warning('请先选择版本号');
+                this.$message.warning($lang('请先选择版本号'));
             } else if (!file) {
-                this.$message.warning('请上传资源文件');
+                this.$message.warning($lang('请上传资源文件'));
             } else {
                 const barId = null;
                 this.loading = true;
@@ -402,7 +402,7 @@ export default {
             const me = this;
             console.log(file, fileList);
             if (me.$refs.indexFile.uploadFiles.length == 0) {
-                me.$message('请先上传主文件index.html');
+                me.$message($lang('请先上传主文件index.html'));
                 me.$refs.ReleaseFile.clearFiles();
                 return
             }

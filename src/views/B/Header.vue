@@ -8,8 +8,8 @@
                             <i class="people"><img :src="headUrl" /></i>
                             <p class="flex1 user-name">{{nickName}}</p>
                         </a>
-                        <a href="javascript:;" class="nh-a-02" @click="onNavigation('B-userInfo-','userInfo')" v-if="bUserType!=='1'">个人中心</a>
-                        <a href="javascript:;" class="nh-a-02" @click="onNavigation('login','login')">退出登录</a>
+                        <a href="javascript:;" class="nh-a-02" @click="onNavigation('B-userInfo-','userInfo')" v-if="bUserType!=='1'">{{$lang('个人中心')}}</a>
+                        <a href="javascript:;" class="nh-a-02" @click="onNavigation('login','login')">{{$lang('退出登录')}}</a>
                         <p>
                             <a href="javascript:;" class="nh-a-03" :class="{selected:lang=='CN'}" @click="$setLang('CN')">CN</a>
                             <span>|</span>
@@ -23,16 +23,16 @@
             <h1 class="h1-logo flex1"><img src="../../assets/images/logo.png" /></h1>
             <ul class="nav-ul-jh box-flex-media-box">
                 <li class="nav-li-jh">
-                    <a href="javascript:;" :class="navIndx=='create'&&'active'" @click="onNavigation('B-create','create')" v-if="bUserType!=='2'">创建任务</a>
+                    <a href="javascript:;" :class="navIndx=='create'&&'active'" @click="onNavigation('B-create','create')" v-if="bUserType!=='2'">{{$lang('创建任务')}}</a>
                 </li>
                 <li class="nav-li-jh">
-                    <a href="javascript:;" :class="navIndx=='index'&&'active'" @click="onNavigation('B_Index','index')">大厅</a>
+                    <a href="javascript:;" :class="navIndx=='index'&&'active'" @click="onNavigation('B_Index','index')">{{$lang('大厅')}}</a>
                 </li>
                 <li class="nav-li-jh">
-                    <a href="javascript:;" :class="navIndx=='list'&&'active'" @click="onNavigation('B_list','list')" v-if="bUserType!=='2'">制作中心</a>
+                    <a href="javascript:;" :class="navIndx=='list'&&'active'" @click="onNavigation('B_list','list')" v-if="bUserType!=='2'">{{$lang('制作中心')}}</a>
                 </li>
                 <li class="nav-li-jh">
-                    <a href="javascript:;" v-if="!bUserType" @click="$router.push({name:'B_Notices'})">通知中心</a>
+                    <a href="javascript:;" v-if="!bUserType" @click="$router.push({name:'B_Notices'})">{{$lang('通知中心')}}</a>
                 </li>
             </ul>
         </div>

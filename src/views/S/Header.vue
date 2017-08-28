@@ -8,8 +8,8 @@
                             <i class="people"><img :src="headUrl" /></i>
                             <p class="flex1 user-name">{{nickName}}</p>
                         </a>
-                        <a href="javascript:;" class="nh-a-02" @click="onNavigation('S-userInfo-base','userInfo')">个人中心</a>
-                        <a href="javascript:;" class="nh-a-02" @click="onNavigation('login','login')">退出登录</a>
+                        <a href="javascript:;" class="nh-a-02" @click="onNavigation('S-userInfo-base','userInfo')">{{$lang('个人中心')}}</a>
+                        <a href="javascript:;" class="nh-a-02" @click="onNavigation('login','login')">{{$lang('退出登录')}}</a>
                         <p>
                             <a href="javascript:;" class="nh-a-03" :class="{selected:lang=='CN'}" @click="$setLang('CN')">CN</a>
                             <span>|</span>
@@ -23,13 +23,13 @@
             <h1 class="h1-logo flex1"><img src="../../assets/images/logo.png" /></h1>
             <ul class="nav-ul-jh box-flex-media-box">
                 <li class="nav-li-jh">
-                    <a href="javascript:;" :class="navIndx=='index'&&'active'" @click="onNavigation('S_Index','index')">大厅</a>
+                    <a href="javascript:;" :class="navIndx=='index'&&'active'" @click="onNavigation('S_Index','index')">{{$lang('大厅')}}</a>
                 </li>
                 <li class="nav-li-jh">
-                    <a href="javascript:;" :class="navIndx=='list'&&'active'" @click="onNavigation('S_list','list')">管理中心</a>
+                    <a href="javascript:;" :class="navIndx=='list'&&'active'" @click="onNavigation('S_list','list')">{{$lang('管理中心')}}</a>
                 </li>
                 <li class="nav-li-jh">
-                    <a href="javascript:;" @click="$router.push({name:'S_Notices'})">通知中心</a>
+                    <a href="javascript:;" @click="$router.push({name:'S_Notices'})">{{$lang('通知中心')}}</a>
                 </li>
             </ul>
         </div>

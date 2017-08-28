@@ -1,8 +1,8 @@
 <template>
-    <TInfo title="任务详情" :isZong="false" role="S" :onload="onTInfoLoad">
+    <TInfo :title="$lang('任务详情')" :isZong="false" role="S" :onload="onTInfoLoad">
         <div slot="footer" class="bt-dashed">
         <div class="set-btn-wrap bt-dashed" style='text-align: left;'>
-            <el-button type="sure">打款</el-button>
+            <el-button type="sure">{{$lang('打款')}}</el-button>
         </div>
         </div>
     </TInfo>

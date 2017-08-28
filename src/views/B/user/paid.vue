@@ -3,11 +3,11 @@
     <div class="mybag-zfgl-wrap" >
         <div>
             <div class="">
-                <dl class="bag-pay-dl" v-for="(bill,index) in billTable">
+                <dl class="bag-pay-dl" v-for="(bill,index) in billTable" :key="index">
                     <dt class="bag-pay-dt box-flex-media-box">
-                        <p class="flex1">订单号：{{bill.orderId}}</p>
-                        <p class="flex1">状态：{{getState(bill.state)}}</p>
-                        <p class="">下单时间：{{bill.createTime}}</p>
+                        <p class="flex1">{{$lang('订单号')}}：{{bill.orderId}}</p>
+                        <p class="flex1">{{$lang('状态')}}：{{getState(bill.state)}}</p>
+                        <p class="">{{$lang('下单时间')}}：{{bill.createTime}}</p>
                     </dt>
                     <dd class="bag-pay-dd" v-if="bill.subTasks.length>0">
                         <ul class="bag-pay-dd_ul" v-if="!collapse[index]">
@@ -21,7 +21,7 @@
                                 <p class="bpd-li_num">￥{{formatNum(bill.subTasks[0].total)}}</p>
                             </li>
                         </ul>
-                        <ul class="bag-pay-dd_ul" v-for="item in bill.subTasks" v-if="collapse[index]">
+                        <ul class="bag-pay-dd_ul" v-for="(item,i) in bill.subTasks" :key="i" v-show="collapse[index]">
                             <li class="bpd-li box-flex-media-box" >
                                 <div class="flex1">
                                     <div class="box-flex-media-box">
@@ -34,17 +34,17 @@
                         </ul>
                         <div class="box-flex-media-box pay-showOff-wrap" v-if="bill.subTasks.length>1&&!collapse[index]">
                                 <p class="flex1" @click="setCollapse(index)"><em>……</em></p>
-                                <a href="javascript:;" @click="setCollapse(index)">【展开】</a>
+                                <a href="javascript:;" @click="setCollapse(index)">【{{$lang('展开')}}】</a>
                         </div>
                         <div class="box-flex-media-box pay-showOff-wrap" v-if="bill.subTasks.length>1&&collapse[index]">
                                 <p class="flex1" ><em></em></p>
-                                <a href="javascript:;" @click="setCollapse(index)">【收起】</a>
+                                <a href="javascript:;" @click="setCollapse(index)">【{{$lang('收起')}}】</a>
                         </div>
                     </dd>
                     <dd class="bag-pay-footer-dd  box-flex-media-box">
-                        <p class="flex1" >已支付：<em>{{formatNum(bill.total)}}</em> 元</p>
+                        <p class="flex1" >{{$lang('已支付')}}：<em>{{formatNum(bill.total)}}</em> {{$lang('元')}}</p>
                         <div class="flex1">
-                                <el-button type="text">支付人：{{bill.payBy||'-'}}</el-button>
+                                <el-button type="text">{{$lang('支付人')}}：{{bill.payBy||'-'}}</el-button>
                         </div>
                        
                     </dd>
@@ -108,11 +108,11 @@ export default{
         getState(i){
             let state=''
             switch(i){
-                case '1':state='申请支付中';break;
-                case '2':state='支付成功 ';break;
-                case '3':state='支付失败';break;
-                case '4':state='废弃申请';break;
-                default: state='申请支付中'
+                case '1':state=$lang('申请支付中');break;
+                case '2':state=$lang('支付成功');break;
+                case '3':state=$lang('支付失败');break;
+                case '4':state=$lang('废弃申请');break;
+                default: state=$lang('申请支付中');
             }
             return state
         },

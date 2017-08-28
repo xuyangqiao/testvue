@@ -19,7 +19,7 @@
                 </div>
                 <el-pagination layout="prev, pager, next" :page-size="page.system.size" :total="page.system.total" @current-change="tabChange({name:'system'},$event)" v-if="page.system.total" />
             </el-tab-pane>
-            <el-tab-pane name="person" label="个人通知">
+            <el-tab-pane name="person" :label="$lang('个人通知')">
                 <div class="tab person" v-for="(item,i) in page.person.data" :key="i">
                     <div class="item">
                         <div class="img" :class="{unread:item.state=='0'}">

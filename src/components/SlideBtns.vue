@@ -3,15 +3,15 @@
     <div class="fixed-slide fixed-left" >
         <div v-if="type=='back'">
             <a href="javascript:;" class="slide-btn-wrap slide-btn-01" @click="onNavigation()">
-                <i></i><em>返回</em>
+                <i></i><em>{{$lang('返回')}}</em>
             </a>
         </div>
         <div v-if="type=='list'">
             <a href="javascript:;" class="slide-btn-wrap slide-btn-02" @click="onNavigation('login')">
-                <i></i><em>联系我们</em>
+                <i></i><em>{{$lang('联系我们')}}</em>
             </a>
             <a href="javascript:;" class="slide-btn-wrap slide-btn-03" @click="onNavigation('choise')">
-                <i></i><em>帮助中心</em>
+                <i></i><em>{{$lang('帮助中心')}}</em>
             </a>
         </div>
     </div>

@@ -15,10 +15,10 @@ export default {
     const role=this.$route.name.split('_');
     return {
       childTasks:[
-          {name:"全部",value:-1,count:99,color:"zjz",to:role[0]+"_Detail"},
-          {name:"征集中",value:4,count:99,color:"zjz",to:role[0]+"_Detail"},
-          {name:"制作中",value:5,count:99,color:"zzz",to:role[0]+"_Detail"},
-          {name:"已完成",value:[7,8],count:99,color:"wc",to:role[0]+"_Detail"}
+          {name:$lang("全部"),value:-1,count:99,color:"zjz",to:role[0]+"_Detail"},
+          {name:$lang("征集中"),value:4,count:99,color:"zjz",to:role[0]+"_Detail"},
+          {name:$lang("制作中"),value:5,count:99,color:"zzz",to:role[0]+"_Detail"},
+          {name:$lang("已完成"),value:[7,8],count:99,color:"wc",to:role[0]+"_Detail"}
       ]
     }
   }

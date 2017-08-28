@@ -2,27 +2,27 @@
     <!--身份验证  -->
     <div class="account-msg-wrapper">
         <div class="userinfo-nav">
-            <el-button :type="accType==1?'sure':'text'" @click="accType=1">信息修改</el-button>
-            <el-button :type="accType==2?'sure':'text'" @click="accType=2">密码修改</el-button>
+            <el-button :type="accType==1?'sure':'text'" @click="accType=1">{{$lang('信息修改')}}</el-button>
+            <el-button :type="accType==2?'sure':'text'" @click="accType=2">{{$lang('密码修改')}}</el-button>
         </div>
         <!--身份验证-->
         <div class="account-main" v-if="accType==1">
             <div class="bus-account-show" v-if="!edit">
                 <div class="sfyz-show">
                     <div class="box-flex">
-                        <p class="sf-lable">真实姓名:</p>
+                        <p class="sf-lable">{{$lang('真实姓名:')}}</p>
                         <p class="flex1">{{form.realName}}</p>
                     </div>
                     <div class="box-flex">
-                        <p class="sf-lable">证件号码:</p>
+                        <p class="sf-lable">{{$lang('证件号码:')}}</p>
                         <p class="flex1">{{form.cardId}}</p>
                     </div>
                     <div class="box-flex">
-                        <p class="sf-lable">证件有效期:</p>
+                        <p class="sf-lable">{{$lang('证件有效期:')}}</p>
                         <p class="flex1">{{form.validity}}</p>
                     </div>
                     <div class="zhengnianzhao">
-                        <p class="sf-lable">证件照：</p>
+                        <p class="sf-lable">{{$lang('证件照：')}}</p>
                         <el-row :gutter="20" class="w200">
                             <el-col :span="8" v-for="item in oldImgs" :key="item">
                                 <img :src="item.url" />
@@ -30,27 +30,27 @@
                         </el-row>
                     </div>
                 </div>
-                <el-button type="text" icon="edit" class="edit" @click="editInfo" v-if="userInfo.applyState!=2">编辑</el-button>
+                <el-button type="text" icon="edit" class="edit" @click="editInfo" v-if="userInfo.applyState!=2">{{$lang('编辑')}}</el-button>
             </div>
             <div class="account-edit account-edit-v" v-if="edit" v-loading="loading">
                 <el-form ref="form" :model="form1" label-width="110" :rules="rules">
-                    <el-form-item label="真实姓名:" prop="realName">
+                    <el-form-item :label="$lang('真实姓名:')" prop="realName">
                         <el-col :span="12">
-                            <el-input v-model="form1.realName" placeholder="真实姓名"></el-input>
+                            <el-input v-model="form1.realName" :placeholder="$lang('真实姓名')"></el-input>
                         </el-col>
                     </el-form-item>
-                    <el-form-item label="证件号码:" prop="cardId">
+                    <el-form-item :label="$lang('证件号码:')" prop="cardId">
                         <el-col :span="12">
-                            <el-input placeholder="请输入证件号码" v-model="form1.cardId"></el-input>
+                            <el-input :placeholder="$lang('请输入证件号码')" v-model="form1.cardId"></el-input>
                         </el-col>
                     </el-form-item>
-                    <el-form-item label="证件有效期:" prop="validity">
+                    <el-form-item :label="$lang('证件有效期:')" prop="validity">
                         <el-col :span="12">
-                            <el-date-picker v-model="form1.validity" type="date" placeholder="证件有效期" style=" width:100%">
+                            <el-date-picker v-model="form1.validity" type="date" :placeholder="$lang('证件有效期')" style=" width:100%">
                             </el-date-picker>
                         </el-col>
                     </el-form-item>
-                    <el-form-item label="上传证件照:" class="upload-zhengjianzhao">
+                    <el-form-item :label="$lang('上传证件照:')" class="upload-zhengjianzhao">
                         <el-row :gutter="20" class="zjz-wrap">
                             <el-col :span="8">
                                 <el-upload class="avatar-uploader" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false" ref="IDImage1" :on-change="IDImage1Change">
@@ -71,16 +71,16 @@
                                 </el-upload>
                             </el-col>
                             <el-col :span="24">
-                                <p class="sfyz-p">请上传手持身份证照片(正面/反面/手持)*（支持10M以下jpg、png、bmp格式）</p>
+                                <p class="sfyz-p">{{$lang('请上传手持身份证照片(正面/反面/手持)*（支持10M以下jpg、png、bmp格式）')}}</p>
                             </el-col>
                         </el-row>
                     </el-form-item>
                     <el-form-item>
                         <el-col :span="8" :offset="2">
-                            <el-button type="sure" class="fr" @click="save">提交</el-button>
+                            <el-button type="sure" class="fr" @click="save">{{$lang('提交')}}</el-button>
                         </el-col>
                         <el-col :span="8" :offset="4">
-                            <el-button type="cancle" class="fr" @click="edit=false">取消</el-button>
+                            <el-button type="cancle" class="fr" @click="edit=false">{{$lang('取消')}}</el-button>
                         </el-col>
                     </el-form-item>
                 </el-form>
@@ -89,10 +89,10 @@
         <!--密码管理-->
         <Change-Pwd v-if="accType==2"></Change-Pwd>
         <el-dialog title="Tips" :visible.sync="dialogVisible" size="tiny">
-            <span>是否放弃编辑？</span>
+            <span>{{$lang('是否放弃编辑？')}}</span>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogVisible=false,nextTo=false">取消</el-button>
-                <el-button type="sure" @click="cancalEdit">确定</el-button>
+                <el-button @click="dialogVisible=false,nextTo=false">{{$lang('取消')}}</el-button>
+                <el-button type="sure" @click="cancalEdit">{{$lang('确定')}}</el-button>
             </span>
         </el-dialog>
     </div>
@@ -160,23 +160,23 @@ export default {
         },
         validateRealName(rule, value, callback) {
             if (value === '' || value === undefined) {
-                callback(new Error('请输入真实姓名'));
+                callback(new Error($lang('请输入真实姓名')));
             } else {
                 callback();
             }
         },
         validateCardId(rule, value, callback) {
             if (value === '' || value === undefined) {
-                callback(new Error('请输入证件号码'));
+                callback(new Error($lang('请输入证件号码')));
             } else if (!(/^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/.test(value))) {
-                callback(new Error('证件号码格式不正确'));
+                callback(new Error($lang('证件号码格式不正确')));
             } else {
                 callback();
             }
         },
         validateValidity(rule, value, callback) {
             if (value === '' || value === undefined) {
-                callback(new Error('请选择证件有效期'));
+                callback(new Error($lang('请选择证件有效期')));
             } else {
                 callback();
             }
@@ -194,12 +194,12 @@ export default {
             const me = this;
             const fileName = file.name.slice(file.name.lastIndexOf(".") + 1).toLowerCase();
             if (!(fileName == "jpg" || fileName == "bmp" || fileName == "png")) {
-                this.$message('只能上传jpg、png、bmp文件');
+                this.$message($lang('只能上传jpg、png、bmp文件'));
                 me.$refs["IDImage" + index].uploadFiles.pop();
                 return false
             }
             if (file.size > 10485760) {
-                this.$message('文件大小不能超过10M');
+                this.$message($lang('文件大小不能超过10M'));
                 me.$refs["IDImage" + index].uploadFiles.pop();
                 return false
             }
@@ -222,7 +222,7 @@ export default {
             const res = await addFileList(fileList);
             this.loading = false;
             this.$message({
-                message: res.msg || '保存成功',
+                message: res.msg || $lang('保存成功'),
                 type: res.success ? 'success' : 'error',
             });
             this.edit = false;

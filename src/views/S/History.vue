@@ -4,21 +4,21 @@
                                                             <h1>历史文件</h1>-->
         <div style="padding: 0 50px">
             <!-- <el-button @click="downloadSelected" class="download-selected">下载选中</el-button> -->
-            <h1>历史文件</h1>
+            <h1>{{$lang('历史文件')}}</h1>
         </div>
         <el-table ref="multipleTable" :data="fileData" tooltip-effect="dark" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="60">
             </el-table-column>
-            <el-table-column prop="alias" label="文件名" width="300">
+            <el-table-column prop="alias" :label="$lang('文件名')" width="300">
             </el-table-column>
-            <el-table-column v-if="$route.query.index && $route.query.index == -1" prop="subvsion" label="版本" width="300">
+            <el-table-column v-if="$route.query.index && $route.query.index == -1" prop="subvsion" :label="$lang('版本')" width="300">
             </el-table-column>
-            <el-table-column prop="createTime" label="日期" width="300">
+            <el-table-column prop="createTime" :label="$lang('日期')" width="300">
             </el-table-column>
-            <el-table-column label="操作">
+            <el-table-column :label="$lang('操作')">
                 <template scope="scope">
-                    <el-button size="small" @click="proview(scope.row)" v-if="$route.query.index=='-1'">预览</el-button>
-                    <el-button size="small" @click="downloadFile(scope.row.fileName,scope.row.url)" v-else>下载</el-button>
+                    <el-button size="small" @click="proview(scope.row)" v-if="$route.query.index=='-1'">{{$lang('预览')}}</el-button>
+                    <el-button size="small" @click="downloadFile(scope.row.fileName,scope.row.url)" v-else>{{$lang('下载')}}</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -69,7 +69,7 @@ export default {
         downloadSelected() {
             const me = this;
             if (me.multipleSelection.length == 0) {
-                me.$message("未选择文件");
+                me.$message($lang("未选择文件"));
                 return
             }
             me.multipleSelection.map(row => {

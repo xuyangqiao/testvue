@@ -2,44 +2,44 @@
     <!-- 账户管理  -->
     <div class="account-msg-wrapper">
         <div class="userinfo-nav" v-if="hasEdit">
-            <el-button :type="accType==1?'sure':'text'" @click="accType=1">企业认证</el-button>
-            <el-button :type="accType==2?'sure':'text'" @click="accType=2">密码管理</el-button>
+            <el-button :type="accType==1?'sure':'text'" @click="accType=1">{{$lang('企业认证')}}</el-button>
+            <el-button :type="accType==2?'sure':'text'" @click="accType=2">{{$lang('密码管理')}}</el-button>
         </div>
         <!--账户管理-->
         <div class="bus-account-main" v-if="accType==1">
             <!-- 账户管理-展示 -->
             <div class="bus-account-show" v-if="!editCom">
-                <p>公司名称：{{form1.name||''}}</p>
-                <p>营业执照注册号/统一社会信用号码：{{form1.licenseNum||''}}</p>
-                <p>营业执照所在地：{{form1.licenseAddress||''}}</p>
-                <p>常用地址：{{form1.address||''}}</p>
-                <p>营业年限：{{form1.licenseYear||''}}年</p>
-                <p>营业范围：{{form1.licenseRange||''}}</p>
-                <p>盖公章的营业执照复印件：<em><img :src="imageUrl" class="yyzz-img"/></em></p>
-                <el-button type="text" icon="edit" class="edit" @click="openEditInfo" v-if="hasEdit">编辑</el-button>
+                <p>{{$lang('公司名称')}}：{{form1.name||''}}</p>
+                <p>{{$lang('营业执照注册号/统一社会信用号码')}}：{{form1.licenseNum||''}}</p>
+                <p>{{$lang('营业执照所在地')}}：{{form1.licenseAddress||''}}</p>
+                <p>{{$lang('常用地址')}}：{{form1.address||''}}</p>
+                <p>{{$lang('营业年限')}}：{{form1.licenseYear||''}}{{$lang('年')}}</p>
+                <p>{{$lang('营业范围')}}：{{form1.licenseRange||''}}</p>
+                <p>{{$lang('盖公章的营业执照复印件')}}：<em><img :src="imageUrl" class="yyzz-img"/></em></p>
+                <el-button type="text" icon="edit" class="edit" @click="openEditInfo" v-if="hasEdit">{{$lang('编辑')}}</el-button>
             </div>
             <!-- 账户管理-编辑 -->
             <div class="bus-account-edit" v-if="editCom" v-loading="loading">
                 <el-form ref="form2" :model="form2" label-width="110px" :rules="rules">
-                    <el-form-item label="企业名称" prop="name">
+                    <el-form-item :label="$lang('企业名称')" prop="name">
                         <el-col :span="12">
-                            <el-input v-model="form2.name" placeholder="请输入企业名称"></el-input>
+                            <el-input v-model="form2.name" :placeholder="$lang('请输入企业名称')"></el-input>
                         </el-col>
                     </el-form-item>
-                    <el-form-item label="营业执照号" prop="licenseNum">
+                    <el-form-item :label="$lang('营业执照号')" prop="licenseNum">
                         <el-col :span="12">
-                            <el-input v-model="form2.licenseNum" placeholder="请输入营业执照注册号/统一社会信用号码"></el-input>
+                            <el-input v-model="form2.licenseNum" :placeholder="$lang('请输入营业执照注册号/统一社会信用号码')"></el-input>
                         </el-col>
                     </el-form-item>
-                    <el-form-item label="营业年限" prop="licenseYear">
+                    <el-form-item :label="$lang('营业年限')" prop="licenseYear">
                         <el-col :span="12">
-                            <el-input v-model="form2.licenseYear" placeholder="请输入营业年限"></el-input>
+                            <el-input v-model="form2.licenseYear" :placeholder="$lang('请输入营业年限')"></el-input>
                         </el-col>
                         <el-col :span="2" :offset="1">
-                            年
+                            {{$lang('年')}}
                         </el-col>
                     </el-form-item>
-                    <el-form-item label="营业执照所在地">
+                    <el-form-item :label="$lang('营业执照所在地')">
                         <el-col :span="12">
                             <el-cascader
                                 :options="options"
@@ -48,7 +48,7 @@
                             </el-cascader>
                         </el-col>
                     </el-form-item>
-                    <el-form-item label="常用地址">
+                    <el-form-item :label="$lang('常用地址')">
                         <el-col :span="10">
                             <el-cascader
                                 expand-trigger="hover"
@@ -58,16 +58,16 @@
                             </el-cascader>
                         </el-col>
                         <el-col :span="13" :offset="1">
-                            <el-input v-model="form2.address" placeholder="详细地址"></el-input>
+                            <el-input v-model="form2.address" :placeholder="$lang('详细地址')"></el-input>
                         </el-col>
                     </el-form-item>
 
-                    <el-form-item label="营业范围">
+                    <el-form-item :label="$lang('营业范围')">
                         <el-col :span="24">
-                            <el-input type="textarea" v-model="form2.licenseRange" :rows="4" placeholder="请输入营业范围"></el-input>
+                            <el-input type="textarea" v-model="form2.licenseRange" :rows="4" :placeholder="$lang('请输入营业范围')"></el-input>
                         </el-col>
                     </el-form-item>
-                    <el-form-item label="营业执照复印件">
+                    <el-form-item :label="$lang('营业执照复印件')">
                         <el-col :span="12">
                             <el-upload
                                 class="avatar-uploader width-100"
@@ -82,16 +82,16 @@
                         </el-col>
                         <el-col :span="10" :offset="1">
                             <div class="el-upload__tip">
-                                <p class="yz-tips">请上传盖公章的营业执照复印件,只能上传jpg/png文件，且不超过500kb</p>
+                                <p class="yz-tips">{{$lang('请上传盖公章的营业执照复印件,只能上传jpg/png文件，且不超过500kb')}}</p>
                             </div>
                         </el-col>
                     </el-form-item>
                     <el-form-item>
                         <el-col :span="6" :offset="3">
-                            <el-button type="sure" class="fr" @click="saveModify">提交</el-button>
+                            <el-button type="sure" class="fr" @click="saveModify">{{$lang('提交')}}</el-button>
                         </el-col>
                         <el-col :span="6" :offset="3">
-                            <el-button type="cancle" class="fr" @click="editCom=false">取消</el-button>
+                            <el-button type="cancle" class="fr" @click="editCom=false">{{$lang('取消')}}</el-button>
                         </el-col>
                     </el-form-item>
                 </el-form>
@@ -104,10 +104,10 @@
             :visible.sync="dialogVisible"
             size="tiny"
            >
-            <span>是否放弃编辑？</span>
+            <span>{{$lang('是否放弃编辑？')}}</span>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogVisible=false,nextTo=false">取消</el-button>
-                <el-button type="sure" @click="cancalEdit">确定</el-button>
+                <el-button @click="dialogVisible=false,nextTo=false">{{$lang('取消')}}</el-button>
+                <el-button type="sure" @click="cancalEdit">{{$lang('确定')}}</el-button>
             </span>
         </el-dialog>
     </div>
@@ -157,25 +157,25 @@
         methods: {
            validateName(rule, value, callback) {
                 if (value === '') {
-                    callback(new Error('请输入'));
+                    callback(new Error($lang('请输入')));
                 }else {
                     callback();
                 }
             },
             validateYear(rule, value, callback) {
                 if (value === '') {
-                    callback(new Error('请输入'));
+                    callback(new Error($lang('请输入')));
                 }else if(!Number.isInteger(+value)){
-                    callback(new Error('请输入正确的格式'));
+                    callback(new Error($lang('请输入正确的格式')));
                 }else{
                     callback();
                 }
             },
             validateLicenseNum(rule, value, callback){
                 if (value === '') {
-                    callback(new Error('请输入'));
+                    callback(new Error($lang('请输入')));
                 }else if(!/^[0-9|A-Z]{18}$/.test(value)){
-                    callback(new Error('18位数字和大写字母组合'));
+                    callback(new Error($lang('18位数字和大写字母组合')));
                 }else{
                     callback();
                 }
@@ -272,7 +272,7 @@
                                 me.imageUrl = addFileData.data.url;
                                 me.licenseImgName = addFileData.data.fileName;
                                 me.licenseImg = addFileData.data.url;
-                                me.$message("操作成功");
+                                me.$message($lang("操作成功"));
                                 //返回展示界面
                                 me.editCom = false;
                             }else{
@@ -280,7 +280,7 @@
                             }
                         })
                     } else {
-                        me.$message("操作成功");
+                        me.$message($lang("操作成功"));
                         //返回展示界面
                         me.editCom = false;
                     }
@@ -303,12 +303,12 @@
                 const me = this;
                 const fileName = file.name.slice(file.name.lastIndexOf(".") + 1).toLowerCase();
                 if (!(fileName == "jpg" || fileName == "bmp" || fileName == "png")) {
-                    this.$message('只能上传jpg、png、bmp文件');
+                    this.$message($lang('只能上传jpg、png、bmp文件'));
                     me.$refs.businessLicense.uploadFiles.pop();
                     return
                 }
                 if (file.size > 10485760) {
-                    this.$message('文件大小不能超过10M');
+                    this.$message($lang('文件大小不能超过10M'));
                     me.$refs.businessLicense.uploadFiles.pop();
                     return
                 }

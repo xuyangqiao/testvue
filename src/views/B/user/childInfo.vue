@@ -2,33 +2,34 @@
     <div class="sun-cont-wrapper">
         <!-- 您暂时未设置子账号，点击添加  -->
         <div class="sun-cont-no" v-if="tableData.length==0&&handleType!=='add'">
-            <p>您暂时未设置子账号，
-                <a href="javascript:;" @click="addChildTab">点击添加</a>
+            <p>{{$lang('您暂时未设置子账号')}}，
+                <a href="javascript:;" @click="addChildTab">{{$lang('点击添加')}}</a>
             </p>
         </div>
 
         <!-- 您的子账号列表 -->
         <div class="sun-cont-list" v-if="!tableData.length==0&&handleType=='index'">
             <div class="sun-cont-list-title clearfix">
-                <h3 class="main-title fl">您的子账号</h3>
-                <el-button type="sure" class="fr" @click="addChildTab">添加</el-button>
+                <h3 class="main-title fl">{{$lang('您的子账号')}}</h3>
+                <el-button type="sure" class="fr" @click="addChildTab">{{$lang('添加')}}</el-button>
             </div>
             <div class="">
                 <template>
                     <el-table :data="tableData" style="width: 100%">
-                        <el-table-column label="头像" width="80">
+                        <el-table-column :label="$lang('头像')" width="80">
                             <template scope="scope">
                                 <img :src="scope.row.info?scope.row.info.headUrl:''" class="table-header-img" />
                             </template>
                         </el-table-column>
-                        <el-table-column prop="nickName" label="账户名"></el-table-column>
-                        <el-table-column prop="phone" label="账号"></el-table-column>
-                        <el-table-column prop="bUserType" label="身份"></el-table-column>
-                        <el-table-column prop="set" label="操作" width="240">
+                        <el-table-column prop="nickName" :label="$lang('账户名')"></el-table-column>
+                        <el-table-column prop="phone" :label="$lang('账号')"></el-table-column>
+                        <el-table-column prop="bUserType" :label="$lang('身份')"></el-table-column>
+                        <el-table-column prop="set" :label="$lang('操作')" width="240">
                             <template scope="scope">
-                                <el-button size="small" :type="scope.row.state=='0'?'danger':'info'" @click="handleChange(scope.$index, scope.row)">{{scope.row.state=='0'?'禁用':'启用'}}</el-button>
-                                <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                                <el-button size="small" @click="handleChangePwd(scope.$index, scope.row)">重置密码</el-button>
+                                <el-button size="small" :type="scope.row.state=='0'?'danger':'info'" @click="handleChange(scope.$index, scope.row)">
+                                    {{scope.row.state=='0'?$lang('禁用'):$lang('启用')}}</el-button>
+                                <el-button size="small" @click="handleEdit(scope.$index, scope.row)">{{$lang('编辑')}}</el-button>
+                                <el-button size="small" @click="handleChangePwd(scope.$index, scope.row)">{{$lang('重置密码')}}</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -38,38 +39,38 @@
 
         <!-- 添加子账户 -->
         <div class="add-sun-cont" v-if="handleType=='add'||handleType=='edit'" v-loading="loading">
-            <h3 class="main-title">{{handleType=='add'?'添加子账户':'编辑子账户'}}</h3>
+            <h3 class="main-title">{{handleType=='add'?$lang('添加子账户'):$lang('编辑子账户')}}</h3>
             <div class="">
                 <div class="up-load-hd-img">
                     <el-upload class="avatar-uploader" action="" ref="headImage" :show-file-list="false" :auto-upload="false" :on-change="headChange">
                         <img v-if="imageUrl" :src="imageUrl" class="avatar">
                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload>
-                    <div class="el-upload__tip" slot="tip">上传头像（支持10M以下的jpg、png、BMP文件）</div>
+                    <div class="el-upload__tip" slot="tip">{{$lang('上传头像（支持10M以下的jpg、png、BMP文件）')}}</div>
                 </div>
                 <el-form ref="form" :model="form" label-width="0" :rules="rules">
                     <el-form-item prop='nickName'>
-                        <el-input v-model="form.nickName" placeholder="请输入子账号用户名"></el-input>
+                        <el-input v-model="form.nickName" :placeholder="$lang('请输入子账号用户名')"></el-input>
                     </el-form-item>
                     <VerifyCode :phone="form.phone" :code="code" :parentClass="'add-sun-cont'" :type="'editChild'" :getData="getData"></VerifyCode>
                     <el-form-item prop='bUserType'>
-                        <el-select v-model="form.bUserType" placeholder="请选择账号类型" :disabled="handleType=='edit'">
+                        <el-select v-model="form.bUserType" :placeholder="$lang('请选择账号类型')" :disabled="handleType=='edit'">
                             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
                             </el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item prop='password' v-if="handleType=='add'">
-                        <el-input type="password" v-model="form.password" placeholder="请输入子账号密码"></el-input>
+                        <el-input type="password" v-model="form.password" :placeholder="$lang('请输入子账号密码')"></el-input>
                     </el-form-item>
                     <el-form-item prop='password1' v-if="handleType=='add'">
-                        <el-input type="password" v-model="form.password1" placeholder="请再次输入子账号密码"></el-input>
+                        <el-input type="password" v-model="form.password1" :placeholder="$lang('请再次输入子账号密码')"></el-input>
                     </el-form-item>
                     <el-form-item>
                         <el-col :span="11">
-                            <el-button type="sure" class="fr" @click="addChild">保存</el-button>
+                            <el-button type="sure" class="fr" @click="addChild">{{$lang('保存')}}</el-button>
                         </el-col>
                         <el-col :span="11" :offset="2">
-                            <el-button type="cancle" class="fr" @click="handleType='index',getChildList()">取消</el-button>
+                            <el-button type="cancle" class="fr" @click="handleType='index',getChildList()">{{$lang('取消')}}</el-button>
                         </el-col>
                     </el-form-item>
                 </el-form>
@@ -77,27 +78,27 @@
         </div>
         <div class="passowrd-mesg" v-if="handleType=='changePwd'">
             <el-form ref="form1" :model="form1" label-width="110" :rules="pwdrules">
-                <el-form-item label="新密码:" prop="newPwd">
-                    <el-input v-model="form1.newPwd" type="password" placeholder="请输入新密码"></el-input>
+                <el-form-item :label="$lang('新密码:')" prop="newPwd">
+                    <el-input v-model="form1.newPwd" type="password" :placeholder="$lang('请输入新密码')"></el-input>
                 </el-form-item>
-                <el-form-item label="确认新密码:" prop="surePwd">
-                    <el-input v-model="form1.surePwd" type="password" placeholder="请再次输入新密码"></el-input>
+                <el-form-item :label="$lang('确认新密码:')" prop="surePwd">
+                    <el-input v-model="form1.surePwd" type="password" :placeholder="$lang('请再次输入新密码')"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-col :span="11">
-                        <el-button type="sure" class="fr" @click="modifyPwd">确定</el-button>
+                        <el-button type="sure" class="fr" @click="modifyPwd">{{$lang('确定')}}</el-button>
                     </el-col>
                     <el-col :span="11" :offset="2">
-                        <el-button type="cancle" class="fr" @click="handleType='index'">取消</el-button>
+                        <el-button type="cancle" class="fr" @click="handleType='index'">{{$lang('取消')}}</el-button>
                     </el-col>
                 </el-form-item>
             </el-form>
         </div>
         <el-dialog title="Tips" :visible.sync="dialogVisible" size="tiny">
-            <span>是否放弃编辑？</span>
+            <span>{{$lang('是否放弃编辑？')}}</span>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogVisible = false;nextTo=false;">取消</el-button>
-                <el-button type="sure" @click="cancalEdit">确定</el-button>
+                <el-button @click="dialogVisible=false,nextTo=false">{{$lang('取消')}}</el-button>
+                <el-button type="sure" @click="cancalEdit">{{$lang('确定')}}</el-button>
             </span>
         </el-dialog>
     </div>
@@ -118,7 +119,7 @@ export default {
             nextTo: false,
             code: "",
             validCode: false,//手机验证状态
-            options: [{ label: "发包人员", value: "1" }, { label: "财务人员", value: "2" }],
+            options: [{ label: $lang("发包人员"), value: "1" }, { label: $lang("财务人员"), value: "2" }],
             tableData: [],//数据
             imageUrl: '',
             oldImageUrl: '',
@@ -148,41 +149,41 @@ export default {
     methods: {
         validateNickName(rule, value, callback) {
             if (value === '' || value === undefined) {
-                callback(new Error('请输入昵称'));
+                callback(new Error($lang('请输入昵称')));
             } else {
                 callback();
             }
         },
         validateBUserType(rule, value, callback) {
             if (value === '' || value === undefined) {
-                callback(new Error('请选择账户类型'));
+                callback(new Error($lang('请选择账户类型')));
             } else {
                 callback();
             }
         },
         validatePwd(rule, value, callback) {
             if (value === '' || value === undefined) {
-                callback(new Error('密码不能为空'));
+                callback(new Error($lang('密码不能为空')));
             } else if (value.length < 6 || value.length > 12) {
-                callback(new Error('6-12个字符'));
+                callback(new Error($lang('6-12个字符')));
             } else {
                 callback();
             }
         },
         validateCheckpwd(rule, value, callback) {
             if (value === '' || value === undefined) {
-                callback(new Error('密码不能为空'));
+                callback(new Error($lang('密码不能为空')));
             } else if (value !== this.form.password) {
-                callback(new Error('两次密码不一致'));
+                callback(new Error($lang('两次密码不一致')));
             } else {
                 callback();
             }
         },
         validateSurePwd(rule, value, callback) {
             if (value === '' || value === undefined) {
-                callback(new Error('密码不能为空'));
+                callback(new Error($lang('密码不能为空')));
             } else if (value !== this.form1.newPwd) {
-                callback(new Error('两次密码不一致'));
+                callback(new Error($lang('两次密码不一致')));
             } else {
                 callback();
             }
@@ -192,7 +193,7 @@ export default {
             if (res.success) {
                 this.tableData = res.data;
                 this.tableData.map((item) => {
-                    item.bUserType = item.bUserType == "1" ? "发包人员" : "财务人员";
+                    item.bUserType = item.bUserType == "1" ? $lang("发包人员") : $lang("财务人员");
                     item.nickName = item.info ? item.info.nickName : "-";
                 })
             } else {
@@ -203,7 +204,7 @@ export default {
         async handleChange(index, row) {
             const res = await ChangeChildStateB({ id: row.id })
             if (res.success) {
-                this.$message.success("操作成功！");
+                this.$message.success($lang("操作成功！"));
                 this.tableData[index].state = "" + (1 - parseFloat(row.state));
             } else {
                 this.$message.error(res.msg);
@@ -258,7 +259,7 @@ export default {
                 }
                 const res = await AddChildB(param);
                 if (res.success) {
-                    res.data.bUserType = res.data.bUserType == "1" ? "发包人员" : "财务人员";
+                    res.data.bUserType = res.data.bUserType == "1" ? $lang("发包人员") : $lang("财务人员");
                     this.oldImageUrl = res.data.info.headUrl;//默认头像
                     this.tableData.push(res.data);
                     this.form.id = res.data.id;
@@ -281,7 +282,7 @@ export default {
                 if (res.success) {
                     this.getChildList();
                     this.handleType = "index";
-                    this.$message.success("操作成功！")
+                    this.$message.success($lang("操作成功！"));
                 } else {
                     this.$message.error(res.msg);
                 }
@@ -293,7 +294,7 @@ export default {
                 const res = await resetChildPwd(param);
                 this.loading = false;
                 if (res.success) {
-                    this.$message.success("重置成功");
+                    this.$message.success($lang("重置成功"));
                     this.handleType = 'index';
                 } else {
                     this.$message.error(res.msg);
@@ -324,12 +325,12 @@ export default {
             const me = this;
             const fileName = file.name.slice(file.name.lastIndexOf(".") + 1).toLowerCase();
             if (!(fileName == "jpg" || fileName == "bmp" || fileName == "png")) {
-                this.$message('只能上传jpg、png、bmp文件');
+                this.$message($lang('只能上传jpg、png、bmp文件'));
                 me.$refs.headImage.uploadFiles.pop();
                 return
             }
             if (file.size > 10485760) {
-                this.$message('文件大小不能超过10M');
+                this.$message($lang('文件大小不能超过10M'));
                 me.$refs.headImage.uploadFiles.pop();
                 return
             }
@@ -368,7 +369,7 @@ export default {
                             me.getChildList();
                             me.handleType = "index";
                         }
-                        me.$message.success("上传成功")
+                        me.$message.success($lang("上传成功"));
                     } else {
                         me.$message.error(addFileData.msg)
                     }
@@ -377,7 +378,7 @@ export default {
                 if (me.handleType == 'add') {
                     me.getChildList();
                     me.handleType = "index";
-                    me.$message.success("操作成功！")
+                    me.$message.success($lang("操作成功！"));
                     me.loading = false;
                 }
 

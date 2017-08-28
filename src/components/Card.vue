@@ -7,9 +7,9 @@
                 <div class="vg-center ">
                     <p>{{$lang('项目名称：')}}{{projectName}}</p>
 
-                    <p>任务截止时间：{{time == "Invalid date" ? '' : time}}</p>
-                    <p>项目金额：
-                        <span v-if="totalType == '1'">询价</span>
+                    <p>{{$lang('任务截止时间：')}}{{time == "Invalid date" ? '' : time}}</p>
+                    <p>{{$lang('项目金额：')}}
+                        <span v-if="totalType == '1'">{{$lang('询价')}}</span>
                         <span v-else>¥{{total || '未填写'}}</span>
                     </p>
                 </div>

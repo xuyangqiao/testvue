@@ -2,7 +2,7 @@
     <el-cascader clearable
         class="width-100-ts"
         expand-trigger="hover"
-        placeholder="专业分类"
+        :placeholder="$lang('专业分类')"
         :options="options"
         v-model="selected"
         @change="handleChange">

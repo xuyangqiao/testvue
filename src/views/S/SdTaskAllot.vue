@@ -2,21 +2,21 @@
   <!--s端 待审核-->
   <div class="content-wrapper">
     <div class="all-task-wrapper">
-      <Ts-Info title="任务详情" :isZong="false" role="S" ref="tsInfo"></Ts-Info>
+      <Ts-Info :title="$lang('任务详情')" :isZong="false" role="S" ref="tsInfo"></Ts-Info>
 
       <!-- 如果任务是公开的。。那么 “allot-public” 显示。。如果是私密。。 这一块 隐藏-->
 
       <div class="serarch-diy">
-        <el-input placeholder="搜索用户或者用户标签" v-model="seekValue">
+        <el-input :placeholder="$lang('搜索用户或者用户标签')" v-model="seekValue">
           <el-button slot="prepend" icon="search"></el-button>
-          <el-button slot="append" type="sure" @click="queryType(this.type)">搜索</el-button>
+          <el-button slot="append" type="sure" @click="queryType(this.type)">{{$lang('搜索')}}</el-button>
         </el-input>
       </div>
 
       <div class="allot-public">
         <div class="userinfo-nav">
-          <el-button :type="type==1?'sure':'text'" @click="queryType(1)">已报名列表</el-button>
-          <el-button :type="type==2?'sure':'text'" @click="queryType(2)">所有v端列表</el-button>
+          <el-button :type="type==1?'sure':'text'" @click="queryType(1)">{{$lang('已报名列表')}}</el-button>
+          <el-button :type="type==2?'sure':'text'" @click="queryType(2)">{{$lang('所有v端列表')}}</el-button>
         </div>
       </div>
 
@@ -25,14 +25,14 @@
           <el-table ref="singleTable" :data="vlist" highlight-current-row @current-change="handleCurrentChange" style="width: 100%">
             <el-table-column type="index" width="">
             </el-table-column>
-            <el-table-column label="昵称" width="">
+            <el-table-column :label="$lang('昵称')" width="">
               <template scope="scope">
                 <span @click="toVUser(scope.row)">{{scope.row.nickName}}</span>
               </template>
             </el-table-column>
-            <el-table-column property="createTime" label="注册时间" width="">
+            <el-table-column property="createTime" :label="$lang('注册时间')" width="">
             </el-table-column>
-            <el-table-column prop="tag" label="标签" width="">
+            <el-table-column prop="tag" :label="$lang('标签')" width="">
               <template scope="scope">
                 <el-tag :type="'success'">{{scope.row.label}}</el-tag>
               </template>
@@ -48,20 +48,20 @@
       </div>
 
       <div class="set-btn-wrap">
-        <el-button type="sure" @click="toSubmit">确认选择</el-button>
-        <!-- <el-button type="sure" @click="openApplyRefund" v-if="$refs.tsInfo&&['4','5'].includes($refs.tsInfo.form.state)">申请退款</el-button> -->
+        <el-button type="sure" @click="toSubmit">{{$lang('确认选择')}}</el-button>
+        <!-- <el-button type="sure" @click="openApplyRefund" v-if="$refs.tsInfo&&['4','5'].includes($refs.tsInfo.form.state)">{{$lang('申请退款')}}</el-button> -->
       </div>
 
     </div>
 
-    <el-dialog title="申请退款" size="tiny" :visible.sync="dialog.applyRefund.show">
+    <el-dialog :title="$lang('申请退款')" size="tiny" :visible.sync="dialog.applyRefund.show">
       <el-form>
-        <el-form-item label="退款原因：">
+        <el-form-item :label="$lang('退款原因：')">
           <el-input type="textarea" :rows="4" v-model.trim="dialog.applyRefund.reason"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer">
-        <el-button type="primary" @click="applyRefund">确 定</el-button>
+        <el-button type="primary" @click="applyRefund">{{$lang('确 定')}}</el-button>
       </span>
     </el-dialog>
 
@@ -185,14 +185,14 @@ export default {
       if (this.dialog.applyRefund.reason) {
         const res = await applyRefund(this.$route.query.id, this.dialog.applyRefund.reason);
         if (res.success) {
-          this.$message.success('申请成功');
+          this.$message.success($lang('申请成功'));
           this.$router.reload();
           this.dialog.applyRefund.show = false;
         } else {
           this.$message.error(res.msg);
         }
       } else {
-        this.$message.warning('请填写退款原因');
+        this.$message.warning($lang('请填写退款原因'));
       }
     }
   }

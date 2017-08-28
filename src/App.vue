@@ -7,7 +7,7 @@
     <div class="footer-wrapper" style="display:block;">
       <!--<p>Copyright © 2013-2017 TUYIYI.COM - 优秀UI设计师互动平台 -粤ICP备12010950号-3</p>-->
       <p>
-        <a style="color: #FFF;" href="http://www.miitbeian.gov.cn/">Copyright 2013-2017 VSWORK.COM - 优秀社会化协作平台 - 苏ICP备14020371号-2</a>
+        <a style="color: #FFF;" href="http://www.miitbeian.gov.cn/">{{$lang('Copyright 2013-2017 VSWORK.COM - 优秀社会化协作平台 - 苏ICP备14020371号-2')}}</a>
       </p>
     </div>
   </div>

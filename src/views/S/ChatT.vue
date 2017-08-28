@@ -5,7 +5,7 @@
                 <div class="flex1 chart-left-title">
                     <h3>{{taskInfo.projectName}}</h3>
                 </div>
-                <el-button type="sure" @click="toRedirectT">查看任务&gt;</el-button>
+                <el-button type="sure" @click="toRedirectT">{{$lang('查看任务')}}&gt;</el-button>
             </div>
             <div class="chart-left-list">
                 <ul class="chart-left-ul">
@@ -13,7 +13,7 @@
                     <li class="chart-left-li">
                         <div class="box-flex-media-box cl-top">
                             <a href="javascript:;" class="title flex1">
-                                <h4>待确认</h4>
+                                <h4>{{$lang('待确认')}}</h4>
                             </a>
                         </div>
                         <ul class="chose-people-ul" v-if="getChilds(0).length">
@@ -26,8 +26,8 @@
                                         <p class="name">{{m.projectName}}</p>
                                     </div>
                                 </div>
-                                <a href="javascript:;" class="more" @click="changStateToPay(m.id)">确认&gt;</a>&nbsp;&nbsp;&nbsp;
-                                <a href="javascript:;" class="more" @click="$router.push({name:'S_SonTaskInfo',query: { id: m.id }})">查看&gt;</a>
+                                <a href="javascript:;" class="more" @click="changStateToPay(m.id)">{{$lang('确认')}}&gt;</a>&nbsp;&nbsp;&nbsp;
+                                <a href="javascript:;" class="more" @click="$router.push({name:'S_SonTaskInfo',query: { id: m.id }})">{{$lang('查看')}}&gt;</a>
                             </li>
                         </ul>
                     </li>
@@ -36,7 +36,7 @@
                     <li class="chart-left-li">
                         <div class="box-flex-media-box cl-top">
                             <a href="javascript:;" class="title flex1">
-                                <h4 class="height70">待支付</h4>
+                                <h4 class="height70">{{$lang('待支付')}}</h4>
                             </a>
                         </div>
                         <ul class="chose-people-ul" v-if="getChilds(1).length">
@@ -54,7 +54,7 @@
                                     <div class="moey">
                                         <p>{{'￥' + m.total}}</p>
                                     </div>
-                                    <a href="javascript:;" class="more" @click="$router.push({name:'S_SonTaskInfo',query: { id: m.id }})">查看&gt;</a>
+                                    <a href="javascript:;" class="more" @click="$router.push({name:'S_SonTaskInfo',query: { id: m.id }})">{{$lang('查看')}}&gt;</a>
                                 </li>
                             </el-checkbox-group>
                         </ul>
@@ -63,7 +63,7 @@
                     <li class="chart-left-li">
                         <div class="box-flex-media-box cl-top">
                             <a href="javascript:;" class="title flex1">
-                                <h4>征集中</h4>
+                                <h4>{{$lang('征集中')}}</h4>
                             </a>
                         </div>
                         <ul class="chose-people-ul" v-if="getChilds(2).length">
@@ -76,8 +76,8 @@
                                         <p class="name">{{m.projectName}}</p>
                                     </div>
                                 </div>
-                                <a href="javascript:;" class="more" @click="$router.push({name:'toFenPei',query: { id: m.id }})">查看&gt;</a>&nbsp;&nbsp;&nbsp;
-                                <a href="javascript:;" class="more" @click="openApplyRefund(m.id)">申请退款&gt;</a>
+                                <a href="javascript:;" class="more" @click="$router.push({name:'toFenPei',query: { id: m.id }})">{{$lang('查看')}}&gt;</a>&nbsp;&nbsp;&nbsp;
+                                <a href="javascript:;" class="more" @click="openApplyRefund(m.id)">{{$lang('申请退款')}}&gt;</a>
                             </li>
                         </ul>
                     </li>
@@ -86,7 +86,7 @@
                     <li class="chart-left-li">
                         <div class="box-flex-media-box cl-top">
                             <a href="javascript:;" class="title flex1">
-                                <h4>制作中</h4>
+                                <h4>{{$lang('制作中')}}</h4>
                             </a>
                         </div>
                         <ul class="chose-people-ul" v-if="getChilds(3).length">
@@ -99,9 +99,9 @@
                                         <p class="name">{{m.projectName}}</p>
                                     </div>
                                 </div>
-                                <a href="javascript:;" class="more" @click="$router.push({name:'S_ChatD',query: { id: m.id }})">查看&gt;</a>&nbsp;&nbsp;&nbsp;
-                                <a href="javascript:;" class="more" @click="$router.push({name:'toFenPei',query: { id: m.id, state: 5 }})">重新指派&gt;</a>&nbsp;&nbsp;&nbsp;
-                                <a href="javascript:;" class="more" @click="openApplyRefund(m.id)">申请退款&gt;</a>
+                                <a href="javascript:;" class="more" @click="$router.push({name:'S_ChatD',query: { id: m.id }})">{{$lang('查看')}}&gt;</a>&nbsp;&nbsp;&nbsp;
+                                <a href="javascript:;" class="more" @click="$router.push({name:'toFenPei',query: { id: m.id, state: 5 }})">{{$lang('重新指派')}}&gt;</a>&nbsp;&nbsp;&nbsp;
+                                <a href="javascript:;" class="more" @click="openApplyRefund(m.id)">{{$lang('申请退款')}}&gt;</a>
                             </li>
                         </ul>
                     </li>
@@ -110,7 +110,7 @@
                     <li class="chart-left-li">
                         <div class="box-flex-media-box cl-top">
                             <a href="javascript:;" class="title flex1">
-                                <h4>验收中</h4>
+                                <h4>{{$lang('验收中')}}</h4>
                             </a>
                         </div>
                         <ul class="chose-people-ul" v-if="getChilds(4).length">
@@ -123,7 +123,7 @@
                                         <p class="name">{{m.projectName}}</p>
                                     </div>
                                 </div>
-                                <a href="javascript:;" class="more" @click="$router.push({name:'S_ChatD',query: { id: m.id }})">查看&gt;</a>
+                                <a href="javascript:;" class="more" @click="$router.push({name:'S_ChatD',query: { id: m.id }})">{{$lang('查看')}}&gt;</a>
                             </li>
                         </ul>
                     </li>
@@ -132,7 +132,7 @@
                     <li class="chart-left-li">
                         <div class="box-flex-media-box cl-top">
                             <a href="javascript:;" class="title flex1">
-                                <h4>完成</h4>
+                                <h4>{{$lang('完成')}}</h4>
                             </a>
                         </div>
                         <ul class="chose-people-ul" v-if="getChilds(5).length">
@@ -148,8 +148,8 @@
                                 <div class="moey">
                                     <p>{{'￥' + m.total }}</p>
                                 </div>
-                                <a href="javascript:;" class="more" @click="toShowPay(i)" style="margin-right:20px">去打款</a>
-                                <a href="javascript:;" class="more" @click="$router.push({name:'S_ChatD',query: { id: m.id,isOnlyChat:true }})">查看&gt;</a>
+                                <a href="javascript:;" class="more" @click="toShowPay(i)" style="margin-right:20px">{{$lang('去打款')}}</a>
+                                <a href="javascript:;" class="more" @click="$router.push({name:'S_ChatD',query: { id: m.id,isOnlyChat:true }})">{{$lang('查看')}}&gt;</a>
                             </li>
                         </ul>
                     </li>
@@ -158,7 +158,7 @@
                     <li class="chart-left-li">
                         <div class="box-flex-media-box cl-top">
                             <a href="javascript:;" class="title flex1">
-                                <h4>已打款</h4>
+                                <h4>{{$lang('已打款')}}</h4>
                             </a>
                         </div>
                         <ul class="chose-people-ul" v-if="getChilds(6).length">
@@ -171,7 +171,7 @@
                                         <p class="name">{{m.projectName}}</p>
                                     </div>
                                 </div>
-                                <a href="javascript:;" class="more" @click="$router.push({name:'S_ChatD',query: { id: m.id,isOnlyChat:true }})">查看&gt;</a>
+                                <a href="javascript:;" class="more" @click="$router.push({name:'S_ChatD',query: { id: m.id,isOnlyChat:true }})">{{$lang('查看')}}&gt;</a>
                             </li>
                         </ul>
                     </li>
@@ -179,7 +179,7 @@
                     <li class="chart-left-li">
                         <div class="box-flex-media-box cl-top">
                             <a href="javascript:;" class="title flex1">
-                                <h4>退款申请中</h4>
+                                <h4>{{$lang('退款申请中')}}</h4>
                             </a>
                         </div>
                         <ul class="chose-people-ul" v-if="getChilds(7).length">
@@ -192,7 +192,7 @@
                                         <p class="name">{{m.projectName}}</p>
                                     </div>
                                 </div>
-                                <a href="javascript:;" class="more" @click="$router.push({name:'S_ChatD',query: { id: m.id,isOnlyChat:true }})">查看&gt;</a>
+                                <a href="javascript:;" class="more" @click="$router.push({name:'S_ChatD',query: { id: m.id,isOnlyChat:true }})">{{$lang('查看')}}&gt;</a>
                             </li>
                         </ul>
                     </li>
@@ -200,7 +200,7 @@
                     <li class="chart-left-li">
                         <div class="box-flex-media-box cl-top">
                             <a href="javascript:;" class="title flex1">
-                                <h4>已关闭</h4>
+                                <h4>{{$lang('已关闭')}}</h4>
                             </a>
                         </div>
                         <ul class="chose-people-ul" v-if="getChilds(8).length">
@@ -213,7 +213,7 @@
                                         <p class="name">{{m.projectName}}</p>
                                     </div>
                                 </div>
-                                <a href="javascript:;" class="more" @click="$router.push({name:'S_ChatD',query: { id: m.id,isOnlyChat:true }})">查看&gt;</a>
+                                <a href="javascript:;" class="more" @click="$router.push({name:'S_ChatD',query: { id: m.id,isOnlyChat:true }})">{{$lang('查看')}}&gt;</a>
                             </li>
                         </ul>
                     </li>
@@ -227,12 +227,12 @@
             <div class="chart-msg">{{msg}}</div>
         </div>
         <!--去支付弹层-->
-        <el-dialog title="支付" :visible.sync="dialogVisible" size="tiny" :before-close="handleClose">
+        <el-dialog :title="$lang('支付')" :visible.sync="dialogVisible" size="tiny" :before-close="handleClose">
             <div class="pay-dialog-wrap">
                 <!--申请支付-->
                 <div class="apply-payment-wrap" style="display:none;">
                     <div class="apply-people-wrap">
-                        <h4 class="title-h4-dig">确定任务：</h4>
+                        <h4 class="title-h4-dig">{{$lang('确定任务：')}}</h4>
                         <div class="apply-pay-people">
                             <div class="box-flex-media-box" v-for="(m,i) in getChilds(5)" :key="i">
                                 <p class="user-header">
@@ -242,80 +242,80 @@
                             </div>
                             <!--<div class="box-flex-media-box">-->
                             <!--<p class="user-header"><img src="../../assets/images/user-header.png"/></p>-->
-                            <!--<p class="name">呵呵哈哈</p>-->
+                            <!--<p class="name">{{$lang('呵呵哈哈')}}</p>-->
                             <!--</div>-->
                         </div>
                     </div>
                     <div class="money-num">
-                        <p>付款金额：
+                        <p>{{$lang('付款金额')}}：
                             <em>2000</em>元</p>
                     </div>
 
                     <!--申请付款 和 已发起付款 两种选择-->
                     <div class="fqfk-wrap">
-                        <span>已发起付款</span>
+                        <span>{{$lang('已发起付款')}}</span>
                     </div>
                     <div class="payment-btn-wrap">
-                        <el-button type="sure">申请支付</el-button>
+                        <el-button type="sure">{{$lang('申请支付')}}</el-button>
                     </div>
                 </div>
 
                 <!--点击申请支付后 付款-->
                 <div class="payment-method-wrap">
                     <div class="box-flex-media-box">
-                        <p class="flex1">付款金额：
-                            <em>{{toPayMoney}}</em>元</p>
+                        <p class="flex1">{{$lang('付款金额')}}：
+                            <em>{{toPayMoney}}</em>{{$lang('元')}}</p>
                         <div class="pm-cz-btn">
                             <div class="box-flex-media-box">
-                                <el-button type="sure">充值</el-button>
-                                <p class="marg-left-10">余额：400 元</p>
+                                <el-button type="sure">{{$lang('充值')}}</el-button>
+                                <p class="marg-left-10">{{$lang('余额：400 元')}}</p>
                             </div>
                         </div>
                     </div>
-                    <p class="yebz-tips">*余额不足请充值。</p>
+                    <p class="yebz-tips">*{{$lang('余额不足请充值。')}}</p>
                     <div class="zffs-div">
                         <ul class="clearfix">
                             <li class="zffs-li active">
                                 <span class="zf-zfb">
                                     <i></i>
                                 </span>
-                                <p>支付宝支付</p>
+                                <p>{{$lang('支付宝支付')}}</p>
                             </li>
                             <li class="zffs-li">
                                 <span class="zf-wx">
                                     <i></i>
                                 </span>
-                                <p>微信支付</p>
+                                <p>{{$lang('微信支付')}}</p>
                             </li>
                             <li class="zffs-li">
                                 <span class="zf-ye">
                                     <i></i>
                                 </span>
-                                <p>余额支付</p>
+                                <p>{{$lang('余额支付')}}</p>
                             </li>
                         </ul>
                     </div>
                     <div class="payment-btn-wrap">
-                        <el-button type="sure" @click="toPay">付款</el-button>
+                        <el-button type="sure" @click="toPay">{{$lang('付款')}}</el-button>
                     </div>
                 </div>
             </div>
         </el-dialog>
         <SlideBtns :type="'back'"></SlideBtns>
 
-        <el-dialog title="申请退款" size="tiny" :visible.sync="dialog.applyRefund.show">
+        <el-dialog :title="$lang('申请退款')" size="tiny" :visible.sync="dialog.applyRefund.show">
             <el-form :model="dialog.applyRefund.form" :rules="dialog.applyRefund.rules" ref="form">
-                <el-form-item label="百分比：" prop="percent">
+                <el-form-item :label="$lang('百分比：')" prop="percent">
                     <el-input type="text" class="percent" v-model.trim="dialog.applyRefund.form.percent">
                         <template slot="append">%</template>
                     </el-input>
                 </el-form-item>
-                <el-form-item label="退款原因：" prop="reason">
+                <el-form-item :label="$lang('退款原因：')" prop="reason">
                     <el-input type="textarea" :rows="4" v-model.trim="dialog.applyRefund.form.reason"></el-input>
                 </el-form-item>
             </el-form>
             <span slot="footer">
-                <el-button type="primary" @click="applyRefund">确 定</el-button>
+                <el-button type="primary" @click="applyRefund">{{$lang('确 定')}}</el-button>
             </span>
         </el-dialog>
 
@@ -369,7 +369,7 @@ export default {
             // myUser:{},
             toPayMoney: "",
             toPayId: "",
-            msg: "正在加载聊天...",
+            msg: $lang("正在加载聊天..."),
             chatConfig: {
 
             },
@@ -383,14 +383,14 @@ export default {
                         percent: 100
                     },
                     rules: {
-                        reason: [{ required: true, message: '请填写退款原因', trigger: 'blur' }],
+                        reason: [{ required: true, message: $lang('请填写退款原因'), trigger: 'blur' }],
                         percent: [
                             {
                                 validator(rule, value, callback) {
                                     if (value > 0 && value <= 100) {
                                         callback();
                                     } else {
-                                        callback(new Error('百分比在0~100之间(不包括0)'));
+                                        callback(new Error($lang('百分比在0~100之间(不包括0)')));
                                     }
                                 }, trigger: 'change'
                             }
@@ -407,7 +407,7 @@ export default {
             id = this.$route.query.taskId;
         }
         const qq = await getTalkByGroupId(id);
-        console.log(id + "获取聊天组信息", qq)
+        console.log(id + $lang("获取聊天组信息"), qq)
         if (qq.success) {
             if (qq.data && qq.data.groupDetails && qq.data.groupDetails.data && qq.data.sChatUser && qq.data.sChatUser.entities) {
                 this.chatConfig = {
@@ -425,7 +425,7 @@ export default {
 
                 }
             } else {
-                this.msg = "聊天相关数据出现异常";
+                this.msg = $lang("聊天相关数据出现异常");
             }
         } else {
             this.msg = qq.msg;
@@ -467,9 +467,9 @@ export default {
     methods: {
         changStateToPay(id) {
             const me = this;
-            me.$confirm(`是否确定该子任务？`, '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
+            me.$confirm($lang(`是否确定该子任务？`), $lang('提示'), {
+                confirmButtonText:$lang('确定'),
+                cancelButtonText: $lang('取消'),
                 type: 'warning'
             }).then(async () => {
                 const res = await UpdateChildTaskForSure({ id }, 2);
@@ -477,7 +477,7 @@ export default {
                 if (res.success) {
                     me.$message({
                         type: 'success',
-                        message: '修改成功!'
+                        message: $lang('修改成功!')
                     });
                     history.go(0)
                 } else {
@@ -523,7 +523,7 @@ export default {
                 if (res.success) {
                     me.$message({
                         type: 'success',
-                        message: '打款成功!'
+                        message: $lang('打款成功!')
                     });
                     history.go(0)
                 }
@@ -531,7 +531,7 @@ export default {
             }).catch(() => {
                 me.$message({
                     type: 'info',
-                    message: '打款未成功'
+                    message: $lang('打款未成功')
                 });
             });
         },
@@ -546,7 +546,7 @@ export default {
                 if (v) {
                     const res = await applyRefund(this.dialog.applyRefund.form.id, this.dialog.applyRefund.form.percent, this.dialog.applyRefund.form.reason);
                     if (res.success) {
-                        this.$message.success('申请成功');
+                        this.$message.success($lang('申请成功'));
                         this.dialog.applyRefund.show = false;
                         location.reload();
                     } else {

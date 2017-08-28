@@ -2,11 +2,11 @@
     <div :class="parentClass">
         <el-form ref="form"  :model="form" label-width="0" :rules="rules">   
             <el-form-item prop="myphone">
-                <el-input placeholder="输入手机号码" v-model="form.myphone" @blur="checkCallBack"></el-input>
+                <el-input :placeholder="$lang('输入手机号码')" v-model="form.myphone" @blur="checkCallBack"></el-input>
             </el-form-item>
             <el-form-item prop="imgCode">
                 <el-col :span="15" >
-                    <el-input placeholder="图片验证码" v-model="form.imgCode" @blur="checkCallBack"></el-input>
+                    <el-input :placeholder="$lang('图片验证码')" v-model="form.imgCode" @blur="checkCallBack"></el-input>
                 </el-col>
                 <el-col :span="9">
                     <div class="vcode-wrap">
@@ -16,7 +16,7 @@
                 </el-col>
             </el-form-item>
             <el-form-item class="tel-vcode" prop="mycode">
-                <el-input placeholder="请输入短信验证码" v-model="form.mycode" @blur="checkCallBack"></el-input>
+                <el-input :placeholder="$lang('请输入短信验证码')" v-model="form.mycode" @blur="checkCallBack"></el-input>
                 <el-button type="text" :disabled="!form.myphone||!form.imgCode||disabled || time > 0" @click="send">{{msg}}</el-button>
             </el-form-item>
         </el-form>
@@ -57,27 +57,27 @@ export default{
     methods:{
         validateCode(rule, value, callback) {
             if (value === '') {
-                callback(new Error('请输入短信验证码'));
+                callback(new Error($lang('请输入短信验证码')));
             }else if(value.length!==6){
-                 callback(new Error('验证码为6位'));
+                 callback(new Error($lang('验证码为6位')));
             }else{
                 callback();
             }
         },
         validateImgCode(rule, value, callback) {
             if (value === '') {
-                callback(new Error('请输入图形验证码'));
+                callback(new Error($lang('请输入图形验证码')));
             }else if(value.length!==6){
-                 callback(new Error('验证码为6位'));
+                 callback(new Error($lang('验证码为6位')));
             }else{
                 callback();
             }
         },
         validatePhone(rule, value, callback) {
             if (value === '') {
-                callback(new Error('手机号码不能为空'));
+                callback(new Error($lang('手机号码不能为空')));
             } else if(!(/^1[34578]\d{9}$/.test(value))){
-                callback(new Error('请输入正确的手机号码'));
+                callback(new Error($lang('请输入正确的手机号码')));
             } else {
             callback();
             }

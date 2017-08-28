@@ -16,7 +16,7 @@ export default {
                 next()
             } else {
                 next(vm => {
-                        vm.$message('总账户未企业认证！');
+                        vm.$message($lang('总账户未企业认证！'));
                         vm.$router.push({ name: from.name})
                     })
             }
@@ -27,7 +27,7 @@ export default {
                     next()
                 } else {
                     next(vm => {
-                        vm.$message('先进行企业认证');
+                        vm.$message($lang('先进行企业认证'));
                         vm.$router.push({name:'B-userInfo-account',query:{userId:getUser().userId||""}})
                     })
                 }

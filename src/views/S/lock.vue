@@ -1,7 +1,7 @@
 <template>
   <TInfo :onload="load">
     <div slot="footer" class="set-btn-wrap bt-dashed">
-      <el-button type="sure" @click="onLock">锁定</el-button>
+      <el-button type="sure" @click="onLock">{{$lang('锁定')}}</el-button>
     </div>
   </TInfo>
 </template>
@@ -25,7 +25,7 @@ export default {
       const id = this.$route.query.id;
       const res = await TaskLock(id);
       this.$message({
-        message: res.msg || '成功锁定',
+        message: res.msg || $lang('成功锁定'),
         type: res.success ? 'success' : 'error',
         onClose: () => {
           if (res.success) {

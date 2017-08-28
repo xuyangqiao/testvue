@@ -7,28 +7,28 @@
                     <div class="lr-radius">
                         <img src="../assets/images/logon-left.jpg"/>
                     </div>
-                    <router-link :to="{ path: '/' }" class="back-index">返回首页</router-link>
+                    <router-link :to="{ path: '/' }" class="back-index">{{$lang('返回首页')}}</router-link>
                 </div>
                 <div class="flex1">
                     <div class="lr-main-right">
-                        <h3 class="main-title">欢迎登录VSWORK</h3>
+                        <h3 class="main-title">{{$lang('欢迎登录VSWORK')}}</h3>
                         <div class="lr-form-wrap">
                             <el-form ref="loginForm" :model="loginForm" :rules="rules" label-width="0">
                                 <el-form-item prop='phone'>
-                                    <el-input v-model="loginForm.phone" placeholder="请输入手机号码"
+                                    <el-input v-model="loginForm.phone" :placeholder="$lang('请输入手机号码')"
                                     ></el-input>
                                 </el-form-item>
                                 <el-form-item prop='password'>
-                                    <el-input type="password" v-model="loginForm.password" placeholder="请输入密码"></el-input>
+                                    <el-input type="password" v-model="loginForm.password" :placeholder="$lang('请输入密码')"></el-input>
                                 </el-form-item>
                                 <el-form-item>
-                                    <el-button type="sure" @click="doLogin('loginForm')">登录</el-button>
+                                    <el-button type="sure" @click="doLogin('loginForm')">{{$lang('登录')}}</el-button>
                                 </el-form-item>
                             </el-form>
                         </div>
                         <div class="login-set-btn clearfix">
-                            <router-link :to="{ name: 'choise' }" class="fl">立即注册</router-link>
-                            <router-link :to="{ name: 'forget' }" class="fr">忘记密码</router-link>
+                            <router-link :to="{ name: 'choise' }" class="fl">{{$lang('立即注册')}}</router-link>
+                            <router-link :to="{ name: 'forget' }" class="fr">{{$lang('忘记密码')}}</router-link>
                         </div>
                     </div>
                 </div>
@@ -58,18 +58,18 @@
         methods: {
             validatePhone(rule, value, callback) {
                 if (value === '') {
-                    callback(new Error('手机号码不能为空'));
+                    callback(new Error($lang('手机号码不能为空')));
                 } else if (!(/^1[34578]\d{9}$/.test(value))) {
-                    callback(new Error('请输入正确的手机号码'));
+                    callback(new Error($lang('请输入正确的手机号码')));
                 } else {
                     callback();
                 }
             },
             validatePwd(rule, value, callback) {
                 if (value === '') {
-                    callback(new Error('密码不能为空'));
+                    callback(new Error($lang('密码不能为空')));
                 } else if (value.length < 6 || value.length > 12) {
-                    callback(new Error('6-12个字符'));
+                    callback(new Error($lang('6-12个字符')));
                 } else {
                     callback();
                 }
@@ -94,7 +94,7 @@
             async login(){
                 const res = await Login(this.loginForm)
                 if (res.success) {
-                    this.$message.success("登录成功！")
+                    this.$message.success($lang("登录成功！"))
                     let userInfo = {
                         userId: res.data.user.id,
                         userType: res.data.user.userType,

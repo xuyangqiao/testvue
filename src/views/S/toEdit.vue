@@ -2,32 +2,32 @@
   <TInfo :onload="onTInfoLoad">
     <div slot="footer" class="bt-dashed">
       <div class="set-btn-wrap bt-dashed" style='text-align: left;'>
-        <el-button type="sure" @click="dialogVisible=true">修改价格</el-button>
-        <el-button type="success" @click="toRedirectCreate">创建子任务</el-button>
+        <el-button type="sure" @click="dialogVisible=true">{{$lang('修改价格')}}</el-button>
+        <el-button type="success" @click="toRedirectCreate">{{$lang('创建子任务')}}</el-button>
       </div>
 
       <div class="">
         <ul class="">
           <li class="allot-task-li clearfix" v-for="(item,i) in list" :key="i">
-            <p>项目名称：{{item.projectName}}</p>
-            <p>项目出价：{{item.total}}</p>
-            <p>项目状态：{{stateName(item.state)}}</p>
+            <p>{{$lang('项目名称：')}}{{item.projectName}}</p>
+            <p>{{$lang('项目出价：')}}{{item.total}}</p>
+            <p>{{$lang('项目状态：')}}{{stateName(item.state)}}</p>
             <!--<p v-if="item.total">总占比例：{{(item.total/total*100).toFixed(2)}}%</p>-->
-            <el-button type="sure" @click="toRedirectEdit(item.id)" v-if="+item.state<3">编辑</el-button>
-            <el-button type="cancle" @click="toDelete(item.id)" v-if="+item.state==0">删除</el-button>
+            <el-button type="sure" @click="toRedirectEdit(item.id)" v-if="+item.state<3">{{$lang('编辑')}}</el-button>
+            <el-button type="cancle" @click="toDelete(item.id)" v-if="+item.state==0">{{$lang('删除')}}</el-button>
             <el-button type="text" v-if="+item.state==2" style="color:#ff4949">{{stateName(item.state)}}</el-button>
-            <el-button type="success" v-if="item.state=='4'" @click="toDispatch(item.id)">分配</el-button>
-            <el-button type="warning" v-if="item.state=='4'" @click="toLookBM(item.id)">查看报名</el-button>
+            <el-button type="success" v-if="item.state=='4'" @click="toDispatch(item.id)">{{$lang('分配')}}</el-button>
+            <el-button type="warning" v-if="item.state=='4'" @click="toLookBM(item.id)">{{$lang('查看报名')}}</el-button>
           </li>
         </ul>
       </div>
-      <el-dialog title="修改价格" :visible.sync="dialogVisible" size="tiny">
+      <el-dialog :title="$lang('修改价格')" :visible.sync="dialogVisible" size="tiny">
           <el-form ref="form" :model="form" label-width="80px">
-          <el-form-item label="意向出价:">
+          <el-form-item :label="$lang('意向出价:')">
               <el-col :span="11">
-                  <el-select v-model="form.totalType" placeholder="请选择">
-                      <el-option label="询价" value="1"></el-option>
-                      <el-option label="定价" value="2"></el-option>
+                  <el-select v-model="form.totalType" :placeholder="$lang('请选择')">
+                      <el-option :label="$lang('询价')" value="1"></el-option>
+                      <el-option :label="$lang('定价')" value="2"></el-option>
                   </el-select>
               </el-col>
               <el-col :span="11" :push="2" v-show="form.totalType==1 ? 0 : 1">
@@ -36,12 +36,12 @@
           </el-form-item>
           </el-form>
           <span slot="footer" class="dialog-footer">
-              <el-button @click="dialogVisible = false">取 消</el-button>
-              <el-button type="primary" @click="updatePrice">确 定</el-button>
+              <el-button @click="dialogVisible = false">{{$lang('取 消')}}</el-button>
+              <el-button type="primary" @click="updatePrice">{{$lang('确 定')}}</el-button>
           </span>
       </el-dialog>
       <!--<div class="set-btn-wrap bt-dashed">
-                 <el-button type="sure" @click="toRedirectCreate">确认</el-button>
+                 <el-button type="sure" @click="toRedirectCreate">{{$lang('确认')}}</el-button>
               </div>-->
     </div>
   </TInfo>
@@ -67,7 +67,7 @@ export default {
       const {totalType,total}=this.form
       UpdateTotal({id,totalType,total}).then((res)=>{
         this.$message({
-          message: res.msg || '价格修改成功',
+          message: res.msg || $lang('价格修改成功'),
           type: res.success ? 'success' : 'error',
           onClose: () => {
               if (res.success) {
@@ -109,7 +109,7 @@ export default {
     async toDelete(id) {
       const res = await DeleteTaskInfo(id)
       this.$message({
-        message: res.msg || '删除成功',
+        message: res.msg || $lang('删除成功'),
         type: res.success ? 'success' : 'error',
         onClose: () => {
           if (res.success) {
