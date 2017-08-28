@@ -1,7 +1,7 @@
 <template>
     <div class="content-wrapper">
         <div class="check-accept-wrapper">
-            <h3 class="main-title">预览</h3>
+            <h3 class="main-title">{{$lang('预览')}}</h3>
             <div style="width:960px;margin:auto;">
                 <img :src="require('../../assets/images/logo.png')" height="28" />
                 <img :src="require('../../assets/images/fullscreen.png')" height="28" style="float:right;cursor:pointer;" @click="fullScreen" />
@@ -51,7 +51,7 @@ export default {
                 this.iframeSrc = `http://api.combo.xin/vsworkapi/preview.jsp?untityVersion=${info.fileVersion}&dataPath=${info.url}`;
             }
         } else {
-            this.$message.warning('未找到文件');
+            this.$message.warning($lang('未找到文件'));
         }
     }
 }

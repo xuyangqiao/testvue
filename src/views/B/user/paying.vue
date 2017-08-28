@@ -3,11 +3,11 @@
     <div class="mybag-zfgl-wrap">
         <div>
             <div class="">
-                <dl class="bag-pay-dl" v-for="(bill,index) in billTable">
+                <dl class="bag-pay-dl" v-for="(bill,index) in billTable" :key="index">
                     <dt class="bag-pay-dt box-flex-media-box">
-                        <p class="flex1">订单号：{{bill.orderId}}</p>
-                        <p class="flex1">状态：{{getState(bill.state)}}</p>
-                        <p class="">下单时间：{{bill.createTime}}</p>
+                        <p class="flex1">{{$lang('订单号')}}：{{bill.orderId}}</p>
+                        <p class="flex1">{{$lang('状态')}}：{{getState(bill.state)}}</p>
+                        <p class="">{{$lang('下单时间')}}：{{bill.createTime}}</p>
                     </dt>
                     <dd class="bag-pay-dd" v-if="bill.subTasks.length>0">
                         <ul class="bag-pay-dd_ul" v-if="!collapse[index]">
@@ -21,7 +21,7 @@
                                 <p class="bpd-li_num">￥{{formatNum(bill.subTasks[0].total)}}</p>
                             </li>
                         </ul>
-                        <ul class="bag-pay-dd_ul" v-for="item in bill.subTasks" v-if="collapse[index]">
+                        <ul class="bag-pay-dd_ul" v-for="(item,i) in bill.subTasks" :key="i" v-show="collapse[index]">
                             <li class="bpd-li box-flex-media-box">
                                 <div class="flex1">
                                     <div class="box-flex-media-box">
@@ -36,23 +36,23 @@
                             <p class="flex1" @click="setCollapse(index)">
                                 <em>……</em>
                             </p>
-                            <a href="javascript:;" @click="setCollapse(index)">【展开】</a>
+                            <a href="javascript:;" @click="setCollapse(index)">【{{$lang('展开')}}】</a>
                         </div>
                         <div class="box-flex-media-box pay-showOff-wrap" v-if="bill.subTasks.length>1&&collapse[index]">
                             <p class="flex1">
                                 <em></em>
                             </p>
-                            <a href="javascript:;" @click="setCollapse(index)">【收起】</a>
+                            <a href="javascript:;" @click="setCollapse(index)">【{{$lang('收起')}}】</a>
                         </div>
                     </dd>
                     <dd class="bag-pay-footer-dd  box-flex-media-box">
-                        <p class="flex1">待支付：
-                            <em>{{formatNum(bill.total)}}</em> 元</p>
+                        <p class="flex1">{{$lang('待支付')}}：
+                            <em>{{formatNum(bill.total)}}</em> {{$lang('元')}}</p>
                         <div class="flex1">
-                            <el-button type="text">支付人：{{bill.payBy || '-'}}</el-button>
+                            <el-button type="text">{{$lang('支付人')}}：{{bill.payBy || '-'}}</el-button>
                         </div>
-                        <el-button type="sure" @click="toPayRecordOrder(bill.orderId, bill.total)">订单支付</el-button>
-                        <el-button type="cancle" @click="cancelRecordOrder(bill.orderId)">取消订单</el-button>
+                        <el-button type="sure" @click="toPayRecordOrder(bill.orderId, bill.total)">{{$lang('订单支付')}}</el-button>
+                        <el-button type="cancle" @click="cancelRecordOrder(bill.orderId)">{{$lang('取消订单')}}</el-button>
                     </dd>
                 </dl>
             </div>
@@ -62,48 +62,48 @@
                     </el-pagination>
                 </div>
             </div>
-            <el-dialog title="微信支付二维码" ref="WXImg" :visible.sync="WXPayImgShow" size="tiny" :before-close="WXPayImgClose">
+            <el-dialog :title="$lang('微信支付二维码')" ref="WXImg" :visible.sync="WXPayImgShow" size="tiny" :before-close="WXPayImgClose">
                 <div style="text-align: center"><img :src="WXImgSrc" alt=""></div>
             </el-dialog>
-            <el-dialog title="支付" :visible.sync="payDialogVisible" size="tiny" :before-close="payDialogClose">
+            <el-dialog :title="$lang('支付')" :visible.sync="payDialogVisible" size="tiny" :before-close="payDialogClose">
                 <div class="pay-dialog-wrap">
                     <!--点击申请支付后 付款-->
                     <div class="payment-method-wrap">
                         <div class="box-flex-media-box">
-                            <p class="flex1">付款金额：
-                                <em>{{payDialogTotal}}</em>元</p>
+                            <p class="flex1">{{$lang('付款金额')}}：
+                                <em>{{payDialogTotal}}</em>{{$lang('元')}}</p>
                             <div class="pm-cz-btn">
                                 <div class="box-flex-media-box">
-                                    <!--<el-button type="sure">充值</el-button>-->
-                                    <p class="marg-left-10">余额：{{totalMoney}} </p>
+                                    <!--<el-button type="sure">{{$lang('充值')}}</el-button>-->
+                                    <p class="marg-left-10">{{$lang('余额')}}：{{totalMoney}} </p>
                                 </div>
                             </div>
                         </div>
-                        <p class="yebz-tips" v-if="payDialogCashType == 3 && totalMoney < payDialogTotal">*余额不足请充值。</p>
+                        <p class="yebz-tips" v-if="payDialogCashType == 3 && totalMoney < payDialogTotal">*{{$lang('余额不足请充值。')}}</p>
                         <div class="zffs-div">
                             <ul class="clearfix">
                                 <li class="zffs-li" :class="payDialogCashType==1&&'active'" @click="payDialogCashType=1">
                                     <span class="zf-zfb">
                                         <i></i>
                                     </span>
-                                    <p>支付宝支付</p>
+                                    <p>{{$lang('支付宝支付')}}</p>
                                 </li>
                                 <li class="zffs-li" :class="payDialogCashType==2&&'active'" @click="payDialogCashType=2">
                                     <span class="zf-wx">
                                         <i></i>
                                     </span>
-                                    <p>微信支付</p>
+                                    <p>{{$lang('微信支付')}}</p>
                                 </li>
                                 <li class="zffs-li" :class="payDialogCashType==3&&'active'" @click="payDialogCashType=3">
                                     <span class="zf-ye">
                                         <i></i>
                                     </span>
-                                    <p>余额支付</p>
+                                    <p>{{$lang('余额支付')}}</p>
                                 </li>
                             </ul>
                         </div>
                         <div class="payment-btn-wrap">
-                            <el-button type="sure" @click="payDialogCashTypeToPay">付款</el-button>
+                            <el-button type="sure" @click="payDialogCashTypeToPay">{{$lang('付款')}}</el-button>
                         </div>
                     </div>
                 </div>
@@ -168,19 +168,19 @@ export default {
             let state = ''
             switch (i) {
                 case '1':
-                    state = '申请支付中';
+                    state = $lang('申请支付中');
                     break;
                 case '2':
-                    state = '支付成功 ';
+                    state = $lang('支付成功');
                     break;
                 case '3':
-                    state = '支付失败';
+                    state = $lang('支付失败');
                     break;
                 case '4':
-                    state = '废弃申请';
+                    state = $lang('废弃申请');
                     break;
                 default:
-                    state = '申请支付中'
+                    state = $lang('申请支付中');
             }
             return state
         },
@@ -191,12 +191,12 @@ export default {
             if (item.id) {
                 this.$router.push({ name: "B_TaskChildDetail", query: { id: item.id } })
             } else {
-                this.$message('任务不存在')
+                this.$message($lang('任务不存在'));
             }
         },
         WXPayImgClose() {
             const me = this;
-            me.$confirm('确认取消支付？').then(data => {
+            me.$confirm($lang('确认取消支付？')).then(data => {
                 if (data == 'confirm') {
                     me.WXImgSrc = "";
                     me.WXPayOrderId = "";
@@ -213,7 +213,7 @@ export default {
             const type = "1";
             const WXPayState = await checkByOrderId({ orderId, type });
             if (WXPayState.data.state == "2") {
-                me.$message.success("支付成功");
+                me.$message.success($lang("支付成功"));
                 clearInterval(me.WXPayTimes);
                 //                    me.WXPayImgShow = false;
                 //                    me.WXImgSrc = "";
@@ -222,7 +222,7 @@ export default {
                 //                    me.rechargeList();
                 history.go(0)
             } else if (WXPayState.data.state == "3") {
-                me.$message.error('支付失败');
+                me.$message.error($lang('支付失败'));
                 clearInterval(me.WXPayTimes);
                 me.WXPayImgShow = false;
                 me.WXImgSrc = "";
@@ -248,14 +248,14 @@ export default {
             const res = await checkByOrderId({ orderId: this.WXPayOrderId = me.orderId, type: 1 });
             if (me.payDialogCashType == 3) {//余额支付
                 if (me.totalMoney < me.payDialogTotal) {
-                    me.$message('余额不足');
+                    me.$message($lang('余额不足'));
                     return
                 }
-                me.$confirm(`确定用余额支付${me.payDialogTotal}元？`).then(async data => {
+                me.$confirm($lang('确定用余额支付')+me.payDialogTotal+$lang('元？')).then(async data => {
                     if (data == 'confirm') {
                         const data = await balancePay({ orderId: res.data.orderId });
                         if (data.success) {
-                            me.$message('操作成功');
+                            me.$message($lang('操作成功'));
                             setTimeout(function () {
                                 history.go(0)
                             }, 200)
@@ -268,7 +268,7 @@ export default {
                 });
             }
             if (me.payDialogCashType == 1) {//支付宝支付
-                const alipayData = await getAliapyInfo({ outTradeNo: res.data.orderId, subject: "订单支付：" + res.data.orderId, totalFee: res.data.total, body: `1&&${location.href}` });
+                const alipayData = await getAliapyInfo({ outTradeNo: res.data.orderId, subject: $lang("订单支付：") + res.data.orderId, totalFee: res.data.total, body: `1&&${location.href}` });
                 let div = document.createElement("div");
                 div.innerHTML = alipayData.data;
                 document.body.appendChild(div);
@@ -284,7 +284,7 @@ export default {
         },
         payDialogClose() {
             const me = this;
-            me.$confirm('确认取消支付？').then(data => {
+            me.$confirm($lang('确认取消支付？')).then(data => {
                 if (data == 'confirm') {
                     me.payDialogTotal = 0;
                     me.payDialogOrderId = "";
@@ -296,18 +296,18 @@ export default {
         //取消流水订单
         cancelRecordOrder(orderId) {
             const me = this;
-            me.$confirm(`确定取消该订单？`, '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '不确定',
+            me.$confirm($lang('确定取消该订单？'), $lang('提示'), {
+                confirmButtonText: $lang('确定'),
+                cancelButtonText: $lang('不确定'),
                 type: 'warning'
             }).then(async () => {
                 const res = await cancelOrder({ orderId });
                 if (res.success) {
                     me.$message({
                         type: 'success',
-                        message: '取消成功!'
+                        message: $lang('取消成功!')
                     });
-                    me.recordList('支付佣金', 1);//流水
+                    me.recordList($lang('支付佣金'), 1);//流水
                 }
             }).catch(() => {
             });

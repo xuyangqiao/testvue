@@ -1,5 +1,5 @@
 <template>
-    <TInfo title="任务详情" :isZong="false" role="B" :onload="onTInfoLoad">
+    <TInfo :title="$lang('任务详情')" :isZong="false" role="B" :onload="onTInfoLoad">
     </TInfo>
 </template>
 <script type="text/javascript">

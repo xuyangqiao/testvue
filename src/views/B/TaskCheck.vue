@@ -1,7 +1,7 @@
 <template>
     <div class="content-wrapper">
         <div class="check-accept-wrapper">
-            <h3 class="main-title">验收预览</h3>
+            <h3 class="main-title">{{$lang('验收预览')}}</h3>
             <div style="width:960px;margin:auto;">
                 <img :src="require('../../assets/images/logo.png')" height="28" />
                 <img :src="require('../../assets/images/fullscreen.png')" height="28" style="float:right;cursor:pointer;" @click="fullScreen" />
@@ -10,14 +10,14 @@
                 <iframe style="width: 960px; height: 642px; margin: 0 auto;display: block;" frameBorder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" v-if="iframeSrc" :src="iframeSrc" frameborder="0"></iframe>
             </div>
             <div class="set-btn-wrap">
-                <el-button type="sure" @click='toPass'>通过</el-button>
-                <el-button type="danger" @click='isReject=true'>驳回</el-button>
+                <el-button type="sure" @click='toPass'>{{$lang('通过')}}</el-button>
+                <el-button type="danger" @click='isReject=true'>{{$lang('驳回')}}</el-button>
             </div>
             <div class="reject-wrap" v-show="isReject">
-                <el-input type="textarea" :rows="5" placeholder="请输入内容" v-model="textarea"></el-input>
+                <el-input type="textarea" :rows="5" :placeholder="$lang('请输入内容')" v-model="textarea"></el-input>
                 <div class="set-btn-right">
-                    <el-button type="sure" @click='toReject'>提交</el-button>
-                    <el-button type="danger" @click='isReject=false'>取消</el-button>
+                    <el-button type="sure" @click='toReject'>{{$lang('提交')}}</el-button>
+                    <el-button type="danger" @click='isReject=false'>{{$lang('取消')}}</el-button>
                 </div>
             </div>
         </div>
@@ -47,7 +47,7 @@ export default {
         if (info) {
             this.iframeSrc = `http://api.combo.xin/vsworkapi/preview.jsp?untityVersion=${info.fileVersion}&dataPath=${info.url}`;
         } else {
-            this.$message.warning('未找到文件');
+            this.$message.warning($lang('未找到文件'));
         }
 
         //            console.log(fileData);
@@ -107,7 +107,7 @@ export default {
         async toReject() {
             const id = this.$route.query.id;
             if (!this.textarea) {
-                this.$message.warning("驳回内容不可为空")
+                this.$message.warning($lang("驳回内容不可为空"));
                 return;
             }
             const res = await OverruleTask(id, this.textarea);
