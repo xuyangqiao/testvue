@@ -2,28 +2,28 @@
     <!-- 我的钱包  -->
     <div class="my-bag-wrapper" :class="'bg-f5'">
         <div class="userinfo-nav">
-            <el-button :type="billIndex==1?'sure':'text'" @click="recordList('支付佣金',1)">支付佣金</el-button>
-            <el-button :type="billIndex==2?'sure':'text'" @click="recordList('任务退款',2)">任务退款</el-button>
-            <el-button :type="billIndex==3?'sure':'text'" @click="recordList('充值',3)">充值</el-button>
-            <el-button :type="billIndex==4?'sure':'text'" @click="recordList('提现',4)">提现</el-button>
+            <el-button :type="billIndex==1?'sure':'text'" @click="recordList($lang('支付佣金'),1)">{{$lang('支付佣金')}}</el-button>
+            <el-button :type="billIndex==2?'sure':'text'" @click="recordList($lang('任务退款'),2)">{{$lang('任务退款')}}</el-button>
+            <el-button :type="billIndex==3?'sure':'text'" @click="recordList($lang('充值'),3)">{{$lang('充值')}}</el-button>
+            <el-button :type="billIndex==4?'sure':'text'" @click="recordList($lang('提现'),4)">{{$lang('提现')}}</el-button>
         </div>
         <!-- 我的钱包-账单流水 -->
         <div class="mybag-zd-wrap" >
             <div class="zd-list-wrap" v-if="billIndex==1">
                 <div class="pad-top-40">
                 <ul class="zd-list-ul">
-                    <li class="zd-list-li clearfix" v-for="bill in billTable11">
+                    <li class="zd-list-li clearfix" v-for="(bill,i) in billTable11" :key="i">
                         <p>
-                            <span>流水号：{{bill.serialNumber}}</span>
-                            <span>金额：￥{{formatNum(bill.money)}}</span>
+                            <span>{{$lang('流水号')}}：{{bill.serialNumber}}</span>
+                            <span>{{$lang('金额')}}：￥{{formatNum(bill.money)}}</span>
                         </p>
                         <p>
-                            <span>类型：{{bill.type}}</span>
-                            <span>创建时间：{{bill.createTime}}</span>
+                            <span>{{$lang('类型')}}：{{bill.type}}</span>
+                            <span>{{$lang('创建时间')}}：{{bill.createTime}}</span>
                         </p>
                         <p>
-                            <span>手续费：￥{{formatNum(bill.poundage)}}</span>
-                            <span>实际金额：￥{{formatNum(bill.realMoney)}}</span>
+                            <span>{{$lang('手续费')}}：￥{{formatNum(bill.poundage)}}</span>
+                            <span>{{$lang('实际金额')}}：￥{{formatNum(bill.realMoney)}}</span>
                         </p>
                     </li>
                 </ul>
@@ -45,18 +45,18 @@
             <div class="zd-list-wrap" v-if="billIndex==2">
                 <div class="pad-top-40">
                 <ul class="zd-list-ul">
-                    <li class="zd-list-li clearfix" v-for="bill in billTable12">
+                    <li class="zd-list-li clearfix" v-for="(bill,i) in billTable12" :key="i">
                         <p>
-                            <span>流水号：{{bill.serialNumber}}</span>
-                            <span>金额：￥{{formatNum(bill.money)}}</span>
+                            <span>{{$lang('流水号')}}：{{bill.serialNumber}}</span>
+                            <span>{{$lang('金额')}}：￥{{formatNum(bill.money)}}</span>
                         </p>
                         <p>
-                            <span>类型：{{bill.type}}</span>
-                            <span>创建时间：{{bill.createTime}}</span>
+                            <span>{{$lang('类型')}}：{{bill.type}}</span>
+                            <span>{{$lang('创建时间')}}：{{bill.createTime}}</span>
                         </p>
                         <p>
-                            <span>手续费：￥{{formatNum(bill.poundage)}}</span>
-                            <span>实际金额：￥{{formatNum(bill.realMoney)}}</span>
+                            <span>{{$lang('手续费')}}：￥{{formatNum(bill.poundage)}}</span>
+                            <span>{{$lang('实际金额')}}：￥{{formatNum(bill.realMoney)}}</span>
                         </p>
                     </li>
                 </ul>
@@ -78,18 +78,18 @@
             <div class="zd-list-wrap" v-if="billIndex==3">
                 <div class="pad-top-40">
                 <ul class="zd-list-ul">
-                    <li class="zd-list-li clearfix" v-for="bill in billTable13">
+                    <li class="zd-list-li clearfix" v-for="(bill,i) in billTable13" :key="i">
                         <p>
-                            <span>流水号：{{bill.serialNumber}}</span>
-                            <span>金额：￥{{formatNum(bill.money)}}</span>
+                            <span>{{$lang('流水号')}}：{{bill.serialNumber}}</span>
+                            <span>{{$lang('金额')}}：￥{{formatNum(bill.money)}}</span>
                         </p>
                         <p>
-                            <span>类型：{{bill.type}}</span>
-                            <span>创建时间：{{bill.createTime}}</span>
+                            <span>{{$lang('类型')}}：{{bill.type}}</span>
+                            <span>{{$lang('创建时间')}}：{{bill.createTime}}</span>
                         </p>
                         <p>
-                            <span>手续费：￥{{formatNum(bill.poundage)}}</span>
-                            <span>实际金额：￥{{formatNum(bill.realMoney)}}</span>
+                            <span>{{$lang('手续费')}}：￥{{formatNum(bill.poundage)}}</span>
+                            <span>{{$lang('实际金额')}}：￥{{formatNum(bill.realMoney)}}</span>
                         </p>
                     </li>
                 </ul>
@@ -111,18 +111,18 @@
             <div class="zd-list-wrap" v-if="billIndex==4">
                 <div class="pad-top-40">
                 <ul class="zd-list-ul">
-                    <li class="zd-list-li clearfix" v-for="bill in billTable14">
+                    <li class="zd-list-li clearfix" v-for="(bill,i) in billTable14" :key="i">
                         <p>
-                            <span>流水号：{{bill.serialNumber}}</span>
-                            <span>金额：￥{{formatNum(bill.money)}}</span>
+                            <span>{{$lang('流水号')}}：{{bill.serialNumber}}</span>
+                            <span>{{$lang('金额')}}：￥{{formatNum(bill.money)}}</span>
                         </p>
                         <p>
-                            <span>类型：{{bill.type}}</span>
-                            <span>创建时间：{{bill.createTime}}</span>
+                            <span>{{$lang('类型')}}：{{bill.type}}</span>
+                            <span>{{$lang('创建时间')}}：{{bill.createTime}}</span>
                         </p>
                         <p>
-                            <span>手续费：￥{{formatNum(bill.poundage)}}</span>
-                            <span>实际金额：￥{{formatNum(bill.realMoney)}}</span>
+                            <span>{{$lang('手续费')}}：￥{{formatNum(bill.poundage)}}</span>
+                            <span>{{$lang('实际金额')}}：￥{{formatNum(bill.realMoney)}}</span>
                         </p>
                     </li>
                 </ul>
@@ -185,7 +185,7 @@
             }
         },
         created(){
-            this.recordList('支付佣金',1);//流水
+            this.recordList($lang('支付佣金'),1);//流水
         },
         methods: {
             formatNum(str){
@@ -204,35 +204,35 @@
             },
             sizeChange11(i){
                 this.pagiOpt11.row=i;
-                this.recordList('支付佣金',1);
+                this.recordList($lang('支付佣金'),1);
             },
             currentChange11(i){
                this.pagiOpt11.page=i;
-               this.recordList('支付佣金',1);
+               this.recordList($lang('支付佣金'),1);
             },
             sizeChange12(i){
                 this.pagiOpt12.row=i;
-                this.recordList('任务退款',2);
+                this.recordList($lang('任务退款'),2);
             },
             currentChange12(i){
                this.pagiOpt12.page=i;
-               this.recordList('任务退款',2);
+               this.recordList($lang('任务退款'),2);
             },
             sizeChange13(i){
                 this.pagiOpt13.row=i;
-                this.recordList('充值',3);
+                this.recordList($lang('充值'),3);
             },
             currentChange13(i){
                this.pagiOpt13.page=i;
-               this.recordList('充值',3);
+               this.recordList($lang('充值'),3);
             },
             sizeChange14(i){
                 this.pagiOpt14.row=i;
-                this.recordList('提现',4);
+                this.recordList($lang('提现'),4);
             },
             currentChange14(i){
                this.pagiOpt14.page=i;
-               this.recordList('提现',4);
+               this.recordList($lang('提现'),4);
             },
         }
     }

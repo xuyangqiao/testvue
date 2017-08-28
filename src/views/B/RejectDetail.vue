@@ -2,7 +2,7 @@
     <TInfo>
         <div slot="footer" class="bt-dashed">
              <div class="set-btn-wrap bt-dashed">
-               <el-button type="sure" @click="toUpdate">编辑</el-button>
+               <el-button type="sure" @click="toUpdate">{{$lang('编辑')}}</el-button>
             </div>
         </div>
     </TInfo>

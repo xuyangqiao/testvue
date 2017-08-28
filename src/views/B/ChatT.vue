@@ -5,7 +5,7 @@
                 <div class="flex1 chart-left-title">
                     <h3>{{taskInfo.projectName}}</h3>
                 </div>
-                <el-button type="sure" @click="toRedirectT">查看任务&gt;</el-button>
+                <el-button type="sure" @click="toRedirectT">{{$lang('查看任务')}}&gt;</el-button>
             </div>
             <div class="chart-left-list">
                 <ul class="chart-left-ul">
@@ -13,7 +13,7 @@
                     <li class="chart-left-li">
                         <div class="box-flex-media-box cl-top">
                             <a href="javascript:;" class="title flex1">
-                                <h4>待确认</h4>
+                                <h4>{{$lang('待确认')}}</h4>
                             </a>
                         </div>
                         <ul class="chose-people-ul" v-if="getChilds(0).length">
@@ -26,7 +26,7 @@
                                         <p class="name">{{m.projectName}}</p>
                                     </div>
                                 </div>
-                                <a href="javascript:;" class="more" @click="$router.push({name:'B_TaskChildDetail',query: { id: m.id }})">查看&gt;</a>
+                                <a href="javascript:;" class="more" @click="$router.push({name:'B_TaskChildDetail',query: { id: m.id }})">{{$lang('查看')}}&gt;</a>
                             </li>
                         </ul>
                     </li>
@@ -35,9 +35,9 @@
                     <li class="chart-left-li">
                         <div class="box-flex-media-box cl-top">
                             <a href="javascript:;" class="title flex1">
-                                <h4 class="height70">待支付(勾选之后可支付)</h4>
+                                <h4 class="height70">{{$lang('待支付(勾选之后可支付)')}}</h4>
                             </a>
-                            <el-button type="sure" @click="openPayDialog(1)" v-if="getChilds(1).length">{{ parentId?['','申请支付',''][bUserType]:'支付' }}</el-button>
+                            <el-button type="sure" @click="openPayDialog(1)" v-if="getChilds(1).length">{{ parentId?['',$lang('申请支付'),''][bUserType]:$lang('支付') }}</el-button>
                         </div>
                         <ul class="chose-people-ul" v-if="getChilds(1).length">
                             <el-checkbox-group v-model="zhifuIds">
@@ -56,7 +56,7 @@
                                     <div class="moey">
                                         <p>{{'￥' + m.total}}</p>
                                     </div>
-                                    <a href="javascript:;" class="more" @click="$router.push({name:'B_TaskChildDetail',query: { id: m.id }})">查看&gt;</a>
+                                    <a href="javascript:;" class="more" @click="$router.push({name:'B_TaskChildDetail',query: { id: m.id }})">{{$lang('查看')}}&gt;</a>
                                 </li>
                             </el-checkbox-group>
                         </ul>
@@ -66,9 +66,9 @@
                     <li class="chart-left-li">
                         <div class="box-flex-media-box cl-top">
                             <a href="javascript:;" class="title flex1">
-                                <h4 class="height70">支付中</h4>
+                                <h4 class="height70">{{$lang('支付中')}}</h4>
                             </a>
-                            <!--<el-button type="sure" @click="openPayDialog(2)" v-if="getChilds(2).length">支付中</el-button>-->
+                            <!--<el-button type="sure" @click="openPayDialog(2)" v-if="getChilds(2).length">{{$lang('支付中')}}</el-button>-->
                         </div>
                         <ul class="chose-people-ul" v-if="getChilds(2).length">
                             <el-checkbox-group v-model="zhifuIds">
@@ -87,8 +87,8 @@
                                     <div class="moey">
                                         <p>{{'￥' + m.total}}</p>
                                     </div>
-                                    <a href="javascript:;" class="more" @click="$router.push({name:'B_TaskChildDetail',query: { id: m.id }})">查看&gt;</a>&nbsp;&nbsp;&nbsp;
-                                    <a href="javascript:;" class="more" @click="$router.push({name:'B-userInfo-bag',query: { id: userId, index: 3 }})">去支付&gt;</a>
+                                    <a href="javascript:;" class="more" @click="$router.push({name:'B_TaskChildDetail',query: { id: m.id }})">{{$lang('查看')}}&gt;</a>&nbsp;&nbsp;&nbsp;
+                                    <a href="javascript:;" class="more" @click="$router.push({name:'B-userInfo-bag',query: { id: userId, index: 3 }})">{{$lang('去支付')}}&gt;</a>
                                 </li>
                             </el-checkbox-group>
                         </ul>
@@ -98,7 +98,7 @@
                     <li class="chart-left-li">
                         <div class="box-flex-media-box cl-top">
                             <a href="javascript:;" class="title flex1">
-                                <h4>征集中</h4>
+                                <h4>{{$lang('征集中')}}</h4>
                             </a>
                         </div>
                         <ul class="chose-people-ul" v-if="getChilds(3).length">
@@ -111,7 +111,7 @@
                                         <p class="name">{{m.projectName}}</p>
                                     </div>
                                 </div>
-                                <a href="javascript:;" class="more" @click="$router.push({name:'B_TaskChildDetail',query: { id: m.id }})">查看&gt;</a>
+                                <a href="javascript:;" class="more" @click="$router.push({name:'B_TaskChildDetail',query: { id: m.id }})">{{$lang('查看')}}&gt;</a>
                             </li>
                         </ul>
                     </li>
@@ -120,7 +120,7 @@
                     <li class="chart-left-li">
                         <div class="box-flex-media-box cl-top">
                             <a href="javascript:;" class="title flex1">
-                                <h4>制作中</h4>
+                                <h4>{{$lang('制作中')}}</h4>
                             </a>
                         </div>
                         <ul class="chose-people-ul" v-if="getChilds(4).length">
@@ -133,7 +133,7 @@
                                         <p class="name">{{m.projectName}}</p>
                                     </div>
                                 </div>
-                                <a href="javascript:;" class="more" @click="$router.push({name:'B_ChatD',query: { id: m.id }})">查看&gt;</a>
+                                <a href="javascript:;" class="more" @click="$router.push({name:'B_ChatD',query: { id: m.id }})">{{$lang('查看')}}&gt;</a>
                             </li>
                         </ul>
                     </li>
@@ -142,7 +142,7 @@
                     <li class="chart-left-li">
                         <div class="box-flex-media-box cl-top">
                             <a href="javascript:;" class="title flex1">
-                                <h4>验收中</h4>
+                                <h4>{{$lang('验收中')}}</h4>
                             </a>
                         </div>
                         <ul class="chose-people-ul" v-if="getChilds(5).length">
@@ -155,9 +155,9 @@
                                         <p class="name">{{m.projectName}}</p>
                                     </div>
                                 </div>
-                                <a href="javascript:;" class="more" @click="$router.push({name:'B_TaskCheck',query: { id: m.id }})">去验收&gt;</a>&nbsp;&nbsp;&nbsp;
-                                <!--<a href="javascript:;" class="more" @click="$router.push({name:'B-detail',query: { id: $route.query.id }})">查看详情&gt;</a>&nbsp;&nbsp;&nbsp;-->
-                                <a href="javascript:;" class="more" @click="$router.push({name:'B_ChatD',query: { id: m.id }})">查看&gt;</a>
+                                <a href="javascript:;" class="more" @click="$router.push({name:'B_TaskCheck',query: { id: m.id }})">{{$lang('去验收')}}&gt;</a>&nbsp;&nbsp;&nbsp;
+                                <!--<a href="javascript:;" class="more" @click="$router.push({name:'B-detail',query: { id: $route.query.id }})">{{$lang('查看详情')}}&gt;</a>&nbsp;&nbsp;&nbsp;-->
+                                <a href="javascript:;" class="more" @click="$router.push({name:'B_ChatD',query: { id: m.id }})">{{$lang('查看')}}&gt;</a>
                             </li>
                         </ul>
                     </li>
@@ -166,7 +166,7 @@
                     <li class="chart-left-li">
                         <div class="box-flex-media-box cl-top">
                             <a href="javascript:;" class="title flex1">
-                                <h4>完成</h4>
+                                <h4>{{$lang('完成')}}</h4>
                             </a>
                         </div>
                         <ul class="chose-people-ul" v-if="getChilds(6).length">
@@ -179,11 +179,11 @@
                                         <p class="name">{{m.projectName}}</p>
                                     </div>
                                 </div>
-                                <!--<a href="javascript:;" class="more" @click="$router.push({name:'B_History',query: { id: m.id, index: -1 }})">下载&gt;</a>&nbsp;&nbsp;&nbsp;-->
-                                <a href="javascript:;" class="more" @click="downloadLastFile(m.id)">下载&gt;</a>&nbsp;&nbsp;&nbsp;
-                                <a href="javascript:;" class="more" @click="$router.push({name:'B_DTaskCheck',query: { id: m.id, index: -1 }})">预览&gt;</a>&nbsp;&nbsp;&nbsp;
-                                <a href="javascript:;" class="more" @click="$router.push({name:'B_Detail',query: { id: m.id }})">任务详情&gt;</a>&nbsp;&nbsp;&nbsp;
-                                <a href="javascript:;" class="more" @click="$router.push({name:'B_ChatD',query: { id: m.id }})">聊天记录&gt;</a>
+                                <!--<a href="javascript:;" class="more" @click="$router.push({name:'B_History',query: { id: m.id, index: -1 }})">{{$lang('下载')}}&gt;</a>&nbsp;&nbsp;&nbsp;-->
+                                <a href="javascript:;" class="more" @click="downloadLastFile(m.id)">{{$lang('下载')}}&gt;</a>&nbsp;&nbsp;&nbsp;
+                                <a href="javascript:;" class="more" @click="$router.push({name:'B_DTaskCheck',query: { id: m.id, index: -1 }})">{{$lang('预览')}}&gt;</a>&nbsp;&nbsp;&nbsp;
+                                <a href="javascript:;" class="more" @click="$router.push({name:'B_Detail',query: { id: m.id }})">{{$lang('任务详情')}}&gt;</a>&nbsp;&nbsp;&nbsp;
+                                <a href="javascript:;" class="more" @click="$router.push({name:'B_ChatD',query: { id: m.id }})">{{$lang('聊天记录')}}&gt;</a>
                             </li>
                         </ul>
                     </li>
@@ -192,7 +192,7 @@
                     <li class="chart-left-li">
                         <div class="box-flex-media-box cl-top">
                             <a href="javascript:;" class="title flex1">
-                                <h4>退款申请中</h4>
+                                <h4>{{$lang('退款申请中')}}</h4>
                             </a>
                         </div>
                         <ul class="chose-people-ul" v-if="getChilds(7).length">
@@ -205,7 +205,7 @@
                                         <p class="name">{{m.projectName}}</p>
                                     </div>
                                 </div>
-                                <a href="javascript:;" class="more" @click="$router.push({name:'S_ChatD',query: { id: m.id,isOnlyChat:true }})">查看&gt;</a>
+                                <a href="javascript:;" class="more" @click="$router.push({name:'S_ChatD',query: { id: m.id,isOnlyChat:true }})">{{$lang('查看')}}&gt;</a>
                             </li>
                         </ul>
                     </li>
@@ -213,7 +213,7 @@
                     <li class="chart-left-li">
                         <div class="box-flex-media-box cl-top">
                             <a href="javascript:;" class="title flex1">
-                                <h4>已关闭</h4>
+                                <h4>{{$lang('已关闭')}}</h4>
                             </a>
                         </div>
                         <ul class="chose-people-ul" v-if="getChilds(8).length">
@@ -226,7 +226,7 @@
                                         <p class="name">{{m.projectName}}</p>
                                     </div>
                                 </div>
-                                <a href="javascript:;" class="more" @click="$router.push({name:'S_ChatD',query: { id: m.id,isOnlyChat:true }})">查看&gt;</a>
+                                <a href="javascript:;" class="more" @click="$router.push({name:'S_ChatD',query: { id: m.id,isOnlyChat:true }})">{{$lang('查看')}}&gt;</a>
                             </li>
                         </ul>
                     </li>
@@ -241,83 +241,83 @@
             <div class="chart-msg">{{msg}}</div>
         </div>
         <!--去支付弹层-->
-        <el-dialog title="支付" :visible.sync="payDialogVisible" size="tiny" :before-close="payDialogClose">
+        <el-dialog :title="$lang('支付')" :visible.sync="payDialogVisible" size="tiny" :before-close="payDialogClose">
             <div class="pay-dialog-wrap">
                 <!--申请支付-->
                 <div class="apply-payment-wrap" style="display:none;">
                     <div class="apply-people-wrap">
-                        <h4 class="title-h4-dig">确定任务：</h4>
+                        <h4 class="title-h4-dig">{{$lang('确定任务')}}：</h4>
                         <div class="apply-pay-people">
                             <div class="box-flex-media-box">
                                 <p class="user-header">
                                     <img src="../../assets/images/user-header.png" />
                                 </p>
-                                <p class="name">呵呵哈哈</p>
+                                <p class="name">{{$lang('呵呵哈哈')}}</p>
                             </div>
                             <div class="box-flex-media-box">
                                 <p class="user-header">
                                     <img src="../../assets/images/user-header.png" />
                                 </p>
-                                <p class="name">呵呵哈哈</p>
+                                <p class="name">{{$lang('呵呵哈哈')}}</p>
                             </div>
                         </div>
                     </div>
                     <div class="money-num">
-                        <p>付款金额：
-                            <em>2000</em>元</p>
+                        <p>{{$lang('付款金额')}}：
+                            <em>2000</em>{{$lang('元')}}</p>
                     </div>
 
                     <!--申请付款 和 已发起付款 两种选择-->
                     <div class="fqfk-wrap">
-                        <span>已发起付款</span>
+                        <span>{{$lang('已发起付款')}}</span>
                     </div>
                     <div class="payment-btn-wrap">
-                        <el-button type="sure">申请支付</el-button>
+                        <el-button type="sure">{{$lang('申请支付')}}</el-button>
                     </div>
                 </div>
 
                 <!--点击申请支付后 付款-->
                 <div class="payment-method-wrap">
                     <div class="box-flex-media-box">
-                        <p class="flex1">付款金额：
-                            <em>{{total}}</em>元</p>
+                        <p class="flex1">{{$lang('付款金额')}}：
+                            <em>{{total}}</em>{{$lang('元')}}</p>
                         <div class="pm-cz-btn">
                             <div class="box-flex-media-box">
-                                <!--<el-button type="sure">充值</el-button>-->
-                                <p class="marg-left-10">余额：{{balance}} 元 </p>
+                                <!--<el-button type="sure">{{$lang('充值')}}</el-button>-->
+                                <p class="marg-left-10">{{$lang('余额')}}：{{balance}} {{$lang('元')}} </p>
                             </div>
                         </div>
                     </div>
-                    <p class="yebz-tips" v-if="cashType == 3 && balance < total">*余额不足请充值。</p>
+                    <p class="yebz-tips" v-if="cashType == 3 && balance < total">*{{$lang('余额不足请充值。')}}</p>
                     <div class="zffs-div">
                         <ul class="clearfix">
                             <li class="zffs-li" :class="cashType==1&&'active'" @click="cashType=1">
                                 <span class="zf-zfb">
                                     <i></i>
                                 </span>
-                                <p>支付宝支付</p>
+                                <p>{{$lang('支付宝支付')}}</p>
                             </li>
                             <li class="zffs-li" :class="cashType==2&&'active'" @click="cashType=2">
                                 <span class="zf-wx">
                                     <i></i>
                                 </span>
-                                <p>微信支付</p>
+                                <p>{{$lang('微信支付')}}</p>
                             </li>
                             <li class="zffs-li" :class="cashType==3&&'active'" @click="cashType=3">
                                 <span class="zf-ye">
                                     <i></i>
                                 </span>
-                                <p>余额支付</p>
+                                <p>{{$lang('余额支付')}}</p>
                             </li>
                         </ul>
                     </div>
                     <div class="payment-btn-wrap">
-                        <el-button type="sure" @click="toPay">付款</el-button>
+                        <el-button type="sure" @click="toPay">{{$lang('付款')}}</el-button>
                     </div>
                 </div>
             </div>
         </el-dialog>
-        <el-dialog title="微信支付二维码" ref="WXImg" :visible.sync="WXPayImgShow" size="tiny" :before-close="WXPayImgClose">
+        <el-dialog :title="$lang('微信支付二维码')" ref="WXImg" :visible.sync="WXPayImgShow" size="tiny" :before-close="WXPayImgClose">
             <div v-if="WXPaying" style="text-align: center">
                 <img :src="WXImgSrc" alt="">
             </div>

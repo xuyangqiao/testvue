@@ -9,37 +9,37 @@
                   <!--B端主账号-->
                   <ul class="slide-nav-ul" v-if="bUserType=='0'">
                      <li class="snu-li-01" :class="{ active: navIndx=='base' }" >
-                        <router-link :to="{ name: 'B-userInfo-base' , query: { userId: userId }}" >基本信息</router-link>
+                        <router-link :to="{ name: 'B-userInfo-base' , query: { userId: userId }}" >{{$lang('基本信息')}}</router-link>
                     </li>
                      <li class="snu-li-02" :class="{ active: navIndx=='account' }" >
-                          <router-link :to="{ name: 'B-userInfo-account', query: { userId: userId }} " >账户管理</router-link>
+                          <router-link :to="{ name: 'B-userInfo-account', query: { userId: userId }} " >{{$lang('账户管理')}}</router-link>
                     </li>
                      <li class="snu-li-03" :class="{ active: navIndx=='bag' }" >
-                        <router-link :to="{ name: 'B-userInfo-bag', query: { userId: userId }}" >我的钱包</router-link>
+                        <router-link :to="{ name: 'B-userInfo-bag', query: { userId: userId }}" >{{$lang('我的钱包')}}</router-link>
                     </li>
                      <li class="snu-li-04" :class="{ active: navIndx=='child' }" >
-                       <router-link :to="{ name: 'B-userInfo-child', query: { userId: userId } }" >子账号管理</router-link>
+                       <router-link :to="{ name: 'B-userInfo-child', query: { userId: userId } }" >{{$lang('子账号管理')}}</router-link>
                     </li>
                   </ul>
                   <!--B端发包员-->
                    <ul class="slide-nav-ul" v-if="bUserType=='1'">
                      <li class="snu-li-01" :class="{ active: navIndx=='base' }" >
-                        <router-link :to="{ name: 'B-userInfo-base' , query: { userId: userId }}" >基本信息</router-link>
+                        <router-link :to="{ name: 'B-userInfo-base' , query: { userId: userId }}" >{{$lang('基本信息')}}</router-link>
                     </li>
                      <li class="snu-li-02" :class="{ active: navIndx=='account' }" >
-                          <router-link :to="{ name: 'B-userInfo-account' , query: { userId: userId }}" >账户管理</router-link>
+                          <router-link :to="{ name: 'B-userInfo-account' , query: { userId: userId }}" >{{$lang('账户管理')}}</router-link>
                     </li>
                   </ul>
                     <!--B端财务-->
                    <ul class="slide-nav-ul" v-if="bUserType=='2'">
                      <li class="snu-li-03" :class="{ active: navIndx=='paying' }" >
-                        <router-link :to="{ name: 'B-userInfo-paying' , query: { userId: userId }}" >待支付</router-link>
+                        <router-link :to="{ name: 'B-userInfo-paying' , query: { userId: userId }}" >{{$lang('待支付')}}</router-link>
                     </li>
                      <li class="snu-li-02" :class="{ active: navIndx=='paid' }" >
-                          <router-link :to="{ name: 'B-userInfo-paid' , query: { userId: userId }}" >已支付</router-link>
+                          <router-link :to="{ name: 'B-userInfo-paid' , query: { userId: userId }}" >{{$lang('已支付')}}</router-link>
                     </li>
                     <li class="snu-li-03" :class="{ active: navIndx=='billList' }" >
-                          <router-link :to="{ name: 'B-userInfo-billList' , query: { userId: userId }}" >账单流水</router-link>
+                          <router-link :to="{ name: 'B-userInfo-billList' , query: { userId: userId }}" >{{$lang('账单流水')}}</router-link>
                     </li>
                   </ul>
               </div>

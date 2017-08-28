@@ -6,10 +6,10 @@
             :visible.sync="dialogVisible"
             size="tiny"
            >
-            <span>是否放弃编辑？</span>
+            <span>{{$lang('是否放弃编辑？')}}</span>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogVisible = false;nextTo=false;">取消</el-button>
-                <el-button type="sure" @click="cancalEdit">确定</el-button>
+                <el-button @click="dialogVisible=false,nextTo=false">{{$lang('取消')}}</el-button>
+                <el-button type="sure" @click="cancalEdit">{{$lang('确定')}}</el-button>
             </span>
         </el-dialog>
     </div>
