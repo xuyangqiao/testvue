@@ -11,8 +11,9 @@
                         <a href="javascript:;" class="nh-a-02" @click="onNavigation('B-userInfo-','userInfo')" v-if="bUserType!=='1'">个人中心</a>
                         <a href="javascript:;" class="nh-a-02" @click="onNavigation('login','login')">退出登录</a>
                         <p>
-                            <a href="javascript:;" class="nh-a-03">CN</a>|
-                            <a href="javasciprt:;" class="nh-a-03">EN</a>
+                            <a href="javascript:;" class="nh-a-03" :class="{selected:lang=='CN'}" @click="$setLang('CN')">CN</a>
+                            <span>|</span>
+                            <a href="javascript:;" class="nh-a-03" :class="{selected:lang=='EN'}" @click="$setLang('EN')">EN</a>
                         </p>
                     </div>
                 </div>

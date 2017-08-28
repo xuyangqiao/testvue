@@ -32,20 +32,18 @@ Vue.config.productionTip = false;
 
 Vue.use(ElementUI);
 
+import EN from './local/en';
 Vue.use({
   install(Vue, config) {
+    Vue.prototype.lang = localStorage.lang;
     window.$setLang = Vue.prototype.$setLang = function (lang) {
-      localStorage.lang = lang;
+      localStorage.lang = lang, location.reload();
     }
     window.$lang = Vue.prototype.$lang = function (context) {
       return (config[localStorage.lang] || {})[context] || context;
     }
   }
-}, {
-    en: {
-      '啦啦啦': 'lalala'
-    }
-  })
+}, { EN });
 
 /* eslint-disable no-new */
 new Vue({
