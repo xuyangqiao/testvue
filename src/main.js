@@ -35,17 +35,13 @@ Vue.use(ElementUI);
 Vue.use({
   install(Vue, config) {
     window.$setLang = Vue.prototype.$setLang = function (lang) {
-      localStorage.lang = lang in config ? lang : 'cn';
+      localStorage.lang = lang;
     }
     window.$lang = Vue.prototype.$lang = function (context) {
-      let result = config[localStorage.lang in config ? localStorage.lang : 'cn'][context];
-      return result || context;
+      return (config[localStorage.lang] || {})[context] || context;
     }
   }
 }, {
-    cn: {
-      '系统通知': '啦啦啦'
-    },
     en: {
       '啦啦啦': 'lalala'
     }
