@@ -19,7 +19,7 @@
                     </div>
                     <div class="zj-btn">
                         <el-col :span="11">
-                            <el-button type="sure" class="fr" @click="chargeForm={ money: ''};operateType='charge'">充值</el-button>
+                            <el-button type="sure" class="fr" @click="chargeForm={ money: ''},operateType='charge'">充值</el-button>
                         </el-col>
                         <el-col :span="11" :offset="2">
                             <el-button type="info" class="fr" @click="cashForm={withdrawalsMoney: '',withdrawalsName: '',withdrawalsAlipayNum: '',withdrawalsBankName: '',withdrawalsBankNum: ''},operateType='cash'">提现
@@ -63,7 +63,7 @@
                         </el-row>
                     </div>
                 </div>
-                <a href="javascript:;" class="my-bag-link" @click="$refs.chargeForm.resetFields();operateType='cash'">我要提现</a>
+                <a href="javascript:;" class="my-bag-link" @click="$refs.chargeForm.resetFields(),operateType='cash'">我要提现</a>
             </div>
             <!-- 我的钱包-提现 -->
             <div class="mybag-zj-tx" v-show="operateType=='cash'" v-loading="loading2">
@@ -74,13 +74,13 @@
                             <el-form-item label="请选择充值方式">
                                 <template>
                                     <ul class="clearfix">
-                                        <li class="zffs-li" :class="cashType==1&&'active'" @click="$refs.cashForm.resetFields();cashType=1">
+                                        <li class="zffs-li" :class="cashType==1&&'active'" @click="$refs.cashForm.resetFields(),cashType=1">
                                             <span class="zf-zfb">
                                                 <i></i>
                                             </span>
                                             <p>支付宝提现</p>
                                         </li>
-                                        <li class="zffs-li" :class="cashType==2&&'active'" @click="$refs.cashForm.resetFields();cashType=2">
+                                        <li class="zffs-li" :class="cashType==2&&'active'" @click="$refs.cashForm.resetFields(),cashType=2">
                                             <span class="zf-yl">
                                                 <i></i>
                                             </span>
@@ -113,7 +113,7 @@
                         </el-row>
                     </div>
                 </div>
-                <a href="javascript:;" class="my-bag-link" @click="$refs.cashForm.resetFields();operateType='charge'">我要充值</a>
+                <a href="javascript:;" class="my-bag-link" @click="$refs.cashForm.resetFields(),operateType='charge'">我要充值</a>
             </div>
 
         </div>
@@ -135,7 +135,7 @@
             </ul>
             <div class="zd-list-wrap" v-if="billIndex==1">
                 <ul class="zd-list-ul">
-                    <li class="zd-list-li clearfix" v-for="bill in billTable11">
+                    <li class="zd-list-li clearfix" v-for="(bill,i) in billTable11" :key="i">
                         <p>
                             <span>流水号：{{bill.serialNumber}}</span>
                             <span>金额：￥{{formatNum(bill.money)}}</span>
@@ -159,9 +159,9 @@
             </div>
             <div class="zd-list-wrap" v-if="billIndex==2">
                 <ul class="zd-list-ul">
-                    <li class="zd-list-li clearfix" v-for="bill in billTable12">
+                    <li class="zd-list-li clearfix" v-for="(bill,i) in billTable12" :key="i">
                         <p>
-                            <span>流水号：{{bill.serialNumber}}</span>
+                            <span>{{$lang('流水号')}}：{{bill.serialNumber}}</span>
                             <span>金额：￥{{formatNum(bill.money)}}</span>
                         </p>
                         <p>
@@ -183,7 +183,7 @@
             </div>
             <div class="zd-list-wrap" v-if="billIndex==3">
                 <ul class="zd-list-ul">
-                    <li class="zd-list-li clearfix" v-for="bill in billTable13">
+                    <li class="zd-list-li clearfix" v-for="(bill,i) in billTable13" :key="i">
                         <p>
                             <span>流水号：{{bill.serialNumber}}</span>
                             <span>金额：￥{{formatNum(bill.money)}}</span>
@@ -207,7 +207,7 @@
             </div>
             <div class="zd-list-wrap" v-if="billIndex==4">
                 <ul class="zd-list-ul">
-                    <li class="zd-list-li clearfix" v-for="bill in billTable14">
+                    <li class="zd-list-li clearfix" v-for="(bill,i) in billTable14" :key="i">
                         <p>
                             <span>流水号：{{bill.serialNumber}}</span>
                             <span>金额：￥{{formatNum(bill.money)}}</span>
@@ -235,18 +235,18 @@
         <div class="mybag-zfgl-wrap" v-if="navIndex==3">
             <ul class="zd-nav-ul clearfix">
                 <li class="zd-nav" :class="orderIndex==1?'active':null">
-                    <a href="javascript:;" @click="collapse=[];orderList(-1,1)">全部</a>
+                    <a href="javascript:;" @click="collapse=[],orderList(-1,1)">全部</a>
                 </li>
                 <li class="zd-nav" :class="orderIndex==2?'active':null">
-                    <a href="javascript:;" @click="collapse=[];orderList(1,2)">待支付</a>
+                    <a href="javascript:;" @click="collapse=[],orderList(1,2)">待支付</a>
                 </li>
                 <li class="zd-nav" :class="orderIndex==3?'active':null">
-                    <a href="javascript:;" @click="collapse=[];orderList(2,3)">已支付</a>
+                    <a href="javascript:;" @click="collapse=[],orderList(2,3)">已支付</a>
                 </li>
             </ul>
             <div v-if="orderIndex==1">
                 <div class="">
-                    <dl class="bag-pay-dl" v-for="(bill,index) in billTable21">
+                    <dl class="bag-pay-dl" v-for="(bill,index) in billTable21" :key="index">
                         <dt class="bag-pay-dt box-flex-media-box">
                             <p class="flex1">订单号：{{bill.orderId}}</p>
                             <p class="flex1">状态：{{getState5(bill.state)}}</p>
@@ -264,7 +264,7 @@
                                     <p class="bpd-li_num">￥{{formatNum(bill.subTasks[0].total)}}</p>
                                 </li>
                             </ul>
-                            <ul class="bag-pay-dd_ul" v-for="item in bill.subTasks" v-if="collapse[index]">
+                            <ul class="bag-pay-dd_ul" v-for="(item,i) in bill.subTasks" :key="i" v-show="collapse[index]">
                                 <li class="bpd-li box-flex-media-box">
                                     <div class="flex1">
                                         <div class="box-flex-media-box">
@@ -310,7 +310,7 @@
             </div>
             <div v-if="orderIndex==2">
                 <div class="">
-                    <dl class="bag-pay-dl" v-for="(bill,index) in billTable22">
+                    <dl class="bag-pay-dl" v-for="(bill,index) in billTable22" :key="index">
                         <dt class="bag-pay-dt box-flex-media-box">
                             <p class="flex1">订单号：{{bill.orderId}}</p>
                             <p class="flex1">状态：{{getState5(bill.state)}}</p>
@@ -328,7 +328,7 @@
                                     <p class="bpd-li_num">￥{{formatNum(bill.subTasks[0].total)}}</p>
                                 </li>
                             </ul>
-                            <ul class="bag-pay-dd_ul" v-for="item in bill.subTasks" v-if="collapse[index]">
+                            <ul class="bag-pay-dd_ul" v-for="(item,i) in bill.subTasks" :key="i" v-show="collapse[index]">
                                 <li class="bpd-li box-flex-media-box">
                                     <div class="flex1">
                                         <div class="box-flex-media-box">
@@ -372,7 +372,7 @@
             </div>
             <div v-if="orderIndex==3">
                 <div class="">
-                    <dl class="bag-pay-dl" v-for="(bill,index) in billTable23">
+                    <dl class="bag-pay-dl" v-for="(bill,index) in billTable23" :key="index">
                         <dt class="bag-pay-dt box-flex-media-box">
                             <p class="flex1">订单号：{{bill.orderId}}</p>
                             <p class="flex1">状态：{{getState5(bill.state)}}</p>
@@ -390,7 +390,7 @@
                                     <p class="bpd-li_num">￥{{formatNum(bill.subTasks[0].total)}}</p>
                                 </li>
                             </ul>
-                            <ul class="bag-pay-dd_ul" v-for="item in bill.subTasks" v-if="collapse[index]">
+                            <ul class="bag-pay-dd_ul" v-for="(item,i) in bill.subTasks" :key="i" v-show="collapse[index]">
                                 <li class="bpd-li box-flex-media-box">
                                     <div class="flex1">
                                         <div class="box-flex-media-box">
@@ -438,7 +438,7 @@
             <div class="zd-list-wrap">
                 <div class="pad-top-40">
                     <ul class="zd-list-ul">
-                        <li class="zd-list-li clearfix" v-for="bill in billTable3">
+                        <li class="zd-list-li clearfix" v-for="(bill,i) in billTable3" :key="i">
                             <p>
                                 <span>流水号：{{bill.orderId}}</span>
                                 <span>金额：￥{{formatNum(bill.money)}}</span>
@@ -467,7 +467,7 @@
             <div class="zd-list-wrap">
                 <div class="pad-top-40">
                     <ul class="zd-list-ul">
-                        <li class="zd-list-li clearfix" v-for="bill in billTable4">
+                        <li class="zd-list-li clearfix" v-for="(bill,i) in billTable4" :key="i">
                             <p>
                                 <span>提现方式：{{getType7(bill.atmType)}}</span>
                                 <span>金额：￥{{formatNum(bill.money)}}</span>
@@ -500,7 +500,7 @@
         <el-dialog title="Tips" :visible.sync="dialogVisible" size="tiny">
             <span>是否放弃编辑？</span>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogVisible = false;nextTo=false;">取消</el-button>
+                <el-button @click="dialogVisible=false,nextTo=false">取消</el-button>
                 <el-button type="sure" @click="cancalEdit">确定</el-button>
             </span>
         </el-dialog>
