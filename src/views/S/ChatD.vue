@@ -279,7 +279,7 @@ export default {
                         //                            console.log('上传完成', data);
                     }).catch(data => {
                         me.$message({
-                            message: data.message + ' 将清除当前文件断点信息',
+                            message: data.message + $lang(' 将清除当前文件断点信息'),
                             type: 'error'
                         });
                         me.$set(me.uploading, index, false);
