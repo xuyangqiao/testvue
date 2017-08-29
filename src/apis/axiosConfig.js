@@ -4,7 +4,7 @@ import { Loading, Message } from 'element-ui'
 // axios.defaults.baseURL = 'http://api.combo.xin/vsworkapi/api';//开发服
 axios.defaults.baseURL = 'http://api.combo.xin/vsworkapi/api';//正式服
 axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
-axios.defaults.headers.post['language'] = localStorage.lang || '';
+axios.defaults.headers.post['language'] = (localStorage.lang || '').toLowerCase();
 
 // http request 拦截器
 axios.defaults.timeout = 50000;
@@ -23,7 +23,7 @@ axios.interceptors.response.use(function (response) {
     if (response.data.code == '1001' || response.data.code == '1002') {
         sessionStorage.setItem("user_token", '')
         sessionStorage.setItem("LoginUser", '{}')
-        alert(response.data.msg);
+        // alert(response.data.msg);
         window.location.href = '/#/login'
     } else {
         return response

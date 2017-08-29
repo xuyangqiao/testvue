@@ -49,8 +49,7 @@ import {
     delSystem,
     delPerson,
     readSystem,
-    readPerson,
-    statusList
+    readPerson
 } from '@/apis/notices';
 
 export default {
