@@ -49,6 +49,8 @@
 
       <div class="set-btn-wrap">
         <el-button type="sure" @click="toSubmit">{{$lang('确认选择')}}</el-button>
+        <el-button type="sure" @click="$router.push({name:'S_toBaoMing',query:{id:$refs.tsInfo.form.id}})">{{$lang('查看报名')}}</el-button>
+        <el-button type="sure" @click="$router.push({name:'toEdit',query:{id:$refs.tsInfo.form.taskId}})">{{$lang('编辑总任务')}}</el-button>
         <!-- <el-button type="sure" @click="openApplyRefund" v-if="$refs.tsInfo&&['4','5'].includes($refs.tsInfo.form.state)">{{$lang('申请退款')}}</el-button> -->
       </div>
 

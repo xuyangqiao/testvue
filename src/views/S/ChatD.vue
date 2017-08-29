@@ -5,6 +5,7 @@
                 <div class="flex1 chart-left-title">
                     <h3>{{subTask.projectName}}</h3>
                 </div>
+                <el-button type="sure" @click="$router.push({name:'S_ChatT', query: {id:subTask.id,taskId:subTask.taskId,state:subTask.state}})" v-if="subTask">&lt;{{$lang('返回总任务')}}</el-button>
                 <el-button type="sure" @click="toDetail('S_SonTaskInfo')">{{$lang('查看任务')}}&gt;</el-button>
             </div>
             <div class="chart-left-list">

@@ -5,6 +5,7 @@
                 <div class="flex1 chart-left-title">
                     <h3>{{taskInfo.projectName}}</h3>
                 </div>
+                <el-button type="sure" @click="$router.push({name:'toEdit',query:$route.query})">{{$lang('编辑任务')}}</el-button>
                 <el-button type="sure" @click="toRedirectT">{{$lang('查看任务')}}&gt;</el-button>
             </div>
             <div class="chart-left-list">
@@ -468,7 +469,7 @@ export default {
         changStateToPay(id) {
             const me = this;
             me.$confirm($lang(`是否确定该子任务？`), $lang('提示'), {
-                confirmButtonText:$lang('确定'),
+                confirmButtonText: $lang('确定'),
                 cancelButtonText: $lang('取消'),
                 type: 'warning'
             }).then(async () => {

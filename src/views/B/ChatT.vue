@@ -205,7 +205,7 @@
                                         <p class="name">{{m.projectName}}</p>
                                     </div>
                                 </div>
-                                <a href="javascript:;" class="more" @click="$router.push({name:'S_ChatD',query: { id: m.id,isOnlyChat:true }})">{{$lang('查看')}}&gt;</a>
+                                <a href="javascript:;" class="more" @click="$router.push({name:'B_TaskChildDetail',query: { id: m.id,isOnlyChat:true }})">{{$lang('查看')}}&gt;</a>
                             </li>
                         </ul>
                     </li>
@@ -226,7 +226,7 @@
                                         <p class="name">{{m.projectName}}</p>
                                     </div>
                                 </div>
-                                <a href="javascript:;" class="more" @click="$router.push({name:'S_ChatD',query: { id: m.id,isOnlyChat:true }})">{{$lang('查看')}}&gt;</a>
+                                <a href="javascript:;" class="more" @click="$router.push({name:'B_TaskChildDetail',query: { id: m.id,isOnlyChat:true }})">{{$lang('查看')}}&gt;</a>
                             </li>
                         </ul>
                     </li>
