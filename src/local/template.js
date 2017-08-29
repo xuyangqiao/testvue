@@ -1,5 +1,5 @@
 export default {
-    "Copyright  2013-2017 VSWORK.COM - 优秀社会化协作平台 - 苏ICP备14020371号-2": "",
+    "Copyright 2013-2017 VSWORK.COM - 优秀社会化协作平台 - 苏ICP备14020371号-2": "",
     "昵称：": "",
     "联系方式：": "",
     "编辑": "",
