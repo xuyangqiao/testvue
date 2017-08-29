@@ -3,7 +3,7 @@
         <div class="prd-center-search">
             <div class="prd-center-search_main">
                 <el-form label-width="90px">
-                    <el-form-item label="$lang('任务类型:')" v-if="parentTasks.length&&childTasks.length">
+                    <el-form-item :label="$lang('任务类型:')" v-if="parentTasks.length&&childTasks.length">
                         <el-button :type="parentTaskState>-1?'sure':'diy'" @click="initState(true)">{{$lang('总任务')}}</el-button>
                         <el-button :type="childTaskState>-1?'sure':'diy'" @click="initState(false)">{{$lang('子任务')}}</el-button>
                         <!--<el-button type="diy">{{$lang('员工任务')}}</el-button>-->
@@ -24,7 +24,7 @@
                             </el-select>
                             <el-select v-model="packageType" clearable @change="switchChange" v-if="!isWall">
                                 <el-option :label="$lang('公开')" value="0">{{$lang('公开')}}</el-option>
-                                <el-option :label="$lang('私密')" value="1"{{$lang('>私密')}}</el-option>
+                                <el-option :label="$lang('私密')" value="1">{{$lang('>私密')}}</el-option>
                             </el-select>
 
                         </el-col>
