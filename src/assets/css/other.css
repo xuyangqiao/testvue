@@ -169,7 +169,7 @@
 .item-zzz.active .el-button,.item-zzz .el-button:hover{ background: url('../images/zzz-on.png') no-repeat center left; color: #1d9bf9;}
 .item-ysz.active .el-button,.item-ysz .el-button:hover{ background: url('../images/ysz-on.png') no-repeat center left; color: #1d9bf9;}
 .item-wc.active .el-button,.item-wc .el-button:hover{ background: url('../images/wc-on.png') no-repeat center left; color: #1d9bf9;}
-.task-set-item{ width: 285px; height: 300px;margin-bottom: 20px; overflow: hidden; background: url('../images/item-bg.png') no-repeat right bottom; }
+.task-set-item{ width: 288px; height: 303px;margin-bottom: 20px; overflow: hidden; background: url('../images/item-bg.png') no-repeat right bottom; }
 .zrw-task-set-wrap .task-set-item{ background: none;}
 .task-set-item a{ width: 279px; height: 294px; border: 1px solid #bfbfbf; background: #fff; position: relative; }
 .task-set-item img{ width: 100%; height: 180px; display: block;}
