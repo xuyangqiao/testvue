@@ -45,7 +45,7 @@ export default {
         let info = (fileData.data || []).sort((a, b) => new Date(a.createTime) > new Date(b.createTime) ? -1 : 1)[0];
 
         if (info) {
-            this.iframeSrc = `http://api.combo.xin/vsworkapi/preview.jsp?untityVersion=${info.fileVersion}&dataPath=${info.url}`;
+            this.iframeSrc = `http://api.combo.xin/vsworkapi/preview.jsp?fileVersion=${info.fileVersion}&dataPath=${info.url}`;
         } else {
             this.$message.warning($lang('未找到文件'));
         }

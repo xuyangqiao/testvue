@@ -48,7 +48,7 @@ export default {
             if (info.url.includes('index.html')) {
                 this.iframeSrc = info.url;
             } else {
-                this.iframeSrc = `http://api.combo.xin/vsworkapi/preview.jsp?untityVersion=${info.fileVersion}&dataPath=${info.url}`;
+                this.iframeSrc = `http://api.combo.xin/vsworkapi/preview.jsp?fileVersion=${info.fileVersion}&dataPath=${info.url}`;
             }
         } else {
             this.$message.warning($lang('未找到文件'));
