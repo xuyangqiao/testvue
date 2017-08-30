@@ -350,7 +350,10 @@ export default {
             }
         },
         IndexFileChange(file, fileList) {
-            if ((/.vsdata$/).test(file.name)) {
+            if (fileList.length > 1) {
+                this.$message.warning($lang('最多只能上传一个文件'));
+                fileList.pop();
+            } else if ((/.vsdata$/).test(file.name)) {
                 this.selectedFile = file;
             } else {
                 this.$message.warning($lang('选择的文件格式不正确'))
