@@ -2,9 +2,9 @@
     <div class="content-wrapper">
         <div class="check-accept-wrapper">
             <h3 class="main-title">{{$lang('预览')}}</h3>
-            <div style="width:960px;margin:auto;">
+            <div style="width:960px;margin:auto;text-align:right;">
                 <img :src="require('../../assets/images/logo.png')" height="28" />
-                <img :src="require('../../assets/images/fullscreen.png')" height="28" style="float:right;cursor:pointer;" @click="fullScreen" />
+                <img :src="require('../../assets/images/fullscreen.png')" height="28" style="cursor:pointer;" @click="fullScreen" />
             </div>
             <div>
                 <iframe ref="demo" style="width: 960px; height: 642px; margin: 0 auto;display: block;" frameBorder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" v-if="iframeSrc" :src="iframeSrc" frameborder="0"></iframe>
