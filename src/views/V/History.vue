@@ -25,12 +25,15 @@
             <el-pagination :page-size="pageSize" @current-change="currentChange" layout="prev, pager, next" :total="total">
             </el-pagination>
         </div>
+        <SlideBtns :type="'back'"></SlideBtns>
     </div>
 </template>
 
 <script>
 import { getAllFileWithPage } from '@/apis/files'
+import SlideBtns from '@/components/SlideBtns'
 export default {
+    components: { SlideBtns },
     data() {
         return {
             fileData: [],

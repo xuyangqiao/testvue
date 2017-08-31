@@ -1,7 +1,7 @@
 <template>
     <div class="history-download">
         <!--<el-button @click="downloadSelected" class="download-selected">下载选中</el-button>
-                                                            <h1>历史文件</h1>-->
+                                                                <h1>历史文件</h1>-->
         <div style="padding: 0 50px">
             <!-- <el-button @click="downloadSelected" class="download-selected">下载选中</el-button> -->
             <h1>{{$lang('历史文件')}}</h1>
@@ -26,12 +26,15 @@
             <el-pagination :page-size="pageSize" @current-change="currentChange" layout="prev, pager, next" :total="total">
             </el-pagination>
         </div>
+        <SlideBtns :type="'back'"></SlideBtns>
     </div>
 </template>
 
 <script>
 import { getAllFileWithPage } from '@/apis/files'
+import SlideBtns from '@/components/SlideBtns'
 export default {
+    components: { SlideBtns },
     data() {
         return {
             fileData: [],
