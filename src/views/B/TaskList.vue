@@ -1,7 +1,7 @@
 
 <template>
     <div class="core-wrapper">
-        <TList :parentTasks="parentTasks" :childTasks="childTasks"></TList>
+        <TList :parentTasks="parentTasks" :childTasks="childTasks" :hasTaskGroup="true"></TList>
     </div>
 </template>
 

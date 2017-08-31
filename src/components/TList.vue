@@ -22,11 +22,13 @@
                             <el-select v-model="appAreas" clearable :placeholder="$lang('应用场景')" @change="appTypeChange">
                                 <el-option v-for="item in areaList" :key="item.key" :label="item.cnValue" :value="item.key"></el-option>
                             </el-select>
-                            <el-select v-model="packageType" clearable @change="switchChange" v-if="!isWall">
-                                <el-option :label="$lang('公开')" value="0">{{$lang('公开')}}</el-option>
-                                <el-option :label="$lang('私密')" value="1">{{$lang('>私密')}}</el-option>
+                            <el-select v-model="packageType" clearable @change="switchChange" :placeholder="$lang('是否公开')" v-if="!isWall">
+                                <el-option :label="$lang('公开')" value="0" />
+                                <el-option :label="$lang('私密')" value="1" />
                             </el-select>
-
+                            <el-select v-model="groupId" clearable @change="groupChange" :placeholder="$lang('任务组')" v-if="hasTaskGroup">
+                                <el-option :label="o.groupName" :value="o.id" v-for="o in taskGroup" :key="o.id" />
+                            </el-select>
                         </el-col>
                     </el-form-item>
                 </el-form>
@@ -89,6 +91,10 @@ export default {
         },
         vUserId: {
             type: String
+        },
+        hasTaskGroup: {
+            type: Boolean,
+            default: false
         }
     },
     data() {
@@ -109,7 +115,10 @@ export default {
             appType: "",
             // vUserId:"",
             // isZong:true
-            userType: getUser().userType
+            userType: getUser().userType,
+
+            groupId: '',
+            taskGroup: ''
         }
     },
     async created() {
@@ -130,6 +139,8 @@ export default {
         } else {
             this.initState(this.isZong)
         }
+
+        this.taskGroup = JSON.parse(sessionStorage.getItem("TaskParam") || {}).taskGroup || [];
 
     },
     methods: {
@@ -203,12 +214,12 @@ export default {
             return result
         },
         async queryList() {
-            let { pagination: { pageSize, currentPage }, appType, appAreas, vUserId, packageType, parentTasks, parentTaskState, childTasks, childTaskState } = this;
+            let { pagination: { pageSize, currentPage }, appType, appAreas, vUserId, packageType, parentTasks, parentTaskState, childTasks, childTaskState, groupId } = this;
             let res = null;
             if (parentTaskState > -1) {
                 let state = parentTasks[parentTaskState] ? parentTasks[parentTaskState].value : undefined
                 if (Array.isArray(state)) state = state[0]
-                res = await TaskList({ appType, appAreas, packageType, state, page: currentPage, row: pageSize });
+                res = await TaskList({ appType, appAreas, packageType, state, page: currentPage, row: pageSize, groupId });
 
             }
 
@@ -260,6 +271,11 @@ export default {
         },
         switchChange(state) {
             this.packageType = state;
+            this.pagination.currentPage = 1;
+            this.queryList();
+        },
+        groupChange(state) {
+            this.groupId = state;
             this.pagination.currentPage = 1;
             this.queryList();
         }

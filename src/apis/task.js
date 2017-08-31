@@ -6,8 +6,8 @@ async function getTackParam() {
     const res = await axios.get('dataSource/getTaskParam');
     return res.data.data;
 }
-async function TaskList({ appType, appAreas, packageType, state = 0, page = 1, row = 12 }) {
-    const res = await axios.post(`/task/list/${page}/${row}`, JSON.stringify({ appType, appAreas, state, packageType }))
+async function TaskList({ appType, appAreas, packageType, state = 0, page = 1, row = 12, groupId }) {
+    const res = await axios.post(`/task/list/${page}/${row}`, JSON.stringify({ appType, appAreas, state, packageType, groupId }))
     return res.data.data;
 }
 async function TaskInfoById(id) {
