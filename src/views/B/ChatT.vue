@@ -195,8 +195,8 @@
                                 <h4>{{$lang('退款申请中')}}</h4>
                             </a>
                         </div>
-                        <ul class="chose-people-ul" v-if="getChilds(7).length">
-                            <li class="chose-people-li box-flex-media-box" v-for="(m,i) in getChilds(7)" :key="i">
+                        <ul class="chose-people-ul" v-if="getChilds(8).length">
+                            <li class="chose-people-li box-flex-media-box" v-for="(m,i) in getChilds(8)" :key="i">
                                 <div class="flex1">
                                     <div class="box-flex-media-box">
                                         <p class="user-header">
@@ -216,8 +216,8 @@
                                 <h4>{{$lang('已关闭')}}</h4>
                             </a>
                         </div>
-                        <ul class="chose-people-ul" v-if="getChilds(8).length">
-                            <li class="chose-people-li box-flex-media-box" v-for="(m,i) in getChilds(8)" :key="i">
+                        <ul class="chose-people-ul" v-if="getChilds(9).length">
+                            <li class="chose-people-li box-flex-media-box" v-for="(m,i) in getChilds(9)" :key="i">
                                 <div class="flex1">
                                     <div class="box-flex-media-box">
                                         <p class="user-header">

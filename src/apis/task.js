@@ -58,8 +58,8 @@ async function taskWall({ appType, appAreas, packageType, state, page, row }) {
     return res.data.data;
 }
 //子任务列表
-async function subTaskList({ appType, appAreas, packageType, state, vUserId, page, row }) {
-    const res = await axios.post(`/subtask/list/${page}/${row}`, JSON.stringify({ appType, appAreas, packageType, state, vUserId }))
+async function subTaskList({ appType, appAreas, packageType, state, vUserId, page, row, groupId }) {
+    const res = await axios.post(`/subtask/list/${page}/${row}`, JSON.stringify({ appType, appAreas, packageType, state, vUserId, groupId }))
     return res.data.data;
 }
 //创建子任务

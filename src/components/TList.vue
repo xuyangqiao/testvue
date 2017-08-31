@@ -235,7 +235,7 @@ export default {
                     if (vUserId) {//V 端征集中不可以看私密
                         packageType = state == 4 ? "0" : packageType;
                     }
-                    res = await subTaskList({ appType, appAreas, packageType, state, page: currentPage, row: pageSize })
+                    res = await subTaskList({ appType, appAreas, packageType, state, page: currentPage, row: pageSize, groupId })
                 }
             }
             if (res) {
