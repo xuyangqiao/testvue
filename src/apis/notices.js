@@ -10,7 +10,7 @@ async function detail(id) {
     return (await axios.post(`/msg/query/${id}`)).data;
 }
 async function delPerson(id) {
-    return (await axios.post(`/msg/delPersonnelMsg`, { id, msgType: 1 })).data;
+    return (await axios.post(`/msg/delPersonnelMsg`, { id })).data;
 }
 async function delSystem(id) {
     return (await axios.post(`/msg/delSysMsg`, { id })).data;

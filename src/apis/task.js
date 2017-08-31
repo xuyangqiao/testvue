@@ -252,6 +252,20 @@ async function applyRefund(subtaskId, percent, exitReason) {
     return res.data;
 }
 
+
+//保存组修改
+async function saveGroup(id, groupName) {
+    const res = await axios.post(`/taskGroup/update`, JSON.stringify({ id, groupName }));
+    return res.data;
+}
+
+//删除组修改
+async function removeGroup(id) {
+    const res = await axios.get(`/taskGroup/delete/${id}`);
+    return res.data;
+}
+
+
 export {
     vsendToS,
     getChatConfig,
@@ -306,5 +320,8 @@ export {
     SaveStage,
     RemoveStage,
 
-    applyRefund
+    applyRefund,
+
+    saveGroup,
+    removeGroup
 }

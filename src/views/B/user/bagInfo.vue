@@ -730,8 +730,7 @@ export default {
         async queryWXPayState() {
             const me = this;
             const orderId = me.WXPayOrderId;
-            const type = "1";
-            const WXPayState = await checkByOrderId({ orderId, type });
+            const WXPayState = await checkByOrderId({ orderId, type: 2 });
             if (WXPayState.data.state == "2") {
                 me.$message.success($lang("支付成功"));
                 clearInterval(me.WXPayTimes);
@@ -1030,7 +1029,7 @@ export default {
                     me.$message($lang('余额不足'));
                     return
                 }
-                me.$confirm($lang('确定用余额支付')+me.payDialogTotal+$lang('元')).then(async data => {
+                me.$confirm($lang('确定用余额支付') + me.payDialogTotal + $lang('元')).then(async data => {
                     if (data == 'confirm') {
                         const data = await balancePay({ orderId: res.data.orderId });
                         if (data.success) {
@@ -1076,7 +1075,7 @@ export default {
         //取消流水订单
         cancelRecordOrder(orderId) {
             const me = this;
-            me.$confirm($lang('确定取消该订单？'),$lang('提示'), {
+            me.$confirm($lang('确定取消该订单？'), $lang('提示'), {
                 confirmButtonText: $lang('确定取消'),
                 cancelButtonText: $lang('放弃操作'),
                 type: 'warning'

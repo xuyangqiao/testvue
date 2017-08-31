@@ -39,7 +39,8 @@
                                 <h4>{{$lang('验收')}}</h4>
                                 <p>{{$lang('截止时间')}}：{{subTask.taskEndTime}}</p>
                             </a>
-                            <el-button size="small" type="info" @click="$router.push({name:'B_DTaskCheck',query: { id: subTask.id }})">{{$lang('预览')}}</el-button>
+                            <el-button size="small" type="info" @click="$router.push({name:'B_TaskCheck',query: { id: subTask.id }})" v-if="$route.query.state==6">{{$lang('去验收')}}</el-button>
+                            <el-button size="small" type="info" @click="$router.push({name:'B_DTaskCheck',query: { id: subTask.id }})" v-else>{{$lang('预览')}}</el-button>
                             <el-button size="small" type="info" @click="$router.push({name:'B_History',query: { id: subTask.id, index: -1 }})">{{$lang('查看历史')}}</el-button>
                         </div>
                         <dl class="box-flex cl-info">
