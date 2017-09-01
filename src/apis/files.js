@@ -48,11 +48,7 @@ async function getFile(findex = "", bindid = "", id = "") {
 }
 //查询多个文件
 async function getAllFile(findex = "", bindid = "") {
-    const map = {
-        findex,
-        bindid
-    };
-    const res = await axios.post(`file/getAll`, JSON.stringify(map));
+    const res = await axios.post(`file/getAll`, JSON.stringify({ findex, bindid }));
     return res.data;
 }
 //查询多个文件

@@ -28,7 +28,7 @@
                 <li class="nav-li-jh">
                     <a href="javascript:;" :class="navIndx=='list'&&'active'" @click="onNavigation('S_list','list')">{{$lang('管理中心')}}</a>
                 </li>
-                <li class="nav-li-jh">
+                <li class="nav-li-jh" :badge="$root.count">
                     <a href="javascript:;" @click="$router.push({name:'S_Notices'})">{{$lang('通知中心')}}</a>
                 </li>
             </ul>

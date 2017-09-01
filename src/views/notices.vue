@@ -91,7 +91,7 @@ export default {
             this.loading = true;
             let res = await { system: delSystem, person: delPerson }[type](id);
             this.$message[res.success ? 'success' : 'error'](res.success ? $lang('删除成功') : res.msg);
-            if (res.success) this.tabChange({ name: this.tab }, this.page[this.tab].index);
+            if (res.success) this.tabChange({ name: this.tab }, this.page[this.tab].index), this.$root.count--;
             this.loading = false;
         },
         async openDetail(type, item) {
@@ -101,7 +101,7 @@ export default {
                 let res = await { system: readSystem, person: readPerson }[type](item.id);
                 if (res.success) this.$alert(item.msg, item.msgTitle, {
                     callback: () => item.state = '1'
-                });
+                }), this.$root.count--;
                 else this.$message.error(res.msg);
             }
         }

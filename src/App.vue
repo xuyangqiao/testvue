@@ -13,11 +13,47 @@
   </div>
 </template>
 
+<script>
+export default {
+  created() {
+    if (JSON.parse(sessionStorage.UserInfo || '{}').id && !this.$root.timer) {
+      this.$root.updateCount(), this.$root.timer = setInterval(() => this.$root.updateCount(), 30000);
+    }
+  }
+}
+</script>
+
+
 <style>
 .htm-jh p .nh-a-03.selected {
   padding: 2px;
   border-radius: 2px;
   display: inline-block;
   background-color: #808080;
+}
+
+[badge] {
+  position: relative;
+}
+
+[badge]::before {
+  top: -4px;
+  right: -8px;
+  height: 18px;
+  color: white;
+  min-width: 10px;
+  font-size: 12px;
+  padding: 0px 4px;
+  line-height: 18px;
+  position: absolute;
+  text-align: center;
+  border-radius: 9px;
+  content: attr(badge);
+  display: inline-block;
+  background-color: red;
+}
+
+[badge="0"]::before {
+  display: none;
 }
 </style>

@@ -28,7 +28,7 @@
                 <li class="nav-li-jh">
                     <a href="javascript:;" :class="navIndx=='list'&&'active'" @click="onNavigation('V_TaskList','list')">{{$lang('制作中心')}}</a>
                 </li>
-                <li class="nav-li-jh">
+                <li class="nav-li-jh" :badge="$root.count">
                     <a href="javascript:;" @click="$router.push({name:'V_Notices'})">{{$lang('通知中心')}}</a>
                 </li>
             </ul>

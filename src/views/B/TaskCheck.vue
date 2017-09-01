@@ -38,9 +38,7 @@ export default {
         };
     },
     async mounted() {
-        const me = this;
-        const id = me.$route.query.id;
-        const fileData = await getAllFile('checked', getAllFile);
+        const fileData = await getAllFile('checked', this.$route.query.id);
 
         let info = (fileData.data || []).sort((a, b) => new Date(a.createTime) > new Date(b.createTime) ? -1 : 1)[0];
 

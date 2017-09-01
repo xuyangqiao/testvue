@@ -615,17 +615,17 @@ export default {
             pagiOpt21: {
                 total: 0,
                 page: 1,
-                row: 2
+                row: 6
             },
             pagiOpt22: {
                 total: 0,
                 page: 1,
-                row: 2
+                row: 6
             },
             pagiOpt23: {
                 total: 0,
                 page: 1,
-                row: 2
+                row: 6
             },
             pagiOpt3: {
                 total: 0,

@@ -16,6 +16,7 @@ import './assets/css/public.css'
 import './assets/css/other.css'
 import './apis/axiosConfig.js'
 import { getChatConfig } from '@/apis/task'
+import { count } from '@/apis/notices'
 window.store = {
   parentTaskState: -1,
   childTaskState: -1
@@ -48,6 +49,15 @@ Vue.use({
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  data: {
+    count: 0
+  },
+  methods: {
+    async updateCount() {
+      let res = await count();
+      if (res.success) this.$root.count = res.data.sys + res.data.per;
+    }
+  },
   router,
   template: '<App/>',
   components: { App }

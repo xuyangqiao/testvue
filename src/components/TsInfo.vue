@@ -123,7 +123,10 @@ export default {
                 headUrl: "http://vsdata.oss-cn-hangzhou.aliyuncs.com/head.jpg"
             },
             imageUrl: '',
-            showHead: false
+            showHead: false,
+
+
+            fileData: null
         }
     },
     created() {
@@ -180,6 +183,7 @@ export default {
         }
         const fileRes = await getAllFile("", id);
         let fileData = fileRes.data;
+        this.fileData = (fileRes.data || []).sort((a, b) => new Date(a.createTime) > new Date(b.createTime) ? -1 : 1)[0];
         this.onload && this.onload(this.form, fileData);
     }
 }

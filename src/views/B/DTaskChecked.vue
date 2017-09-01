@@ -3,7 +3,7 @@
         <div class="check-accept-wrapper">
             <h3 class="main-title">{{$lang('预览')}}</h3>
             <div style="width:960px;margin:auto;text-align:right;">
-                <img :src="require('../../assets/images/logo.png')" height="28" />
+                <!-- <img :src="require('../../assets/images/logo.png')" height="28" /> -->
                 <img :src="require('../../assets/images/fullscreen.png')" height="28" style="cursor:pointer;" @click="fullScreen" />
             </div>
             <div>
@@ -35,12 +35,10 @@ export default {
         }
     },
     async mounted() {
-        this.$route.query.id;
-
         let info = this.$route.query;
 
         if (!('fileVersion' in info)) {
-            const fileData = await getAllFile('checked', getAllFile);
+            const fileData = await getAllFile('checked', this.$route.query.id);
             info = (fileData.data || []).sort((a, b) => new Date(a.createTime) > new Date(b.createTime) ? -1 : 1)[0];
         }
 

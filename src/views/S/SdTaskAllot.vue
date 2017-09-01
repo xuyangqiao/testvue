@@ -27,7 +27,7 @@
             </el-table-column>
             <el-table-column :label="$lang('昵称')" width="">
               <template scope="scope">
-                <span @click="toVUser(scope.row)">{{scope.row.nickName}}</span>
+                <span @click="toVUser(scope.row)" style="cursor:pointer;">{{scope.row.nickName}}</span>
               </template>
             </el-table-column>
             <el-table-column property="createTime" :label="$lang('注册时间')" width="">
@@ -67,15 +67,20 @@
       </span>
     </el-dialog>
 
+    <el-dialog :title="$lang('用户信息')" size="large" :visible.sync="dialog.info.show">
+      <v-user-info :id="dialog.info.id" />
+    </el-dialog>
+
   </div>
 </template>
 
 <script>
 import TsInfo from '@/components/TsInfo'
+import VUserInfo from './VUserInfo'
 import { UserList } from '@/apis/person'
 import { SubentrySignUp, SubentryList, AssignedTask, applyRefund } from '@/apis/task'
 export default {
-  components: { TsInfo },
+  components: { TsInfo, VUserInfo },
   data() {
     return {
       vlist: [],
@@ -93,6 +98,10 @@ export default {
           form: {
             reason: ''
           }
+        },
+        info: {
+          show: false,
+          id: ''
         }
       }
     }
@@ -177,7 +186,11 @@ export default {
       this.currentRow = val;
     },
     toVUser(data) {
-      data.userid ? this.$router.push({ name: 'S-VuserInfo', query: { userId: data.userid } }) : null
+      data.userid && this.$router.push({ name: 'S-VuserInfo', query: { userId: data.userid } });
+      // if (data.userid) {
+      //   this.dialog.info.id = data.userid;
+      //   this.dialog.info.show = true;
+      // }
     },
     openApplyRefund() {
       this.dialog.applyRefund.reason = '';
@@ -200,3 +213,10 @@ export default {
   }
 }
 </script>
+
+<style>
+.el-table__body tr.current-row>td {
+  color: #ffffff;
+  background-color: #1f2e65 !important;
+}
+</style>

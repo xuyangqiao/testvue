@@ -31,8 +31,8 @@
                 <li class="nav-li-jh">
                     <a href="javascript:;" :class="navIndx=='list'&&'active'" @click="onNavigation('B_list','list')" v-if="bUserType!=='2'">{{$lang('制作中心')}}</a>
                 </li>
-                <li class="nav-li-jh">
-                    <a href="javascript:;" v-if="!bUserType" @click="$router.push({name:'B_Notices'})">{{$lang('通知中心')}}</a>
+                <li class="nav-li-jh" :badge="$root.count">
+                    <a href="javascript:;" @click="$router.push({name:'B_Notices'})">{{$lang('通知中心')}}</a>
                 </li>
             </ul>
         </div>

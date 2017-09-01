@@ -24,6 +24,9 @@ async function readSystem(id) {
 async function statusList() {
     return (await axios.get(`/msg/statusList`)).data;
 }
+async function count() {
+    return (await axios.get(`/msg/checkMsg`)).data;
+}
 
 export {
     systemList,
@@ -33,5 +36,6 @@ export {
     delSystem,
     readPerson,
     readSystem,
-    statusList
+    statusList,
+    count
 }
