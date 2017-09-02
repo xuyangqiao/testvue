@@ -50,7 +50,13 @@ Vue.use({
 new Vue({
   el: '#app',
   data: {
-    count: 0
+    _count: 0,
+    get count() {
+      return Math.max(0, this._count);
+    },
+    set count(value) {
+      this._count = value;
+    }
   },
   methods: {
     async updateCount() {

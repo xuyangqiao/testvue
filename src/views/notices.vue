@@ -35,7 +35,7 @@
                         </div>
                     </div>
                 </div>
-                <el-pagination layout="prev, pager, next" :page-size="page.system.size" :total="page.person.total" @current-change="tabChange({name:'system'},$event)" v-if="page.system.total" />
+                <el-pagination layout="prev, pager, next" :page-size="page.person.size" :total="page.person.total" @current-change="tabChange({name:'person'},$event)" v-if="page.person.total" />
             </el-tab-pane>
         </el-tabs>
     </div>
