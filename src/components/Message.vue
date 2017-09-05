@@ -25,11 +25,16 @@
         <div class="tips-news" v-if="isEnd">
             <p>{{$lang('以上为聊天记录')}}</p>
         </div>
+
+        <image-box ref="imageBox" />
     </div>
 </template>
 <script>
 import moment from 'moment'
+import ImageBox from '@/views/imagebox'
+
 export default {
+    components: { ImageBox },
     props: {
         status: {
             type: String,
@@ -104,7 +109,7 @@ export default {
     },
     mounted() {
         if (/^<img/gm.test(this.value)) {
-            this.$refs.msg.firstElementChild.addEventListener('click', e => e.currentTarget.style.width = 'auto');
+            this.$refs.msg.firstElementChild.addEventListener('click', e => this.$refs.imageBox.open(e.currentTarget.src));
             let download = document.createElement('a');
             download.target = '_blank';
             download.innerHTML = '下载';

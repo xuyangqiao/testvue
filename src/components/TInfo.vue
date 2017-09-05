@@ -1,7 +1,7 @@
 <template>
     <div class="content-wrapper">
         <div class="all-task-wrapper">
-            <TsInfo :onload="onloadCallBack" :title="title" :isZong="isZong" :role="role" :name="stateName" :userType="userType" ref="tsInfo">
+            <TsInfo :tid="tid" :onload="onloadCallBack" :title="title" :isZong="isZong" :role="role" :name="stateName" :userType="userType" ref="tsInfo">
             </TsInfo>
 
             <slot name="middle"></slot>
@@ -119,6 +119,7 @@ import { getTackParam, TaskInfoById } from '@/apis/task.js'
 import TsInfo from '@/components/TsInfo'
 export default {
     props: {
+        tid: null,
         onload: Function,
         isZong: {
             type: Boolean,

@@ -7,6 +7,9 @@
             </div>
             <div class="user-info-main clearfix">
                 <div class="ui-slide-left">
+                    <div style="text-align:center;margin-top:20px;">
+                        <el-button type="sure" @click="toFenPei">&lt;返回指派页</el-button>
+                    </div>
                     <ul class="slide-nav-ul">
                         <li class="snu-li-01" :class="{ active: navIndx=='base' }">
                             <router-link :to="{ name: 'S-VuserInfo-base',query: { userId: userId }}">{{$lang('基本信息')}}</router-link>
@@ -37,7 +40,8 @@ export default {
     data() {
         return {
             navIndx: 'base',
-            userId: this.id || getUser().userId
+            userId: this.id || getUser().userId,
+            pageState: JSON.parse(sessionStorage.pageState)
         }
     },
     created() {
@@ -59,6 +63,10 @@ export default {
         getStatus(urlStr) {
             var urlStrArr = urlStr.split('/')
             return urlStrArr[urlStrArr.length - 1]
+        },
+        toFenPei() {
+            sessionStorage.removeItem('pageState');
+            this.$router.push({ name: 'toFenPei', query: this.pageState });
         }
     }
 }

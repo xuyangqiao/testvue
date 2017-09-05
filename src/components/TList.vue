@@ -38,7 +38,7 @@
             <div class="task-set-wrap" :class="childTaskState == -1 ? '' : 'zrw-task-set-wrap'">
                 <el-row :gutter="20">
                     <el-col :span="6" v-for="(item,i) in tasklist" :key="i">
-                        <Card :stateName="getTo(item.state).name" :to="{ name: getTo(item.state).path||'error', query: Object.assign({ id: item.id ,taskId:item.taskId,state:item.state},(getTo(item.state).querys||{}))}" :state="item.state" :projectName="item.projectName" :time="item.taskEndTime" :total="item.total" :totalType="item.totalType" :userType="userType" :imageUrl="item.url" :unread="item.unread" />
+                        <Card :stateName="getTo(item.state).name" :to="{ name: getTo(item.state).path||'error', query: Object.assign({ id: item.id ,taskId:item.taskId,state:item.state},(getTo(item.state).querys||{}))}" :state="item.state" :projectName="item.projectName" :time="item.taskEndTime" :total="item.total" :totalType="item.totalType" :userType="userType" :imageUrl="item.url" :unread="item.unread" :isDialog="isDialog" @click="dialog.id=item.id,dialog.show=true" />
                     </el-col>
                 </el-row>
                 <div class="page-wrap clearfix">
@@ -49,6 +49,11 @@
                 </div>
             </div>
         </div>
+
+        <el-dialog size="large" :visible.sync="dialog.show">
+            <detail v-if="dialog.show" :tid="dialog.id" />
+        </el-dialog>
+
         <SlideBtns :type="'list'"></SlideBtns>
 
     </div>
@@ -66,9 +71,14 @@ import TypeSelect from '@/components/TypeSelect'
 import SlideBtns from '@/components/SlideBtns'
 import { getFile } from '@/apis/files'
 
+import Detail from '@/views/detail.vue'
+
 export default {
-    components: { Card, TypeSelect, SlideBtns },
+    components: { Card, TypeSelect, SlideBtns, Detail },
     props: {
+        isDialog: {
+            default: false
+        },
         parentTasks: {
             type: Array,
             // required: true,
@@ -118,7 +128,11 @@ export default {
             userType: getUser().userType,
 
             groupId: '',
-            taskGroup: ''
+            taskGroup: '',
+            dialog: {
+                show: false,
+                id: null,
+            }
         }
     },
     async created() {

@@ -67,7 +67,7 @@
             </div>
             <p>{{$lang('雇主：')}}{{User.nickName}}</p>
         </div>
-        <SlideBtns :type="'back'"></SlideBtns>
+        <SlideBtns :type="'back'" v-if="!tid"></SlideBtns>
 
     </div>
 </template>
@@ -83,6 +83,7 @@ export default {
         SlideBtns
     },
     props: {
+        tid: null,
         onload: Function,
         title: {
             type: String,
@@ -159,7 +160,7 @@ export default {
     },
     async mounted() {
         const me = this;
-        let id = this.$route.query.id, res;
+        let id = this.tid || this.$route.query.id, res;
         if (this.isZong) {
             res = await TaskInfoById(id);
             Object.assign(this.form, res.data)

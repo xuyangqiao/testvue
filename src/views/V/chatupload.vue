@@ -323,23 +323,24 @@ export default {
         },
         toSubmitUploadClose() {
             const me = this;
-            me.$confirm($lang('确认关闭当前窗口？(如果上传过index.html并且关闭弹框，重新打开将生成新的版本号)')).then(data => {
-                if (data == 'confirm') {
-                    me.toSubmitUploadShow = false;
-                    if (me.$refs.indexFile.uploadFiles.length > 0) {
-                        //                        me.subTask.latestVersion++
-                        history.go(0)
-                        //                        const closeBtn = document.querySelectorAll('#myUploadBtn .el-icon-close')
-                        //                        closeBtn.forEach(item => {
-                        //                            item.click();
-                        //                        })
-                    }
-                }
-                //                    me.$refs.indexFile.clearFiles();
-                //                    me.$refs.ReleaseFile.clearFiles();
-            }).catch(data => {
+            // me.$confirm($lang('确认关闭当前窗口？(如果上传过index.html并且关闭弹框，重新打开将生成新的版本号)')).then(data => {
+            //     if (data == 'confirm') {
+            //         me.toSubmitUploadShow = false;
+            //         if (me.$refs.indexFile.uploadFiles.length > 0) {
+            //             //                        me.subTask.latestVersion++
+            //             history.go(0)
+            //             //                        const closeBtn = document.querySelectorAll('#myUploadBtn .el-icon-close')
+            //             //                        closeBtn.forEach(item => {
+            //             //                            item.click();
+            //             //                        })
+            //         }
+            //     }
+            //     //                    me.$refs.indexFile.clearFiles();
+            //     //                    me.$refs.ReleaseFile.clearFiles();
+            // }).catch(data => {
 
-            });
+            // });
+            me.toSubmitUploadShow = false;
         },
         async addFileToServer(param) {
             const me = this;

@@ -91,6 +91,7 @@ export default {
             this.$router.push({ name: userType })
         },
         async login() {
+            sessionStorage.removeItem('pageState');
             const res = await Login(this.loginForm)
             if (res.success) {
                 this.$root.updateCount();

@@ -2,7 +2,7 @@
   <div class="core-wrapper">
     <Banner></Banner>
     <Show></Show>
-    <TList :childTasks="childTasks"  :isZong="false" :isWall="true"></TList>   
+    <TList :childTasks="childTasks"  :isZong="false" :isWall="true" :isDialog="true"></TList>   
   </div>
 </template>
 <script>

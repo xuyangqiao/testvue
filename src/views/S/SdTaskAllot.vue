@@ -108,6 +108,7 @@ export default {
   },
   async mounted() {
     this.queryType(this.type);
+    sessionStorage.pageState = JSON.stringify(this.$route.query);
   },
   methods: {
     async toSubmit() {
