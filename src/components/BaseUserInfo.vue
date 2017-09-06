@@ -160,7 +160,7 @@
                             const UserInfo = getUserInfo();
                             UserInfo.headUrl = addFileData.data.url;
                             UserInfo.headName = addFileData.data.fileName;
-                            sessionStorage.setItem("UserInfo", JSON.stringify(UserInfo));
+                            localStorage.setItem("UserInfo", JSON.stringify(UserInfo));
                         }else{
                             this.$message.error(addFileData.msg)
                         }
@@ -186,7 +186,7 @@
                 this.loading=false;
                 if (res.success) {
                     this.$message.success($lang("操作成功！"))
-                    sessionStorage.setItem("UserInfo", JSON.stringify(res.data));
+                    localStorage.setItem("UserInfo", JSON.stringify(res.data));
                     me.$router.go(0);
                 } else {
                   this.$message.error(res.msg)

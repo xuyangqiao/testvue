@@ -86,12 +86,11 @@ export default {
         async getUserInfo(id, userType) {
             const res1 = await CheckUserInfoV({ userId: id });
             if (res1.success) {
-                sessionStorage.setItem("UserInfo", JSON.stringify(res1.data));
+                localStorage.setItem("UserInfo", JSON.stringify(res1.data));
             }
             this.$router.push({ name: userType })
         },
         async login() {
-            sessionStorage.removeItem('pageState');
             const res = await Login(this.loginForm)
             if (res.success) {
                 this.$root.updateCount();
@@ -102,11 +101,11 @@ export default {
                     phone: res.data.user.phone,
                     bUserType: res.data.user.bUserType
                 }
-                sessionStorage.setItem("user_token", res.data.token)
-                sessionStorage.setItem("LoginUser", JSON.stringify(userInfo));
+                localStorage.setItem("user_token", res.data.token)
+                localStorage.setItem("LoginUser", JSON.stringify(userInfo));
                 const TaskParam = await getTackParam();
                 if (TaskParam) {
-                    sessionStorage.setItem("TaskParam", JSON.stringify(TaskParam));
+                    localStorage.setItem("TaskParam", JSON.stringify(TaskParam));
                 }
                 window.store = {
                     parentTaskState: -1,

@@ -10,7 +10,7 @@ axios.defaults.headers.post['language'] = (localStorage.lang || '').toLowerCase(
 axios.defaults.timeout = 50000;
 var loadinginstace;
 axios.interceptors.request.use(function (config) {
-    config.headers.token = sessionStorage.getItem("user_token")
+    config.headers.token = localStorage.getItem("user_token")
     // loadinginstace = Loading.service({ fullscreen: true })
     return config;
 }, function (error) {
@@ -21,8 +21,8 @@ axios.interceptors.request.use(function (config) {
 axios.interceptors.response.use(function (response) {
     // loadinginstace.close()
     if (response.data.code == '1001' || response.data.code == '1002') {
-        sessionStorage.setItem("user_token", '')
-        sessionStorage.setItem("LoginUser", '{}')
+        localStorage.setItem("user_token", '')
+        localStorage.setItem("LoginUser", '{}')
         // alert(response.data.msg);
         window.location.href = '/#/login'
     } else {

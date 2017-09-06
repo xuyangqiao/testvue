@@ -23,8 +23,8 @@ const g = [
   {
     path: '/login', name: "login", component: Login,
     beforeEnter: function (to, from, next) {
-      sessionStorage.setItem('LoginUser', "{}");
-      sessionStorage.setItem('UserInfo', "{}");
+      localStorage.setItem('LoginUser', "{}");
+      localStorage.setItem('UserInfo', "{}");
       next();
     }
   },

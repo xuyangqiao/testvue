@@ -25,7 +25,7 @@ export default {
       const res = await CheckUserInfoV({ userId: getUser().userId || "" })
       if (res.success) {
         if (res.data.applyState == '2') {
-          sessionStorage.setItem("UserInfo", JSON.stringify(res.data));
+          localStorage.setItem("UserInfo", JSON.stringify(res.data));
           next(vm => vm.userInfo = res.data);
         } else {
           next(vm => {

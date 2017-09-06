@@ -52,7 +52,7 @@ async function getAllFile(findex = "", bindid = "") {
     return res.data;
 }
 //查询多个文件
-async function getAllFileWithPage(findex = "", bindid = "", page = 1, row = 13) {
+async function getAllFileWithPage(findex = "", bindid = "", page = 1, row = 10) {
     const map = {
         findex,
         bindid

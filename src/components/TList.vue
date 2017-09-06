@@ -142,7 +142,7 @@ export default {
             if (data) {
                 AppClass = data.AppClass;
                 areaList = data.areaList;
-                sessionStorage.setItem("TaskParam", JSON.stringify(data));
+                localStorage.setItem("TaskParam", JSON.stringify(data));
             }
 
         }
@@ -154,7 +154,7 @@ export default {
             this.initState(this.isZong)
         }
 
-        this.taskGroup = JSON.parse(sessionStorage.getItem("TaskParam") || {}).taskGroup || [];
+        this.taskGroup = JSON.parse(localStorage.getItem("TaskParam") || {}).taskGroup || [];
 
     },
     methods: {

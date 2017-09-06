@@ -16,7 +16,7 @@
 <script>
 export default {
   created() {
-    if (JSON.parse(sessionStorage.UserInfo || '{}').id && !this.$root.timer) {
+    if (JSON.parse(localStorage.UserInfo || '{}').id && !this.$root.timer) {
       this.$root.updateCount(), this.$root.timer = setInterval(() => this.$root.updateCount(), 30000);
     }
   }

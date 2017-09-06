@@ -15,13 +15,13 @@
             </el-table-column>
             <el-table-column :label="$lang('操作')">
                 <template scope="scope">
-                    <el-button size="small" @click="proview(scope.row)">{{$lang('预览')}}</el-button>
+                    <el-button size="small" @click="proview(scope.row)" v-if="$route.query.index=='-1'">{{$lang('预览')}}</el-button>
+                    <el-button size="small" @click="downloadFile(scope.row.fileName,scope.row.url)" v-else>{{$lang('下载')}}</el-button>
                 </template>
             </el-table-column>
         </el-table>
         <div class="block">
-            <el-pagination :page-size="pageSize" @current-change="currentChange" layout="prev, pager, next" :total="total">
-            </el-pagination>
+            <el-pagination :page-size="pageSize" @current-change="currentChange" layout="prev, pager, next" :total="total" />
         </div>
         <SlideBtns :type="'back'"></SlideBtns>
     </div>
@@ -36,8 +36,8 @@ export default {
         return {
             fileData: [],
             multipleSelection: [],
-            total: 1,
-            pageSize: 1
+            total: 0,
+            pageSize: 10
         }
     },
     async created() {
@@ -87,7 +87,9 @@ export default {
         async currentChange(currentPage) {
             const me = this;
             const TaskStage = me.$route.query.TaskStage;
-            const res = await getAllFileWithPage("", TaskStage, currentPage);
+            let type = me.$route.query.index == -1 ? 'checked' : 'enclosure';
+            let id = me.$route.query.id;
+            const res = await getAllFileWithPage(type, id, currentPage);
             if (res.success) {
                 me.fileData = res.data.list;
                 me.total = res.data.total;

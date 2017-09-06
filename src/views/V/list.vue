@@ -28,7 +28,7 @@ export default {
     },
     methods: {
         getUserId() {
-            return JSON.parse(sessionStorage.getItem("LoginUser")).userId
+            return JSON.parse(localStorage.getItem("LoginUser")).userId
         }
     }
 }

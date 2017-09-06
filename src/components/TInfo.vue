@@ -161,8 +161,8 @@ export default {
         // this.form.total = data.total;
         // this.form.packageType = data.packageType;
         // this.form.taskEndTime = data.taskEndTime;
-        // //从sessionStorage 获取任务参数，没有就重新请求
-        //   let TaskParamCache = sessionStorage.getItem("TaskParam");
+        // //从localStorage 获取任务参数，没有就重新请求
+        //   let TaskParamCache = localStorage.getItem("TaskParam");
         //   let taskGroup;
         //   if(TaskParamCache){
         //   taskGroup = JSON.parse(TaskParamCache).taskGroup;
@@ -275,7 +275,7 @@ export default {
         //                return isJPG && isLt2M;
         //            }
         toProview() {
-            let loginUser = JSON.parse(sessionStorage.LoginUser || '{}');
+            let loginUser = JSON.parse(localStorage.LoginUser || '{}');
             console.log(this.$refs.tsInfo.fileData)
             let fileData = this.$refs.tsInfo.fileData;
             this.$router.push({ name: `${loginUser.userType}_${{ B: 'DTaskCheck' }[loginUser.userType] || 'Proview'}`, query: { fileVersion: fileData.fileVersion, url: fileData.url } })

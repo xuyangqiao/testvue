@@ -291,7 +291,7 @@ export default {
         //保存擅长领域
         async saveSpecialty() {
             this.loading1 = true;
-            const LoginUser = JSON.parse(sessionStorage.getItem('LoginUser'));
+            const LoginUser = JSON.parse(localStorage.getItem('LoginUser'));
             let param = {
                 expertise: this.checkedRole.join("/"),
                 scebe: this.checkedScenes.join("/"),

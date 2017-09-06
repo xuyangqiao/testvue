@@ -283,7 +283,7 @@ export default {
             if (res.success) {
                 me.$message.success(res.msg);
                 me.$refs.IDImage1.uploadFiles = me.$refs.IDImage2.uploadFiles = me.$refs.IDImage3.uploadFiles = [];
-                sessionStorage.setItem("UserInfo", JSON.stringify(res.data));
+                localStorage.setItem("UserInfo", JSON.stringify(res.data));
                 if (promiseFileList.length == 0) {
                     me.loading = false;
                     me.edit = false;

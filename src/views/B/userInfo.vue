@@ -67,7 +67,7 @@ export default {
         }
     },
     created () {
-        const LoginUser=JSON.parse(sessionStorage.getItem('LoginUser'));
+        const LoginUser=JSON.parse(localStorage.getItem('LoginUser'));
         this.bUserType=LoginUser.bUserType||"0";
         this.navIndx=this.getStatus(this.$route.path);
         //拼接路由中的query

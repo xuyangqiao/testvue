@@ -229,7 +229,7 @@ export default {
     async mounted() {
 
         const me = this;
-        const { areaList, enviList, taskGroup, AppClass } = JSON.parse(sessionStorage.getItem("TaskParam") || {});
+        const { areaList, enviList, taskGroup, AppClass } = JSON.parse(localStorage.getItem("TaskParam") || {});
         this.areaList = areaList;
         this.enviList = enviList;
         this.taskGroup = taskGroup && taskGroup.map(o => Object.assign(o, { editable: false, backup: o.groupName }));
@@ -293,8 +293,8 @@ export default {
             if (res.success) {
                 this.taskGroup = this.taskGroup || [];
                 this.taskGroup.forEach(o => o.id == res.data.id && Object.assign(o, res.data));
-                let taskParam = JSON.parse(sessionStorage.getItem('TaskParam') || '{}');
-                sessionStorage.setItem('TaskParam', JSON.stringify(Object.assign(taskParam, { taskGroup: this.taskGroup })));
+                let taskParam = JSON.parse(localStorage.getItem('TaskParam') || '{}');
+                localStorage.setItem('TaskParam', JSON.stringify(Object.assign(taskParam, { taskGroup: this.taskGroup })));
                 o.groupName = o.backup, o.editable = false;
             }
         },
@@ -303,8 +303,8 @@ export default {
             if (res.success) {
                 this.taskGroup = this.taskGroup || [];
                 this.taskGroup.splice(this.taskGroup.indexOf(o), 1);
-                let taskParam = JSON.parse(sessionStorage.getItem('TaskParam') || '{}');
-                sessionStorage.setItem('TaskParam', JSON.stringify(Object.assign(taskParam, { taskGroup: this.taskGroup })));
+                let taskParam = JSON.parse(localStorage.getItem('TaskParam') || '{}');
+                localStorage.setItem('TaskParam', JSON.stringify(Object.assign(taskParam, { taskGroup: this.taskGroup })));
             }
         },
         async createGroupConfirm() {
@@ -315,7 +315,7 @@ export default {
             this.groupName = "";
             const taskData = await getTackParam();
             if (taskData) {
-                sessionStorage.setItem("TaskParam", JSON.stringify(taskData));
+                localStorage.setItem("TaskParam", JSON.stringify(taskData));
             }
         },
         typeSelectChange(value) {

@@ -362,7 +362,7 @@ export default {
             WXPaying: false,
             userId: '',
 
-            bUserType: sessionStorage.LoginUser ? JSON.parse(sessionStorage.LoginUser).bUserType : 0,
+            bUserType: localStorage.LoginUser ? JSON.parse(localStorage.LoginUser).bUserType : 0,
             parentId: null
         }
     },

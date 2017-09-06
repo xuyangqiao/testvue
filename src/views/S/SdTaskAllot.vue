@@ -27,7 +27,8 @@
             </el-table-column>
             <el-table-column :label="$lang('昵称')" width="">
               <template scope="scope">
-                <span @click="toVUser(scope.row)" style="cursor:pointer;">{{scope.row.nickName}}</span>
+                <!-- <span @click="toVUser(scope.row)"></span> -->
+                <router-link style="cursor:pointer;" :to="{ name: 'S-VuserInfo', query: { userId: scope.row.userid } }" target="_blank">{{scope.row.nickName}}</router-link>
               </template>
             </el-table-column>
             <el-table-column property="createTime" :label="$lang('注册时间')" width="">
@@ -108,7 +109,6 @@ export default {
   },
   async mounted() {
     this.queryType(this.type);
-    sessionStorage.pageState = JSON.stringify(this.$route.query);
   },
   methods: {
     async toSubmit() {

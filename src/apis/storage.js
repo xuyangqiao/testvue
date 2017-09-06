@@ -1,27 +1,27 @@
 function getUser() {
-  if(sessionStorage.getItem('LoginUser')){
-    return JSON.parse(sessionStorage.getItem('LoginUser'))
+  if(localStorage.getItem('LoginUser')){
+    return JSON.parse(localStorage.getItem('LoginUser'))
   }else{
     return {}
   }
 }
 function getUserInfo() {
-  if(sessionStorage.getItem('UserInfo')){
-    return JSON.parse(sessionStorage.getItem('UserInfo'))
+  if(localStorage.getItem('UserInfo')){
+    return JSON.parse(localStorage.getItem('UserInfo'))
   }else{
     return {}
   }
 }
 function getTaskParam(){
-    if(sessionStorage.getItem('TaskParam')){
-    return JSON.parse(sessionStorage.getItem('TaskParam'))
+    if(localStorage.getItem('TaskParam')){
+    return JSON.parse(localStorage.getItem('TaskParam'))
   }else{
     return {}
   }
 }
 function isLogin(){
   const user=getUser();
-  const token=sessionStorage.getItem('user_token')
+  const token=localStorage.getItem('user_token')
   return user.userId&&token?true:false
 }
 export {getUser,getUserInfo,getTaskParam,isLogin}
