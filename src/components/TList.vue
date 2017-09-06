@@ -50,7 +50,7 @@
             </div>
         </div>
 
-        <el-dialog size="large" :visible.sync="dialog.show">
+        <el-dialog size="auto" :visible.sync="dialog.show">
             <detail v-if="dialog.show" :tid="dialog.id" />
         </el-dialog>
 
