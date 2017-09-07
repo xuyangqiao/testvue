@@ -1,6 +1,6 @@
 <template>
     <!--放左边是fixed-left   放右边是fixed-right-->
-    <div>
+    <div v-if="!$route.query.newTab">
         <div class="fixed-slide fixed-left" v-if="type=='back'">
             <a href="javascript:;" class="slide-btn-wrap slide-btn-01" @click="onNavigation()">
                 <i></i>

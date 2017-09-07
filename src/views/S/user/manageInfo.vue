@@ -33,13 +33,14 @@ export default {
         }
     },
     beforeRouteLeave(to, from, next){
-        this.dialogVisible=true;
-        if(this.nextTo){
-            next()
-        }else{
-            next(false)
-            this.nextTo=to.name
-        }
+        next();
+        // this.dialogVisible=true;
+        // if(this.nextTo){
+        //     next()
+        // }else{
+        //     next(false)
+        //     this.nextTo=to.name
+        // }
     }
   }
 </script>

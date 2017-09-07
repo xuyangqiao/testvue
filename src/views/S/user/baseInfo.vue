@@ -40,17 +40,18 @@ export default {
         }
     },
     beforeRouteLeave(to, from, next){
-        if(this.$refs.baseInfo.edit){
-            this.dialogVisible=true;
-            if(this.nextTo){
-                next()
-            }else{
-                next(false)
-                this.nextTo=to.name
-            }
-        }else{
-            next()
-        }
+        next();
+        // if(this.$refs.baseInfo.edit){
+        //     this.dialogVisible=true;
+        //     if(this.nextTo){
+        //         next()
+        //     }else{
+        //         next(false)
+        //         this.nextTo=to.name
+        //     }
+        // }else{
+        //     next()
+        // }
     }
   }
 </script>

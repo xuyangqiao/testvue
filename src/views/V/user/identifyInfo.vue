@@ -300,17 +300,18 @@ export default {
         }
     },
     beforeRouteLeave(to, from, next) {
-        if (this.edit || this.accType == 2) {
-            this.dialogVisible = true;
-            if (this.nextTo) {
-                next()
-            } else {
-                next(false)
-                this.nextTo = to.name
-            }
-        } else {
-            next()
-        }
+        next();
+        // if (this.edit || this.accType == 2) {
+        //     this.dialogVisible = true;
+        //     if (this.nextTo) {
+        //         next()
+        //     } else {
+        //         next(false)
+        //         this.nextTo = to.name
+        //     }
+        // } else {
+        //     next()
+        // }
     }
 }
 </script>

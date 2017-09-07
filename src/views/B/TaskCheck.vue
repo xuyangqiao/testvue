@@ -2,12 +2,8 @@
     <div class="content-wrapper">
         <div class="check-accept-wrapper">
             <h3 class="main-title">{{$lang('验收预览')}}</h3>
-            <div style="width:960px;margin:auto;text-align:right;">
-                <!-- <img :src="require('../../assets/images/logo.png')" height="28" /> -->
-                <img :src="require('../../assets/images/fullscreen.png')" height="28" style="cursor:pointer;" @click="fullScreen" />
-            </div>
             <div>
-                <iframe style="width: 960px; height: 642px; margin: 0 auto;display: block;" frameBorder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" v-if="iframeSrc" :src="iframeSrc" frameborder="0"></iframe>
+                <iframe style="width: 960px; height: 642px; margin: 0 auto;display: block;" frameBorder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" v-if="iframeSrc" :src="iframeSrc" frameborder="0" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
             </div>
             <div class="set-btn-wrap">
                 <el-button type="sure" @click='toPass'>{{$lang('通过')}}</el-button>
@@ -43,7 +39,7 @@ export default {
         let info = (fileData.data || []).sort((a, b) => new Date(a.createTime) > new Date(b.createTime) ? -1 : 1)[0];
 
         if (info) {
-            this.iframeSrc = `http://api.combo.xin/vsworkapi/preview.jsp?fileVersion=${info.fileVersion}&dataPath=${info.url}`;
+            this.iframeSrc = `http://vsdata.oss-cn-hangzhou.aliyuncs.com/untity/${info.fileVersion}/index.html?vsdata=${info.url}`;
         } else {
             this.$message.warning($lang('未找到文件'));
         }

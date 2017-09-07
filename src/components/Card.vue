@@ -1,24 +1,6 @@
 <template>
     <div class="task-set-item">
-        <a href="javascript:;" class="tsi-a" @click="$emit('click',$event)" v-if="isDialog">
-            <img v-if="imageUrl" :src="imageUrl" />
-            <img v-else src="../assets/images/img-item.jpg" />
-            <div class="task-info_show">
-                <div class="vg-center ">
-                    <p>{{$lang('项目名称：')}}{{projectName}}{{isDialog}}</p>
-
-                    <p>{{$lang('任务截止时间：')}}{{time == "Invalid date" ? '' : time}}</p>
-                    <p>{{$lang('项目金额：')}}
-                        <span v-if="totalType == '1'">{{$lang('询价')}}</span>
-                        <span v-else>¥{{total || '未填写'}}</span>
-                    </p>
-                </div>
-            </div>
-            <div class="news-tips-w" :class="{unread}">
-                <p>{{stateName}}</p>
-            </div>
-        </a>
-        <router-link :to="to" href="javascript:;" class="tsi-a" v-else>
+        <router-link :to="route" class="tsi-a" target="_blank">
             <img v-if="imageUrl" :src="imageUrl" />
             <img v-else src="../assets/images/img-item.jpg" />
             <div class="task-info_show">
@@ -46,6 +28,10 @@ export default {
         color() {
             const colors = ["dsh", "dsh", "shz", "ysl", "ywc"]
             return colors[this.state]
+        },
+        route() {
+            this.to.query = Object.assign({}, this.to.query, { newTab: true });
+            return this.to;
         }
     }
 }
