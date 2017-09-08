@@ -76,7 +76,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item :label="$lang('资源文件：')">
-                    <el-upload class="upload-demo undelete" action="https://jsonplaceholder.typicode.com/posts/" ref="indexFile" :file-list="IndexFileList" :on-change="IndexFileChange" :on-remove="IndexFileRemove" :autoUpload="false">
+                    <el-upload class="upload-demo" action="https://jsonplaceholder.typicode.com/posts/" ref="indexFile" :file-list="IndexFileList" :on-change="IndexFileChange" :on-remove="IndexFileRemove" :autoUpload="false">
                         <el-button size="small" type="primary">{{$lang('点击上传')}}</el-button>
                     </el-upload>
                 </el-form-item>
@@ -418,12 +418,14 @@ export default {
         IndexFileRemove(file, fileList) {
             const me = this;
             console.log(file, fileList);
-            debugger
+            fileList.pop();
+            this.selectedFile = null;
         },
         ReleaseFileRemove(file, fileList) {
             const me = this;
             console.log(file, fileList);
-            debugger
+            fileList.pop();
+            this.selectedFile = null;
         }
     }
 }
