@@ -3,6 +3,7 @@ import { Loading, Message } from 'element-ui'
 
 // axios.defaults.baseURL = 'http://api.combo.xin/vsworkapi/api';//开发服
 axios.defaults.baseURL = 'http://api.combo.xin/vsworkapi/api';//正式服
+// axios.defaults.baseURL = 'http://api.vswork.com/api';//客户服务器
 axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
 axios.defaults.headers.post['language'] = (localStorage.lang || '').toLowerCase();
 
