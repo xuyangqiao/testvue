@@ -1,4 +1,4 @@
-import {getOSSConfig} from '@/apis/files'
+import { getOSSConfig } from '@/apis/files'
 
 // const client = new OSS.Wrapper({
 //     region: "oss-cn-shanghai",
@@ -37,8 +37,10 @@ function progress(p, barId) {
     return function (done) {
         if (barId) {
             const bar = document.getElementById(barId);
-            bar.childNodes[0].style.width = Math.floor(p * 100) + '%';
-            bar.childNodes[1].innerHTML = Math.floor(p * 100) + '%';
+            if (bar) {
+                bar.childNodes[0].style.width = Math.floor(p * 100) + '%';
+                bar.childNodes[1].innerHTML = Math.floor(p * 100) + '%';
+            }
         }
         done();
     }
@@ -85,4 +87,4 @@ function newGuid() {
 //     var b=uploadFile();
 //     Promise.all([a,b]).then(data=>{})
 // }
-export {uploadFile, deleteOssFile, client, newGuid, progress};
+export { uploadFile, deleteOssFile, client, newGuid, progress };

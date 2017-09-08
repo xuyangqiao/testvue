@@ -22,8 +22,8 @@
                                 <el-date-picker v-model="form.rangeTime" type="datetimerange" :placeholder="$lang('报名结束时间~任务截止时间')" format="yyyy-MM-dd HH:mm:ss" :picker-options="pickerOptions0"></el-date-picker>
                             </el-form-item>
                             <!--<el-form-item :label="$lang('任务截止时间:">
-                                                                                                                                                    <el-date-picker v-model="form.taskEndTime" type="datetime" placeholder="请选择时间" format="yyyy-MM-dd HH:mm:ss" :picker-options="pickerOptions0"></el-date-picker>
-                                                                                                                                                </el-form-item>-->
+                                                                                                                                                                                    <el-date-picker v-model="form.taskEndTime" type="datetime" placeholder="请选择时间" format="yyyy-MM-dd HH:mm:ss" :picker-options="pickerOptions0"></el-date-picker>
+                                                                                                                                                                                </el-form-item>-->
                         </el-col>
                         <el-col :span="10" :offset="3">
                             <div class="new-tast-upload">
@@ -53,9 +53,9 @@
                                 </el-form-item>
                                 <el-form-item :label="$lang('贴图属性:')">
                                     <el-tree ref="tree" :data="configs.mapAtrr" show-checkbox node-key="id" :props="{
-                                                                                                                                                                    children: 'children',
-                                                                                                                                                                    label: 'label'
-                                                                                                                                                                }">
+                                                                                                                                                                                                    children: 'children',
+                                                                                                                                                                                                    label: 'label'
+                                                                                                                                                                                                }">
                                     </el-tree>
                                 </el-form-item>
                                 <el-form-item :label="$lang('模型风格:')">
@@ -149,7 +149,7 @@
                         </div>
 
                         <el-form-item :label="$lang('参考图片:')" class="update-images-list">
-                            <el-upload ref="ReferencePicture" action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" :on-remove="removeFile" :on-change="ReferencePictureChange" :file-list="ReferencePictureFileList" :auto-upload="false" :multiple=true>
+                            <el-upload ref="ReferencePicture" action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" :on-remove="removeFile" :on-change="ReferencePictureChange" :file-list="ReferencePictureFileList" :auto-upload="false" :multiple="true">
                                 <i class="el-icon-plus"></i>
                             </el-upload>
                             <!--<el-dialog v-model="dialogVisible" size="tiny">-->
@@ -159,7 +159,7 @@
                         <el-row>
                             <el-col :span="12" class="update-text">
                                 <el-form-item :label="$lang('附件:')">
-                                    <el-upload class="upload-demo" ref="EnclosureFile" action="https://jsonplaceholder.typicode.com/posts/" :on-remove="removeFile" :file-list="EnclosureFileList" :auto-upload="false" :multiple=true>
+                                    <el-upload class="upload-demo" ref="EnclosureFile" action="https://jsonplaceholder.typicode.com/posts/" :on-remove="removeFile" :file-list="EnclosureFileList" :auto-upload="false" :multiple="true">
                                         <el-button slot="trigger" size="small" type="primary">{{$lang('添加文件')}}</el-button>
                                     </el-upload>
                                 </el-form-item>
@@ -501,17 +501,17 @@ export default {
             }
             this.loadinginstace = Loading.service({ fullscreen: true })
             const res = await this._CreateChildTask(this.form, this.form.state);
-            this.$message({
-                message: res.msg,
-                type: res.success ? 'success' : 'error',
-                onClose: () => {
+            console.log('fffffffffffffffffffffffffffffffffff', res);
+            // this.$message({
+            //     message: res.msg,
+            //     type: res.success ? 'success' : 'error',
+            //     onClose: () => {
 
-                    if (res.success) {
-                        this.$router.push({ name: "toEdit", query: { id } })
-                    }
-                }
-            });
-            this.loadinginstace.close();
+            //         if (res.success) {
+            //             this.$router.push({ name: "toEdit", query: { id } })
+            //         }
+            //     }
+            // });
         },
         validatefn() {
             // rules: {
@@ -769,6 +769,8 @@ export default {
             });
             //上传文件
             Promise.all(PromiseList).then(data => {
+                console.log('xxxxxxxxxxxxxxxxxxx', data);
+                this.loadinginstace = Loading.service({ fullscreen: true })
                 let fileList = [];
                 data.map((item, i) => {
                     const fileName = item.name.slice(item.name.lastIndexOf("/") + 1);
@@ -790,6 +792,7 @@ export default {
                     }
                 });
                 this.addAllFileList(fileList);
+                this.loadinginstace.close();
             });
         },
         editStage(item) {
