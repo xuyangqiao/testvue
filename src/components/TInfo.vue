@@ -52,11 +52,11 @@
                             </dl>
                             <dl class="box-flex info-show">
                                 <dt>{{$lang('应用类别:')}}</dt>
-                                <dd class="flex1">{{form.vevironmentsName}}</dd>
+                                <dd class="flex1">{{form.appTypeName}}</dd>
                             </dl>
                             <dl class="box-flex info-show">
                                 <dt>{{$lang('应用环境:')}}</dt>
-                                <dd class="flex1">{{form.appTypeName}}</dd>
+                                <dd class="flex1">{{form.vevironmentsName}}</dd>
                             </dl>
                             <dl class="box-flex info-show" v-if="form.chartlatProperty1">
                                 <dt>{{$lang('贴图属性:')}}</dt>
