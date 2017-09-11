@@ -38,7 +38,7 @@
             <div class="task-set-wrap" :class="childTaskState == -1 ? '' : 'zrw-task-set-wrap'">
                 <el-row :gutter="20">
                     <el-col :span="6" v-for="(item,i) in tasklist" :key="i">
-                        <Card :stateName="getTo(item.state).name" :to="{ name: getTo(item.state).path||'error', query: Object.assign({ id: item.id ,taskId:item.taskId,state:item.state},(getTo(item.state).querys||{}))}" :state="item.state" :projectName="item.projectName" :time="item.taskEndTime" :total="item.total" :totalType="item.totalType" :userType="userType" :imageUrl="item.url" :unread="item.unread" :isDialog="isDialog" @click="dialog.id=item.id,dialog.show=true" />
+                        <Card :stateName="getTo(item.state).name" :to="{ name: getTo(item.state).path||'error', query: Object.assign({ id: item.id ,taskId:item.taskId,state:item.state},(getTo(item.state).querys||{}))}" :state="item.state" :projectName="item.projectName" :time="item.taskEndTime" :total="item.total" :totalType="item.totalType" :userType="userType" :imageUrl="item.url" :unread="item.unread" :isDialog="isDialog" :origin="origin" @click="dialog.id=item.id,dialog.show=true" />
                     </el-col>
                 </el-row>
                 <div class="page-wrap clearfix">
@@ -79,6 +79,7 @@ export default {
         isDialog: {
             default: false
         },
+        origin: null,
         parentTasks: {
             type: Array,
             // required: true,

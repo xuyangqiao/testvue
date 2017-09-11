@@ -23,14 +23,15 @@
 
 <script>
 export default {
-    props: ["to", "projectName", "time", "total", "totalType", "userType", "state", "imageUrl", "stateName", "unread", 'isDialog'],
+    props: ["to", "projectName", "time", "total", "totalType", "userType", "state", "imageUrl", "stateName", "unread", 'isDialog', 'origin'],
     computed: {
         color() {
             const colors = ["dsh", "dsh", "shz", "ysl", "ywc"]
             return colors[this.state]
         },
         route() {
-            this.to.query = Object.assign({}, this.to.query, { newTab: true, origin: 'index' });
+            console.log(this.$route);
+            this.to.query = Object.assign({}, this.to.query, { newTab: true, origin: this.origin });
             return this.to;
         }
     }
