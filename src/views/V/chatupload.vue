@@ -70,7 +70,7 @@
         </div>
         <el-dialog :title="$lang('上传文件')" ref="toSubmitUpload" :visible.sync="toSubmitUploadShow" size="tiny" :before-close="toSubmitUploadClose" v-loading.body="loading">
             <el-form>
-                <el-form-item :label="$lang('版本号：')">
+                <el-form-item :label="$lang('格式选择：')">
                     <el-select v-model="form.fileVersion" :placeholder="$lang('请选择')">
                         <el-option :label="o.valueExp" :value="o.key" v-for="o in versionList" :key="o.id"></el-option>
                     </el-select>
