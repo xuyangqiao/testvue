@@ -366,7 +366,7 @@ export default {
             let file = this.selectedFile,
                 version = this.form.fileVersion;
             if (!version) {
-                this.$message.warning($lang('请先选择版本号'));
+                this.$message.warning($lang('请先选择'));
             } else if (!file) {
                 this.$message.warning($lang('请上传资源文件'));
             } else {
