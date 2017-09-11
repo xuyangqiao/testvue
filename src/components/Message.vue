@@ -114,7 +114,7 @@ export default {
             download.target = '_blank';
             download.innerHTML = '下载';
             download.classList.add('download-img');
-            document.onclick = () => {
+            download.onclick = () => {
                 let url = this.$refs.msg.firstElementChild.src;
                 fetch(url).then(r => r.blob()).then(o => {
                     console.log(o);
