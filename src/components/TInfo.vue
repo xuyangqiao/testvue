@@ -24,7 +24,7 @@
                                 <!--<li class="pic-list-item"><img src="../assets/images/img-100.jpg"/></li>-->
                             </ul>
                         </div>
-                        <div>
+                        <div v-if="$route.query.origin!='index'">
                             <h4 class="th-title">{{$lang('附件（')}}{{fileList.length}} {{$lang('个）')}}</h4>
                             <ul class="file-list-wrap clearfix">
                                 <li class="file-list-item" v-for="(item,i) in fileList" :key="i">

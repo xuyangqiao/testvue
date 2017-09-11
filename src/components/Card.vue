@@ -30,7 +30,7 @@ export default {
             return colors[this.state]
         },
         route() {
-            this.to.query = Object.assign({}, this.to.query, { newTab: true });
+            this.to.query = Object.assign({}, this.to.query, { newTab: true, origin: 'index' });
             return this.to;
         }
     }
