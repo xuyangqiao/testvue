@@ -580,7 +580,7 @@ export default {
                 return
             }
 
-            let lastFile = fileData.data[fileData.data.length - 1];
+            let lastFile = fileData.data.sort((a, b) => new Date(a.createTime) > new Date(b.createTime) ? -1 : 1)[0];
 
             var a = document.createElement('a');
             a.href = lastFile.url;
