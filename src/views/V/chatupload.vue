@@ -70,7 +70,7 @@
         </div>
         <el-dialog :title="$lang('上传文件')" ref="toSubmitUpload" :visible.sync="toSubmitUploadShow" size="tiny" :before-close="toSubmitUploadClose" v-loading.body="loading">
             <el-form>
-                <el-form-item :label="$lang('版本号：')">
+                <el-form-item :label="$lang('格式选择：')">
                     <el-select v-model="form.fileVersion" :placeholder="$lang('请选择')">
                         <el-option :label="o.valueExp" :value="o.key" v-for="o in versionList" :key="o.id"></el-option>
                     </el-select>
@@ -354,7 +354,8 @@ export default {
             if (fileList.length > 1) {
                 this.$message.warning($lang('最多只能上传一个文件'));
                 fileList.pop();
-            } else if ((/.vsdata$/).test(file.name)) {
+            // } else if ((/.vsdata$/).test(file.name)) {
+            } else if ((/.*$/).test(file.name)) {
                 this.selectedFile = file;
             } else {
                 this.$message.warning($lang('选择的文件格式不正确'))
@@ -365,7 +366,7 @@ export default {
             let file = this.selectedFile,
                 version = this.form.fileVersion;
             if (!version) {
-                this.$message.warning($lang('请先选择版本号'));
+                this.$message.warning($lang('请先选择'));
             } else if (!file) {
                 this.$message.warning($lang('请上传资源文件'));
             } else {
