@@ -12,12 +12,12 @@
                 <Message :isLeft="!item.isAdmin" :role="item.role" :time="item.time" :isEnd="item.isEnd" :isStart="item.isStart" :value="item.data" :src="item.src" v-for="(item,i) in messages" :key="i"></Message>
                 <!--<Message :isLeft="false"></Message>-->
                 <!--<div class="tips-news">
-                                    <p>{{$lang('以上为昨日聊天记录')}}</p>
-                                </div>
-                                <div class="tips-news">
-                                    <span>2017-06-05  19:03</span>
-                                    <p>{{$lang('V端已上传文件')}}</p>
-                                </div>-->
+                                                                                                                            <p>{{$lang('以上为昨日聊天记录')}}</p>
+                                                                                                                        </div>
+                                                                                                                        <div class="tips-news">
+                                                                                                                            <span>2017-06-05  19:03</span>
+                                                                                                                            <p>{{$lang('V端已上传文件')}}</p>
+                                                                                                                        </div>-->
             </div>
             <div class="chart-k-footer" v-if="!isHistory">
                 <div class="edit-other">
@@ -299,31 +299,31 @@ export default {
             var allowType = { 'jpg': true, 'gif': true, 'png': true, 'bmp': true, 'zip': true, 'txt': true, 'doc': true, 'pdf': true };
             var file_url;
             if (file.filetype.toLowerCase() in allowType) {
-                // var option = {
-                //     apiUrl: WebIM.config.apiURL,
-                //     file: file,
-                //     to: this.chatConfig.groupid,                       // 接收消息对象
-                //     roomType: false,
-                //     onFileUploadError: function() {      // 消息上传失败
-                //         console.log('onFileUploadError');
-                //     },
-                //     onFileUploadComplete: function(aa) {   // 消息上传成功
-                //         console.log('onFileUploadComplete', aa);
-                //         file_url = aa.uri + "/" + aa.entities[0].uuid;
-                //     },
-                //     success: () => {
-                //         this.setMessage({
-                //             data: `<img src="${file_url}" class='small-img'/>`,
-                //             src: this.chatConfig.userimg,
-                //             isAdmin: this.isReserve,
-                //             role: this.chatConfig.userRole,
-                //         })
-                //     },
-                //     flashUpload: WebIM.flashUpload
-                // };
-                // msg.set(option);
-                // msg.setGroup('groupchat');
-                // conn.send(msg.body);
+                var option = {
+                    apiUrl: WebIM.config.apiURL,
+                    file: file,
+                    to: this.chatConfig.groupid,                       // 接收消息对象
+                    roomType: false,
+                    onFileUploadError: function() {      // 消息上传失败
+                        console.log('onFileUploadError');
+                    },
+                    onFileUploadComplete: function(aa) {   // 消息上传成功
+                        console.log('onFileUploadComplete', aa);
+                        file_url = aa.uri + "/" + aa.entities[0].uuid;
+                    },
+                    success: () => {
+                        // this.setMessage({
+                        //     data: `<img src="${file_url}" class='small-img'/>`,
+                        //     src: this.chatConfig.userimg,
+                        //     isAdmin: this.isReserve,
+                        //     role: this.chatConfig.userRole,
+                        // })
+                    },
+                    flashUpload: WebIM.flashUpload
+                };
+                msg.set(option);
+                msg.setGroup('groupchat');
+                conn.send(msg.body);
 
                 client.then(oss => {
                     oss.multipartUpload(`/chat/${this.$route.query.id}/_${Math.random().toString(36).substring(2)}-${Date.now()}-${file.filename}`, file.data, {
@@ -334,7 +334,7 @@ export default {
                             src: this.chatConfig.userimg,
                             isAdmin: this.isReserve,
                             role: this.chatConfig.userRole,
-                        })
+                        });
                     });
                 })
             }
@@ -394,7 +394,7 @@ export default {
             conn.send(msg.body);
         },
         setMessage({ data, src, isAdmin }) {
-            this.messages.push({ data, src, isAdmin, role: this.chatConfig.userRole })
+            this.messages.push({ data, src, isAdmin, role: this.chatConfig.userRole });
             saveChatMsg({
                 time: Date.now(),
                 data: data,

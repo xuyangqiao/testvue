@@ -114,7 +114,17 @@ export default {
             download.target = '_blank';
             download.innerHTML = '下载';
             download.classList.add('download-img');
-            download.href = this.$refs.msg.firstElementChild.src;
+            document.onclick = () => {
+                let url = this.$refs.msg.firstElementChild.src;
+                fetch(url).then(r => r.blob()).then(o => {
+                    console.log(o);
+                    let a = document.createElement('a'), data = new Blob([o], { type: o.type });
+                    a.href = URL.createObjectURL(data);
+                    a.download = url.replace(/.*\//gmi, '');
+                    a.click();
+                    URL.revokeObjectURL(url);
+                });
+            }
             this.$refs.msg.appendChild(download);
         }
     }

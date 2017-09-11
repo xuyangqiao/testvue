@@ -92,6 +92,10 @@
     display: none !important;
 }
 
+.el-upload-list__item .el-icon-close {
+    display: block;
+}
+
 .shoujiicon {
     width: 15px;
     height: 20px;
