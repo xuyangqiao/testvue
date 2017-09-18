@@ -47,6 +47,7 @@ import B_Header from '@/views/B/Header'
 import B_UserInfo from '@/views/B/userInfo.vue'
 import B_Base from '@/views/B/user/baseInfo.vue'
 import B_Account from '@/views/B/user/accountInfo.vue'
+import B_ReApply from '@/views/B/user/reApply.vue'
 import B_Bag from '@/views/B/user/bagInfo.vue'
 import B_Child from '@/views/B/user/childInfo.vue'
 import B_Paid from '@/views/B/user/paid.vue'
@@ -109,6 +110,7 @@ import V_Base from '@/views/V/user/baseInfo.vue'
 import V_Ability from '@/views/V/user/abilityInfo.vue'
 import V_Finance from '@/views/V/user/financeInfo.vue'
 import V_Identify from '@/views/V/user/identifyInfo.vue'
+import V_ReApply from '@/views/V/user/reApply.vue'
 import V_ChatUpload from '@/views/V/chatupload.vue'
 import V_History from '@/views/V/History.vue'
 import V_Proview from '@/views/V/proview.vue'
@@ -179,6 +181,7 @@ const router = new Router({
           children: [
             { path: 'base', component: B_Base, name: 'B-userInfo-base' },
             { path: 'account', component: B_Account, name: 'B-userInfo-account' },
+            { path: 'reapply', component: B_ReApply, name: 'B-userInfo-reApply' },
             { path: 'bag', component: B_Bag, name: 'B-userInfo-bag' },
             { path: 'child', component: B_Child, name: 'B-userInfo-child' },
             { path: 'paid', component: B_Paid, name: 'B-userInfo-paid' },
@@ -212,7 +215,8 @@ const router = new Router({
             { path: 'base', component: V_Base, name: 'V-userInfo-base' },
             { path: 'ability', component: V_Ability, name: 'V-userInfo-ability' },
             { path: 'finance', component: V_Finance, name: 'V-userInfo-finance' },
-            { path: 'identify', component: V_Identify, name: 'V-userInfo-identify' }
+            { path: 'identify', component: V_Identify, name: 'V-userInfo-identify' },
+            { path: 'reapply', component: V_ReApply, name: 'V-userInfo-reApply' }
           ]
         }
       ]

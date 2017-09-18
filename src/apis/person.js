@@ -17,6 +17,11 @@ async function ValidityV({ realName, cardId, validity, userId, id }) {
     const res = await axios.post(`/userinfo/update`, { realName, cardId, validity, userId, id })
     return res.data;
 }
+//V端个人中心 身份验证
+async function ReValidityV({ realName, cardId, validity, userId, id }) {
+    const res = await axios.post(`/userinfo/updateUserInfoTemp`, { realName, cardId, validity, userId, id })
+    return res.data;
+}
 //V端个人中心 修改密码
 async function UpdatePwdV({ oldPwd, newPwd, surePwd, userId }) {
     const res = await axios.post(`/user/updatePwd`, { oldPwd, newPwd, surePwd, userId })
@@ -45,6 +50,11 @@ async function CheckUserInfoV({ userId }) {
     const res = await axios.get("/userinfo/checkUserInfo?userId=" + userId)
     return res.data;
 }
+//V端个人中心 验证个人信息是否存在
+async function ReCheckUserInfoV({ userId }) {
+    const res = await axios.get("/userinfo/checkUserInfoTemp?userId=" + userId)
+    return res.data;
+}
 //V端个人中心 能力验证-参数
 async function AbilityParamV() {
     const res = await axios.get(`/dataSource/getAbilityParam`)
@@ -66,11 +76,25 @@ async function UpdateCompanyB({ userId, id, name, licenseNum, licenseAddress, ad
     return res.data;
 }
 
+//B端企业认证
+async function ReUpdateCompanyB({ userId, id, name, licenseNum, licenseAddress, addressProvince, addressCity, addressArea, address, licenseYear, licenseRange, licenseImg }) {
+    const res = await axios.post(`/companyInfo/updateCompanyInfoTemp`, JSON.stringify({ userId, id, name, licenseNum, licenseAddress, addressProvince, addressCity, addressArea, address, licenseYear, licenseRange, licenseImg }))
+    return res.data;
+}
+
+
 //B端 验证企业信息是否存在
 async function CheckCompanyInfoB({ userId }) {
-    const res = await axios.get(`/companyInfo/checkCompanyInfo?userId=` + userId)
-    return res.data
+    const res = await axios.get(`/companyInfo/checkCompanyInfo?userId=${userId}`)
+    return res.data;
 }
+
+//B端 验证企业信息是否存在
+async function ReCheckCompanyInfoB({ userId }) {
+    const res = await axios.get(`/companyInfo/checkCompanyInfoTemp?userId=${userId}`)
+    return res.data;
+}
+
 //B端 获取子账号列表
 async function GetChildListB() {
     const res = await axios.get(`/user/childList`)
@@ -133,8 +157,8 @@ async function delHistory(id) {
 
 export {
     UserList,
-    UpdateInfoV, UpdateWorkIntervalV, ValidityV, UpdatePwdV, TsechnologyV, WorkCollectionV, SaveWorkCollectionV, UpdateWorkCollectionV,
-    CheckUserInfoV, AbilityParamV, AbilityListV, SpecialtyV, UpdateCompanyB, AddChildB, CheckCompanyInfoB, GetChildListB, ChangeChildStateB, editChildB,
+    UpdateInfoV, UpdateWorkIntervalV, ValidityV, ReValidityV, UpdatePwdV, TsechnologyV, WorkCollectionV, SaveWorkCollectionV, UpdateWorkCollectionV,
+    CheckUserInfoV, ReCheckUserInfoV, AbilityParamV, AbilityListV, SpecialtyV, UpdateCompanyB, ReUpdateCompanyB, AddChildB, CheckCompanyInfoB, ReCheckCompanyInfoB, ReCheckCompanyInfo, GetChildListB, ChangeChildStateB, editChildB,
     orderList, atmsList, rechargeList, recordList, resetChildPwd,
     delHistory
 }
