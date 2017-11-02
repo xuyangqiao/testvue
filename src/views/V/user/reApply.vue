@@ -344,9 +344,9 @@ export default {
 </script>
 
 <style>
-.avatar-uploader-icon {
-    width: 100%;
-    height: 100%;
-    line-height: 110px;
+.account-msg-wrapper .avatar-uploader-icon {
+    width: 100% !important;
+    height: 100% !important;
+    line-height: 110px !important;
 }
 </style>
