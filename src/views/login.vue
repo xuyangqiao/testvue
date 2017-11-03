@@ -88,7 +88,8 @@ export default {
             if (res1.success) {
                 localStorage.setItem("UserInfo", JSON.stringify(res1.data));
             }
-            this.$router.push({ name: userType })
+            // this.$router.push({ name: userType })
+            this.$router.push(userType)
         },
         async login() {
             const res = await Login(this.loginForm)

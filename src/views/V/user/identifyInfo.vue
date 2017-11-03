@@ -98,242 +98,222 @@
     </div>
 </template>
 <script>
-import ChangePwd from "@/components/changePwd";
-import { ValidityV, CheckUserInfoV } from "@/apis/person";
-import { addFileList, getAllFile, deleteFileByIds } from "@/apis/files";
-import { uploadFile, deleteOssFile } from "@/apis/uploadFile";
-import { formatTime } from "@/apis/util";
-import { isLogin, getUser, getUserInfo } from "@/apis/storage";
+import ChangePwd from '@/components/changePwd';
+import { ValidityV, CheckUserInfoV } from '@/apis/person'
+import { addFileList, getAllFile, deleteFileByIds } from '@/apis/files'
+import { uploadFile, deleteOssFile } from '@/apis/uploadFile'
+import { formatTime } from '@/apis/util'
+import { isLogin, getUser, getUserInfo } from '@/apis/storage'
 export default {
-  components: {
-    ChangePwd
-  },
-  data() {
-    return {
-      loading: false,
-      dialogVisible: false,
-      nextTo: false,
-      accType: 1,
-      imageUrl: "",
-      edit: false,
-      form: {},
-      form1: {},
-      oldImgs: [],
-      IDImage1Url: "",
-      IDImage2Url: "",
-      IDImage3Url: "",
-      IDImageName: [],
-      IDImageId: [],
-      rules: {
-        realName: [{ validator: this.validateRealName, trigger: "blur" }],
-        cardId: [{ validator: this.validateCardId, trigger: "blur" }],
-        validity: [{ validator: this.validateValidity, trigger: "change" }]
-      },
-      userInfo: {}
-    };
-  },
-  created() {
-    this.getData();
-  },
-  methods: {
-    async getData() {
-      const me = this;
-      const res = await CheckUserInfoV({ userId: getUser().userId });
-      if (res.success) {
-        let UserInfo = (this.userInfo = res.data);
-        this.form = {
-          realName: UserInfo.realName,
-          cardId: UserInfo.cardId,
-          validity: UserInfo.validity,
-          userId: getUser().userId
-        };
-        this.oldImgs = UserInfo.files || [];
-        if (UserInfo.id) {
-          this.form.id = UserInfo.id;
+    components: {
+        ChangePwd
+    },
+    data() {
+        return {
+            loading: false,
+            dialogVisible: false,
+            nextTo: false,
+            accType: 1,
+            imageUrl: '',
+            edit: false,
+            form: {},
+            form1: {},
+            oldImgs: [],
+            IDImage1Url: [],
+            IDImage2Url: [],
+            IDImage3Url: [],
+            IDImageName: [],
+            IDImageId: [],
+            rules: {
+                realName: [{ validator: this.validateRealName, trigger: 'blur' }],
+                cardId: [{ validator: this.validateCardId, trigger: 'blur' }],
+                validity: [{ validator: this.validateValidity, trigger: 'change' }]
+            },
+            userInfo: {}
         }
-        UserInfo.files
-          ? UserInfo.files.map((item, i) => {
-              me[`IDImage${i + 1}Url`] = item.url;
-              me.IDImageName.push(item.fileName);
-              me.IDImageId.push(item.id);
-            })
-          : null;
-      }
     },
-    validateRealName(rule, value, callback) {
-      if (value === "" || value === undefined) {
-        callback(new Error($lang("请输入真实姓名")));
-      } else {
-        callback();
-      }
+    created() {
+        this.getData();
     },
-    validateCardId(rule, value, callback) {
-      if (value === "" || value === undefined) {
-        callback(new Error($lang("请输入证件号码")));
-      } else if (
-        !/^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/.test(
-          value
-        )
-      ) {
-        callback(new Error($lang("证件号码格式不正确")));
-      } else {
-        callback();
-      }
-    },
-    validateValidity(rule, value, callback) {
-      if (value === "" || value === undefined) {
-        callback(new Error($lang("请选择证件有效期")));
-      } else {
-        callback();
-      }
-    },
-    IDImage1Change(file) {
-      this.IDImageChange(file, 1);
-    },
-    IDImage2Change(file) {
-      this.IDImageChange(file, 2);
-    },
-    IDImage3Change(file) {
-      this.IDImageChange(file, 3);
-    },
-    IDImageChange(file, index) {
-      const me = this;
-      const fileName = file.name
-        .slice(file.name.lastIndexOf(".") + 1)
-        .toLowerCase();
-      if (!(fileName == "jpg" || fileName == "bmp" || fileName == "png")) {
-        this.$message($lang("只能上传jpg、png、bmp文件"));
-        me.$refs["IDImage" + index].uploadFiles.pop();
-        return false;
-      }
-      if (file.size > 10485760) {
-        this.$message($lang("文件大小不能超过10M"));
-        me.$refs["IDImage" + index].uploadFiles.pop();
-        return false;
-      }
-      const reader = new FileReader();
-      reader.readAsDataURL(file.raw);
-      reader.onload = function(e) {
-        switch (index) {
-          case 1:
-            me.IDImage1Url = e.target.result;
-            break;
-          case 2:
-            me.IDImage2Url = e.target.result;
-            break;
-          case 3:
-            me.IDImage3Url = e.target.result;
-            break;
-        }
-      };
-    },
-    editInfo() {
-      this.edit = true;
-      this.form1 = Object.assign({}, this.form);
-    },
-    //上传文件成功之后保存到服务器
-    async addAllFileList(fileList) {
-      const res = await addFileList(fileList);
-      this.loading = false;
-      this.$message({
-        message: res.msg || $lang("保存成功"),
-        type: res.success ? "success" : "error"
-      });
-      this.edit = false;
-      this.getData();
-    },
-    save() {
-      const me = this;
-      me.$refs["form"].validate(valid => {
-        if (valid) {
-          me.loading = true;
-          me.saveData();
-        } else {
-          return false;
-        }
-      });
-    },
-    async saveData() {
-      const me = this;
-      const id = me.form1.userId;
-      const promiseFileList = [];
-      const delFileList = [];
-      const ossDelFileList = [];
-      const IDImageList = [
-        me.$refs.IDImage1.uploadFiles,
-        me.$refs.IDImage2.uploadFiles,
-        me.$refs.IDImage3.uploadFiles
-      ];
-      IDImageList.forEach((item, i) => {
-        if (item[0] && item[0].raw) {
-          promiseFileList.push(
-            uploadFile(item[item.length - 1].raw, `/user-info/${id}/carded`)
-          );
-          if (me.IDImageId[i]) {
-            delFileList.push({ id: me.IDImageId[i] });
-            ossDelFileList.push(`/user-info/${id}/carded/${me.IDImageName[i]}`);
-          }
-        }
-      });
-      //上传图片
-      if (promiseFileList.length > 0) {
-        //删除原来的图片
-        if (delFileList.length > 0) {
-          deleteFileByIds(delFileList);
-          deleteOssFile(ossDelFileList);
-        }
-        Promise.all(promiseFileList).then(data => {
-          let fileList = [];
-          data.map(item => {
-            const fileName = item.name.slice(item.name.lastIndexOf("/") + 1);
-            fileList.push({
-              bindid: id,
-              findex: "idcard",
-              url: item.url
-                ? item.url
-                : item.res.requestUrls[0].replace(/\?.*/gm, ""),
-              fileName: fileName,
-              alias: fileName
+    methods: {
+        async getData() {
+            const me = this;
+            const res = await CheckUserInfoV({ userId: getUser().userId })
+            if (res.success) {
+                let UserInfo = this.userInfo = res.data;
+                this.form = {
+                    realName: UserInfo.realName,
+                    cardId: UserInfo.cardId,
+                    validity: UserInfo.validity,
+                    userId: getUser().userId,
+                };
+                this.oldImgs = UserInfo.files || []
+                if (UserInfo.id) {
+                    this.form.id = UserInfo.id
+                }
+                UserInfo.files ? UserInfo.files.map((item, i) => {
+                    me[`IDImage${i + 1}Url`] = item.url;
+                    me.IDImageName.push(item.fileName);
+                    me.IDImageId.push(item.id);
+                }) : null
+            }
+        },
+        validateRealName(rule, value, callback) {
+            if (value === '' || value === undefined) {
+                callback(new Error($lang('请输入真实姓名')));
+            } else {
+                callback();
+            }
+        },
+        validateCardId(rule, value, callback) {
+            if (value === '' || value === undefined) {
+                callback(new Error($lang('请输入证件号码')));
+            } else if (!(/^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/.test(value))) {
+                callback(new Error($lang('证件号码格式不正确')));
+            } else {
+                callback();
+            }
+        },
+        validateValidity(rule, value, callback) {
+            if (value === '' || value === undefined) {
+                callback(new Error($lang('请选择证件有效期')));
+            } else {
+                callback();
+            }
+        },
+        IDImage1Change(file) {
+            this.IDImageChange(file, 1)
+        },
+        IDImage2Change(file) {
+            this.IDImageChange(file, 2)
+        },
+        IDImage3Change(file) {
+            this.IDImageChange(file, 3)
+        },
+        IDImageChange(file, index) {
+            const me = this;
+            const fileName = file.name.slice(file.name.lastIndexOf(".") + 1).toLowerCase();
+            if (!(fileName == "jpg" || fileName == "bmp" || fileName == "png")) {
+                this.$message($lang('只能上传jpg、png、bmp文件'));
+                me.$refs["IDImage" + index].uploadFiles.pop();
+                return false
+            }
+            if (file.size > 10485760) {
+                this.$message($lang('文件大小不能超过10M'));
+                me.$refs["IDImage" + index].uploadFiles.pop();
+                return false
+            }
+            const reader = new FileReader();
+            reader.readAsDataURL(file.raw);
+            reader.onload = function(e) {
+                switch (index) {
+                    case 1: me.IDImage1Url = e.target.result; break;
+                    case 2: me.IDImage2Url = e.target.result; break;
+                    case 3: me.IDImage3Url = e.target.result; break;
+                }
+            }
+        },
+        editInfo() {
+            this.edit = true;
+            this.form1 = Object.assign({}, this.form);
+        },
+        //上传文件成功之后保存到服务器
+        async addAllFileList(fileList) {
+            const res = await addFileList(fileList);
+            this.loading = false;
+            this.$message({
+                message: res.msg || $lang('保存成功'),
+                type: res.success ? 'success' : 'error',
             });
-          });
-          this.addAllFileList(fileList);
-        });
-      }
-      this.form1.validity = formatTime(this.form1.validity, "date");
-      const res = await ValidityV(this.form1);
-      if (res.success) {
-        me.$message.success(res.msg);
-        me.$refs.IDImage1.uploadFiles = me.$refs.IDImage2.uploadFiles = me.$refs.IDImage3.uploadFiles = [];
-        localStorage.setItem("UserInfo", JSON.stringify(res.data));
-        if (promiseFileList.length == 0) {
-          me.loading = false;
-          me.edit = false;
-          me.getData();
+            this.edit = false;
+            this.getData();
+
+        },
+        save() {
+            const me = this;
+            me.$refs['form'].validate((valid) => {
+                if (valid) {
+                    me.loading = true;
+                    me.saveData();
+                } else {
+                    return false;
+                }
+            })
+        },
+        async saveData() {
+            const me = this;
+            const id = me.form1.userId;
+            const promiseFileList = [];
+            const delFileList = [];
+            const ossDelFileList = [];
+            const IDImageList = [me.$refs.IDImage1.uploadFiles, me.$refs.IDImage2.uploadFiles, me.$refs.IDImage3.uploadFiles];
+            IDImageList.forEach((item, i) => {
+                if (item[0] && item[0].raw) {
+                    promiseFileList.push(uploadFile(item[item.length - 1].raw, `/user-info/${id}/carded`));
+                    if (me.IDImageId[i]) {
+                        delFileList.push({ id: me.IDImageId[i] });
+                        ossDelFileList.push(`/user-info/${id}/carded/${me.IDImageName[i]}`)
+                    }
+                }
+            });
+            //上传图片
+            if (promiseFileList.length > 0) {
+                //删除原来的图片
+                if (delFileList.length > 0) {
+                    deleteFileByIds(delFileList);
+                    deleteOssFile(ossDelFileList);
+                }
+                Promise.all(promiseFileList).then(data => {
+                    let fileList = [];
+                    data.map(item => {
+                        const fileName = item.name.slice(item.name.lastIndexOf("/") + 1);
+                        fileList.push({
+                            bindid: id,
+                            findex: "idcard",
+                            url: item.url ? item.url : item.res.requestUrls[0].replace(/\?.*/gm, ''),
+                            fileName: fileName,
+                            alias: fileName
+                        });
+                    });
+                    this.addAllFileList(fileList);
+                });
+            }
+            this.form1.validity = formatTime(this.form1.validity, 'date');
+            const res = await ValidityV(this.form1);
+            if (res.success) {
+                me.$message.success(res.msg);
+                me.$refs.IDImage1.uploadFiles = me.$refs.IDImage2.uploadFiles = me.$refs.IDImage3.uploadFiles = [];
+                localStorage.setItem("UserInfo", JSON.stringify(res.data));
+                if (promiseFileList.length == 0) {
+                    me.loading = false;
+                    me.edit = false;
+                    me.getData();
+
+                }
+            } else {
+                me.$message.error(res.msg)
+            }
+        },
+        cancalEdit() {
+            this.$router.push({ name: this.nextTo })
+            this.dialogVisible = false;
         }
-      } else {
-        me.$message.error(res.msg);
-      }
     },
-    cancalEdit() {
-      this.$router.push({ name: this.nextTo });
-      this.dialogVisible = false;
+    beforeRouteLeave(to, from, next) {
+        next();
+        // if (this.edit || this.accType == 2) {
+        //     this.dialogVisible = true;
+        //     if (this.nextTo) {
+        //         next()
+        //     } else {
+        //         next(false)
+        //         this.nextTo = to.name
+        //     }
+        // } else {
+        //     next()
+        // }
     }
-  },
-  beforeRouteLeave(to, from, next) {
-    next();
-    // if (this.edit || this.accType == 2) {
-    //     this.dialogVisible = true;
-    //     if (this.nextTo) {
-    //         next()
-    //     } else {
-    //         next(false)
-    //         this.nextTo = to.name
-    //     }
-    // } else {
-    //     next()
-    // }
-  }
-};
+}
 </script>
 
 <style>

@@ -15,7 +15,7 @@
                             <dd class="flex1">{{form.id}}</dd>
                         </dl>
                         <dl class="box-flex info-show">
-                            <dt>{{$lang('项目名称:')}}</dt>
+                            <dt>{{$lang('任务名称:')}}</dt>
                             <dd class="flex1">{{form.projectName}}</dd>
                         </dl>
                         <dl class="box-flex info-show">

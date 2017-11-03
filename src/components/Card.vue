@@ -5,10 +5,10 @@
             <img v-else src="../assets/images/img-item.jpg" />
             <div class="task-info_show">
                 <div class="vg-center ">
-                    <p>{{$lang('项目名称：')}}{{projectName}}</p>
+                    <p>{{$lang('任务名称：')}}{{projectName}}</p>
 
                     <p>{{$lang('任务截止时间：')}}{{time == "Invalid date" ? '' : time}}</p>
-                    <p>{{$lang('项目金额：')}}
+                    <p>{{$lang('任务金额：')}}
                         <span v-if="totalType == '1'">{{$lang('询价')}}</span>
                         <span v-else>¥{{total || '未填写'}}</span>
                     </p>

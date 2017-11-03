@@ -15,6 +15,18 @@
 
 <script>
 export default {
+  metaInfo: {
+    title: 'VSWORK', // set a title
+    meta: [{                 // set meta
+      name: 'keyWords',
+      content: 'VSWORK,协作平台,vswork,三维建模,AR,VR,MR,在线验收'
+    },
+    {                 // set meta
+      name: 'description',
+      content: 'VSWORK是国内领先的数字内容在线协作平台，通过V（在线工作者）和S（项目管理者）的透明化协作实现数字内容的无差错交付。'
+    }
+    ]
+  },
   created() {
     if (JSON.parse(localStorage.UserInfo || '{}').id && !this.$root.timer) {
       this.$root.updateCount(), this.$root.timer = setInterval(() => this.$root.updateCount(), 30000);

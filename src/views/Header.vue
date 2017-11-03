@@ -7,11 +7,7 @@
                         <p class="mar-15">
                             <a href="javascript:;" class="nh-a-04" @click="onNavigation('login',5)">{{$lang('登录')}}</a>/<a href="javascript:;" class="nh-a-04" @click="onNavigation('choise',6)">{{$lang('注册')}}</a>
                         </p>
-                        <p>
-                            <a href="javascript:;" class="nh-a-03" @click="$setLang('CN')">CN</a>
-                            <span>|</span>
-                            <a href="javascript:;" class="nh-a-03" @click="$setLang('EN')">EN</a>
-                        </p>
+                        <SetLang></SetLang>
                     </div>
                 </div>
               </div>
@@ -32,7 +28,9 @@
 </template>
 <script>
 import { getUser } from '@/apis/storage.js'
+import SetLang from'@/components/SetLang' 
 export default {
+    components: {SetLang},
     data() {
         return {
             active: 2

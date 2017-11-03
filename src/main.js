@@ -17,6 +17,7 @@ import './assets/css/other.css'
 import './apis/axiosConfig.js'
 import { getChatConfig } from '@/apis/task'
 import { count } from '@/apis/notices'
+import MetaInfo from 'vue-meta-info'
 window.store = {
   parentTaskState: -1,
   childTaskState: -1
@@ -28,6 +29,7 @@ getChatConfig().then((res) => {
   }
 })
 
+Vue.use(MetaInfo);
 
 Vue.config.productionTip = false;
 

@@ -10,11 +10,7 @@
                         </a>
                         <a href="javascript:;" class="nh-a-02" @click="onNavigation('V-userInfo-base','userInfo')">{{$lang('个人中心')}}</a>
                         <a href="javascript:;" class="nh-a-02" @click="onNavigation('login','login')">{{$lang('退出登录')}}</a>
-                        <p>
-                            <a href="javascript:;" class="nh-a-03" :class="{selected:lang=='CN'}" @click="$setLang('CN')">CN</a>
-                            <span>|</span>
-                            <a href="javascript:;" class="nh-a-03" :class="{selected:lang=='EN'}" @click="$setLang('EN')">EN</a>
-                        </p>
+                        <SetLang></SetLang>
                     </div>
                 </div>
             </div>
@@ -37,7 +33,9 @@
 </template>
 <script>
 import { getUser, isLogin, getUserInfo } from '@/apis/storage.js'
+import SetLang from'@/components/SetLang' 
 export default {
+    components: {SetLang},
     data() {
         return {
             navIndx: 'index',

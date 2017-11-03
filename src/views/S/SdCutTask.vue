@@ -6,7 +6,7 @@
                 <div class="new-task-base">
                     <el-row>
                         <el-col :span="12">
-                            <el-form-item :label="$lang('项目名称:')">
+                            <el-form-item :label="$lang('任务名称:')">
                                 <el-input v-model="form.projectName"></el-input>
                             </el-form-item>
                             <el-form-item :label="$lang('发包类型:')">
@@ -527,19 +527,19 @@ export default {
             //     modelStyle:[{required: true, message: '请输入模型格式', trigger: 'change',type: 'array'}],
             // },
             if (!this.form.projectName) {
-                this.$message.warning($lang("项目名称不可为空"))
+                this.$message.warning($lang("任务名称不可为空"))
                 return false
             }
             if (!this.form.total) {
-                this.$message.warning($lang("项目金额不可为空"))
+                this.$message.warning($lang("任务金额不可为空"))
                 return false
             }
             if (!this.form.total) {
-                this.$message.warning($lang("项目金额不可为空"))
+                this.$message.warning($lang("任务金额不可为空"))
                 return false
             }
             if (isNaN(this.form.total)) {
-                this.$message.warning($lang("项目金额格式错误"))
+                this.$message.warning($lang("任务金额格式错误"))
                 return false
             }
             //验证有问题，下个版本做
