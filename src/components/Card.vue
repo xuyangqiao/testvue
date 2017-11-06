@@ -44,8 +44,12 @@ export default {
         remove(){
             this.$confirm(`确定删除 “${this.projectName}” 吗？`,'提示').then(async data => {
                 if (data == 'confirm') {
-                    await removeTask(this.item.id);
-                    this.list.splice(this.list.indexOf(this.item), 1);
+                    let res = await removeTask(this.item.id);
+                    if(res.success){
+                        this.list.splice(this.list.indexOf(this.item), 1);
+                    } else {
+                        res.msg && this.$message.error(res.msg);
+                    }
                 }
             })
         }
