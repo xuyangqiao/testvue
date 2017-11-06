@@ -8,6 +8,7 @@ var CopyWebpackPlugin = require('copy-webpack-plugin')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
+var PrerenderSpaPlugin = require('prerender-spa-plugin')
 
 var env = process.env.NODE_ENV === 'testing'
   ? require('../config/test.env')
@@ -31,6 +32,12 @@ var webpackConfig = merge(baseWebpackConfig, {
     new webpack.DefinePlugin({
       'process.env': env
     }),
+    new PrerenderSpaPlugin(
+            // 编译后的html需要存放的路径
+            path.join(__dirname, '../dist'),
+            // 列出哪些路由需要预渲染
+            [ '/']
+    ),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false

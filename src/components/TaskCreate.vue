@@ -6,7 +6,7 @@
                 <el-row>
                     <el-col :span="10">
                         <el-form ref="form" :model="form" label-width="80px">
-                            <el-form-item :label="$lang('项目名称:')">
+                            <el-form-item :label="$lang('任务名称:')">
                                 <el-input v-model="form.projectName"></el-input>
                             </el-form-item>
                             <el-form-item :label="$lang('发包类型:')">

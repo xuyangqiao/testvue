@@ -72,7 +72,7 @@
                                                 <img :src="item.coverUrl" />
                                             </div>
                                             <div class="sample-info">
-                                                <p>{{$lang('项目名称：')}}{{item.worksName}}</p>
+                                                <p>{{$lang('任务名称：')}}{{item.worksName}}</p>
                                                 <p>{{$lang('任务截止时间：')}}{{item.worksEndTime}}</p>
                                             </div>
                                         </a>
@@ -96,7 +96,7 @@
                                                 <img :src="item.url||''" />
                                             </div>
                                             <div class="sample-info">
-                                                <p>{{$lang('项目名称：')}}{{item.projectName}}</p>
+                                                <p>{{$lang('任务名称：')}}{{item.projectName}}</p>
                                                 <p>{{$lang('任务截止时间：')}}{{item.taskEndTime}}</p>
                                             </div>
                                         </a>

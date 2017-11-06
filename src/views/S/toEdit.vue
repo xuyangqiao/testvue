@@ -9,9 +9,9 @@
       <div class="">
         <ul class="">
           <li class="allot-task-li clearfix" v-for="(item,i) in list" :key="i">
-            <p>{{$lang('项目名称：')}}{{item.projectName}}</p>
-            <p>{{$lang('项目出价：')}}{{item.total}}</p>
-            <p>{{$lang('项目状态：')}}{{stateName(item.state)}}</p>
+            <p>{{$lang('任务名称：')}}{{item.projectName}}</p>
+            <p>{{$lang('任务出价：')}}{{item.total}}</p>
+            <p>{{$lang('任务状态：')}}{{stateName(item.state)}}</p>
             <!--<p v-if="item.total">总占比例：{{(item.total/total*100).toFixed(2)}}%</p>-->
             <el-button type="sure" @click="toRedirectEdit(item.id)" v-if="item.state<3">{{$lang('编辑')}}</el-button>
             <el-button type="cancle" @click="toDelete(item.id)" v-if="['0','2','3'].includes(item.state)">{{$lang('删除')}}</el-button>
