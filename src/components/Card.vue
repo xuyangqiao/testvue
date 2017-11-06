@@ -15,15 +15,20 @@
                 </div>
             </div>
             <div class="news-tips-w" :class="{unread}">
-                <p>{{stateName}}</p>
+                <p>
+                    <span>{{stateName}}</span>
+                    <el-button type="text" v-if="$route.name=='B_list'&&['0','1','3'].includes(state)" @click.prevent="remove">删除</el-button>
+                </p>
             </div>
         </router-link>
     </div>
 </template>
 
 <script>
+import { removeTask } from '@/apis/task';
+
 export default {
-    props: ["to", "projectName", "time", "total", "totalType", "userType", "state", "imageUrl", "stateName", "unread", 'isDialog', 'origin'],
+    props: ["to", "projectName", "time", "total", "totalType", "userType", "state", "imageUrl", "stateName", "unread", 'isDialog', 'origin', 'item', 'list'],
     computed: {
         color() {
             const colors = ["dsh", "dsh", "shz", "ysl", "ywc"]
@@ -33,6 +38,16 @@ export default {
             console.log(this.$route);
             this.to.query = Object.assign({}, this.to.query, { newTab: true, origin: this.origin });
             return this.to;
+        }
+    },
+    methods:{
+        remove(){
+            this.$confirm(`确定删除 “${this.projectName}” 吗？`,'提示').then(async data => {
+                if (data == 'confirm') {
+                    await removeTask(this.item.id);
+                    this.list.splice(this.list.indexOf(this.item), 1);
+                }
+            })
         }
     }
 }
@@ -49,5 +64,12 @@ export default {
     border-radius: 50%;
     display: inline-block;
     background-color: red;
+}
+
+.task-set-item .el-button {
+    float: right;
+    color: red;
+    padding: 0px;
+    line-height: 35px;
 }
 </style>

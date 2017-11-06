@@ -265,6 +265,11 @@ async function removeGroup(id) {
     return res.data;
 }
 
+//删除组修改
+async function removeTask(id) {
+    const res = await axios.get(`/task/delete/${id}`);
+    return res.data;
+}
 
 export {
     vsendToS,
@@ -323,5 +328,7 @@ export {
     applyRefund,
 
     saveGroup,
-    removeGroup
+    removeGroup,
+
+    removeTask
 }
