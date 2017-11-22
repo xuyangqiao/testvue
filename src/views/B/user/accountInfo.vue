@@ -15,7 +15,7 @@
                 <p>{{$lang('常用地址')}}：{{form1.address||''}}</p>
                 <p>{{$lang('营业年限')}}：{{form1.licenseYear||''}}{{$lang('年')}}</p>
                 <p>{{$lang('营业范围')}}：{{form1.licenseRange||''}}</p>
-                <p>{{$lang('盖公章的营业执照复印件')}}：<em><img :src="imageUrl" class="yyzz-img"/></em></p>
+                <p>{{$lang('盖公章的营业执照复印件')}}：<em><img :src="imageUrl" class="yyzz-img" v-if="imageUrl"/></em></p>
                 <el-button type="text" icon="edit" class="edit" @click="openEditInfo" v-if="hasEdit&&form1.applyState!='2'">{{$lang('编辑')}}</el-button>
             </div>
             <!-- 账户管理-编辑 -->

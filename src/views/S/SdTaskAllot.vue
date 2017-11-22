@@ -42,7 +42,7 @@
         </template>
         <div class="page-wrap clearfix">
           <div class="fr">
-            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pagination.currentPage" :page-sizes="[100, 200, 300, 400]" :page-size="100" layout="total, sizes, prev, pager, next, jumper" :total="pagination.total">
+            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pagination.currentPage" :page-sizes="[100, 200, 300, 400]" :page-size="pagination.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="pagination.total">
             </el-pagination>
           </div>
         </div>
@@ -90,7 +90,7 @@ export default {
       type: 1,
       pagination: {
         currentPage: 1,
-        pageSize: 12,
+        pageSize: 100,
         total: 0,
       },
       dialog: {
@@ -127,16 +127,16 @@ export default {
       });
     },
     queryType(type) {
-      const id = this.$route.query.id;
       this.type = type || this.type;
       if (this.type == 1) {
-        this.querySubentrySignUp(id)
+        this.querySubentrySignUp(this.$route.query.id)
       } else {
         this.queryUserList();
       }
     },
     async queryUserList() {
       const { pageSize, currentPage } = this.pagination;
+      console.log(pageSize, currentPage);
       const res = await UserList({ userType: "V", seekValue: this.seekValue, page: currentPage, row: pageSize });
       if (res.success) {
         this.vlist = res.data.list.map((item) => {
@@ -155,8 +155,8 @@ export default {
       }
     },
     async querySubentrySignUp(id) {
-      // const {pageSize,currentPage}=this.pagination;
-      const res = await SubentryList(id, this.seekValue, );
+      const { pageSize, currentPage }=this.pagination;
+      const res = await SubentryList(id, this.seekValue, 1, currentPage, pageSize );
       console.log("............", res)
       if (res.success) {
         this.vlist = res.data.list.map((item) => {
@@ -177,14 +177,20 @@ export default {
     handleSizeChange(pageSize) {
       this.pagination.pageSize = pageSize;
       this.pagination.currentPage = 1;
-      this.queryList();
+      if (this.type == 1) {
+        this.querySubentrySignUp(this.$route.query.id)
+      } else {
+        this.queryUserList();
+      }
     },
     handleCurrentChange(pageNum) {
       this.pagination.currentPage = pageNum;
-      this.queryList();
-    },
-    handleCurrentChange(val) {
-      this.currentRow = val;
+      this.currentRow = pageNum;
+      if (this.type == 1) {
+        this.querySubentrySignUp(this.$route.query.id)
+      } else {
+        this.queryUserList();
+      }
     },
     toVUser(data) {
       data.userid && this.$router.push({ name: 'S-VuserInfo', query: { userId: data.userid } });
