@@ -1,5 +1,5 @@
 <template>
-    <div class="sun-cont-wrapper">
+    <div class="sun-cont-wrapper base-child-info">
         <!-- 您暂时未设置子账号，点击添加  -->
         <div class="sun-cont-no" v-if="tableData.length==0&&handleType!=='add'">
             <p>{{$lang('您暂时未设置子账号')}}，
@@ -48,21 +48,21 @@
                     </el-upload>
                     <div class="el-upload__tip" slot="tip">{{$lang('上传头像（支持10M以下的jpg、png、BMP文件）')}}</div>
                 </div>
-                <el-form ref="form" :model="form" label-width="0" :rules="rules">
-                    <el-form-item prop='nickName'>
+                <el-form ref="form" :model="form" label-width="20" :rules="rules">
+                    <el-form-item prop='nickName' label=" " required>
                         <el-input v-model="form.nickName" :placeholder="$lang('请输入子账号用户名')"></el-input>
                     </el-form-item>
                     <VerifyCode :phone="form.phone" :code="code" :parentClass="'add-sun-cont'" :type="'editChild'" :getData="getData"></VerifyCode>
-                    <el-form-item prop='bUserType'>
+                    <el-form-item prop='bUserType' label=" " required>
                         <el-select v-model="form.bUserType" :placeholder="$lang('请选择账号类型')" :disabled="handleType=='edit'">
                             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
                             </el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item prop='password' v-if="handleType=='add'">
+                    <el-form-item prop='password' v-if="handleType=='add'" label=" " required>
                         <el-input type="password" v-model="form.password" :placeholder="$lang('请输入子账号密码')"></el-input>
                     </el-form-item>
-                    <el-form-item prop='password1' v-if="handleType=='add'">
+                    <el-form-item prop='password1' v-if="handleType=='add'" label=" " required>
                         <el-input type="password" v-model="form.password1" :placeholder="$lang('请再次输入子账号密码')"></el-input>
                     </el-form-item>
                     <el-form-item>
@@ -103,6 +103,12 @@
         </el-dialog>
     </div>
 </template>
+<style>
+.base-child-info .el-form-item__content {
+  width: 350px;
+  display: inline-block;
+}
+</style>
 <script>
 import VerifyCode from '@/components/VerifyCode'
 import { AddChildB, GetChildListB, ChangeChildStateB, editChildB, resetChildPwd } from '@/apis/person'

@@ -34,7 +34,7 @@
                     <h3 class="main-title">{{$lang('充值')}}</h3>
                     <div class="txcz-wrap">
                         <el-form ref="chargeForm" :model="chargeForm" label-width="120px" :rules="chargeRules">
-                            <el-form-item :label="$lang('请输入充值金额')" prop="money">
+                            <el-form-item :label="$lang('请输入充值金额')" prop="money" required>
                                 <el-input :placeholder="$lang('请输入充值金额')" v-model="chargeForm.money"></el-input>
                             </el-form-item>
                             <el-form-item :label="$lang('请选择充值方式')">

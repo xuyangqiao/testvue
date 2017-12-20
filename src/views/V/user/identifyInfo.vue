@@ -55,19 +55,19 @@
                             <el-col :span="8">
                                 <el-upload class="avatar-uploader" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false" ref="IDImage1" :on-change="IDImage1Change">
                                     <img v-if="IDImage1Url" :src="IDImage1Url">
-                                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                    <i v-else class="avatar-uploader-icon x"></i>
                                 </el-upload>
                             </el-col>
                             <el-col :span="8">
                                 <el-upload class="avatar-uploader" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false" ref="IDImage2" :on-change="IDImage2Change">
                                     <img v-if="IDImage2Url" :src="IDImage2Url">
-                                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                    <i v-else class="avatar-uploader-icon y"></i>
                                 </el-upload>
                             </el-col>
                             <el-col :span="8">
                                 <el-upload class="avatar-uploader" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false" ref="IDImage3" :on-change="IDImage3Change">
                                     <img v-if="IDImage3Url" :src="IDImage3Url">
-                                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                    <i v-else class="avatar-uploader-icon z"></i>
                                 </el-upload>
                             </el-col>
                             <el-col :span="24">
@@ -119,9 +119,9 @@ export default {
       form: {},
       form1: {},
       oldImgs: [],
-      IDImage1Url: [],
-      IDImage2Url: [],
-      IDImage3Url: [],
+      IDImage1Url: null,
+      IDImage2Url: null,
+      IDImage3Url: null,
       IDImageName: [],
       IDImageId: [],
       rules: {
@@ -302,7 +302,9 @@ export default {
       this.form1.validity = formatTime(this.form1.validity, "date");
       const res = await ValidityV(this.form1);
       if (res.success) {
-        me.$message.success(res.msg);
+        this.$alert("认证已提交至系统，系统管理员会在24小时内完成审核", "认证成功", {
+          confirmButtonText: "好的"
+        });
         me.$refs.IDImage1.uploadFiles = me.$refs.IDImage2.uploadFiles = me.$refs.IDImage3.uploadFiles = [];
         localStorage.setItem("UserInfo", JSON.stringify(res.data));
         if (promiseFileList.length == 0) {
@@ -341,5 +343,18 @@ export default {
   width: 100% !important;
   height: 100% !important;
   line-height: 110px !important;
+  display: block;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+}
+.account-msg-wrapper .avatar-uploader-icon.x {
+  background-image: url("../../../assets/images/x.png");
+}
+.account-msg-wrapper .avatar-uploader-icon.y {
+  background-image: url("../../../assets/images/y.png");
+}
+.account-msg-wrapper .avatar-uploader-icon.z {
+  background-image: url("../../../assets/images/z.jpg");
 }
 </style>

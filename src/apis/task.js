@@ -12,6 +12,7 @@ async function TaskList({ appType, appAreas, packageType, state = 0, page = 1, r
 }
 async function TaskInfoById(id) {
     const res = await axios.get(`/task/query/${id}`);
+    res.data.data = res.data.data || { taskEndTime: '' };
     res.data.data.taskEndTime == "Invalid date" && (res.data.data.taskEndTime = "");
     return res.data;
 }
@@ -271,6 +272,12 @@ async function removeTask(id) {
     return res.data;
 }
 
+//删除组修改
+async function UpdateTime(id, entryEndTime) {
+    const res = await axios.post(`/subtask/updateTime`, JSON.stringify({ id, entryEndTime }));
+    return res.data;
+}
+
 export {
     vsendToS,
     getChatConfig,
@@ -330,5 +337,7 @@ export {
     saveGroup,
     removeGroup,
 
-    removeTask
+    removeTask,
+
+    UpdateTime
 }

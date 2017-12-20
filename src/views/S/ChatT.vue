@@ -325,237 +325,273 @@
 
 <style>
 .chart-wrpaper .el-checkbox__label {
-    display: none;
+  display: none;
 }
 
 .percent {
-    width: 100px;
+  width: 100px;
 }
 
 .shoujiicon {
-    width: 15px;
-    height: 20px;
-    margin-left: 20px;
-    position: relative;
-    top: 2px;
+  width: 15px;
+  height: 20px;
+  margin-left: 20px;
+  position: relative;
+  top: 2px;
 }
 </style>
 
 <script>
-
-import Chat from '@/components/Chat'
-import SlideBtns from '@/components/SlideBtns'
-import { ChildTaskList, ChildTaskState, TaskInfoById, PayChildTask, getTalkByGroupId, UpdateChildTask, UpdateChildTaskForSure, applyRefund } from '@/apis/task'
-import { SToVpayMoney, SToVTopayMoney } from '@/apis/money'
+import Chat from "@/components/Chat";
+import SlideBtns from "@/components/SlideBtns";
+import {
+  ChildTaskList,
+  ChildTaskState,
+  TaskInfoById,
+  PayChildTask,
+  getTalkByGroupId,
+  UpdateChildTask,
+  UpdateChildTaskForSure,
+  applyRefund
+} from "@/apis/task";
+import { SToVpayMoney, SToVTopayMoney } from "@/apis/money";
 var shouji = require("../../assets/images/phone.jpg");
 export default {
-    components: { Chat, SlideBtns },
-    data() {
-        return {
-            zhifuIds: [],
-            dialogVisible: false,   //去支付
-            stateGroup: [],
-            taskInfo: {},
-            // tabState:0,
-            // tabState1: false,
-            // tabState2: false,
-            // tabState3: false,
-            // tabState4: false,
-            // tabState5: false,
-            // tabState6: false,
-            // tabState7:false,
-            // tabState8:false,
-            // tabState9:false,
-            // targetUser:{},
-            // myUser:{},
-            toPayMoney: "",
-            toPayId: "",
-            msg: $lang("正在加载聊天..."),
-            chatConfig: {
+  components: { Chat, SlideBtns },
+  data() {
+    return {
+      zhifuIds: [],
+      dialogVisible: false, //去支付
+      stateGroup: [],
+      taskInfo: {},
+      // tabState:0,
+      // tabState1: false,
+      // tabState2: false,
+      // tabState3: false,
+      // tabState4: false,
+      // tabState5: false,
+      // tabState6: false,
+      // tabState7:false,
+      // tabState8:false,
+      // tabState9:false,
+      // targetUser:{},
+      // myUser:{},
+      toPayMoney: "",
+      toPayId: "",
+      msg: $lang("正在加载聊天..."),
+      chatConfig: {},
 
-            },
-
-            dialog: {
-                applyRefund: {
-                    show: false,
-                    form: {
-                        id: null,
-                        reason: '',
-                        percent: 100
-                    },
-                    rules: {
-                        reason: [{ required: true, message: $lang('请填写退款原因'), trigger: 'blur' }],
-                        percent: [
-                            {
-                                validator(rule, value, callback) {
-                                    if (value > 0 && value <= 100) {
-                                        callback();
-                                    } else {
-                                        callback(new Error($lang('百分比在0~100之间(不包括0)')));
-                                    }
-                                }, trigger: 'change'
-                            }
-                        ]
-                    }
-                }
-            }
+      dialog: {
+        applyRefund: {
+          show: false,
+          form: {
+            id: null,
+            reason: "",
+            percent: 100
+          },
+          rules: {
+            reason: [
+              { required: true, message: $lang("请填写退款原因"), trigger: "blur" }
+            ],
+            percent: [
+              {
+                validator(rule, value, callback) {
+                  if (value > 0 && value <= 100) {
+                    callback();
+                  } else {
+                    callback(new Error($lang("百分比在0~100之间(不包括0)")));
+                  }
+                },
+                trigger: "change"
+              }
+            ]
+          }
         }
-    },
-    async mounted() {
-        // alert(this.tabState)
-        let id = this.$route.query.id;
-        if (id.indexOf("SubTask-") > -1) {
-            id = this.$route.query.taskId;
-        }
-        const qq = await getTalkByGroupId(id);
-        console.log(id + $lang("获取聊天组信息"), qq)
-        if (qq.success) {
-            if (qq.data && qq.data.groupDetails && qq.data.groupDetails.data && qq.data.sChatUser && qq.data.sChatUser.entities) {
-                this.chatConfig = {
-                    groupid: qq.data.groupDetails.data[0].id,
-                    userid: qq.data.sChatUser.entities[0].username,
-                    userimg: qq.data.sUser.info.headUrl,
-                    userRole: "S",
-                    userphone: qq.data.sUser.phone,
-                    username: qq.data.sUser.info.nickName || qq.data.sUser.phone,
-                    youname: qq.data.targetUser.info.nickName + '<img class="shoujiicon" src="' + shouji + '" /> ' + qq.data.targetUser.phone,
-                    youimg: qq.data.targetUser.info.headUrl,
-                    youRole: "B",
-                    youphone: qq.data.targetUser.phone,
-                    id: id
-
-                }
-            } else {
-                this.msg = $lang("聊天相关数据出现异常");
-            }
-        } else {
-            this.msg = qq.msg;
-        }
-        const re = await TaskInfoById(id);
-        if (re.success) {
-            this.taskInfo = re.data;
-        }
-        const stateGroup = [];
-        const res = await ChildTaskList(id);
-
-        if (res.success) {
-            const list = res.data ? res.data : [];
-            ChildTaskState("S").map((value, i) => {
-                const model = {
-                    name: value,
-                    childs: []
-                };
-                list.forEach((item) => {
-                    if (i == item.state) {
-                        model.childs.push(item)
-                    }
-                })
-                stateGroup.push(model)
-            })
-            stateGroup[2].childs = stateGroup[2].childs.concat(stateGroup[3].childs);
-
-            stateGroup.splice(3, 1);
-            stateGroup.shift();
-            console.log("stateGroup", stateGroup);
-
-
-            this.stateGroup = stateGroup;
-
-        } else {
-            this.$message.warning(res.msg)
-        }
-    },
-    methods: {
-        changStateToPay(id) {
-            const me = this;
-            me.$confirm($lang(`是否确定该子任务？`), $lang('提示'), {
-                confirmButtonText: $lang('确定'),
-                cancelButtonText: $lang('取消'),
-                type: 'warning'
-            }).then(async () => {
-                const res = await UpdateChildTaskForSure({ id }, 2);
-                //                    console.log(res)
-                if (res.success) {
-                    me.$message({
-                        type: 'success',
-                        message: $lang('修改成功!')
-                    });
-                    history.go(0)
-                } else {
-                    me.$message.error(res.msg);
-                }
-            }).catch(() => { });
-        },
-        toPay() {
-            const id = this.zhifuIds[0];
-            PayChildTask(id).then((res) => {
-                alert(res.msg)
-            })
-        },
-        getChilds(index) {
-            return this.stateGroup[index] ? this.stateGroup[index].childs : []
-        },
-        handleClose() {
-            this.dialogVisible = false;
-        },
-        toRedirectT() {
-            const id = this.$route.query.taskId;
-            this.$router.push({ name: "toFinally", query: { id: id } })
-        },
-        toRedirect(name, id) {
-            this.$router.push({ name, query: { id } })
-        },
-        async toShowPay(index) {
-            const me = this;
-            //                const res = await SToVpayMoney({id});
-            //                console.log(res);
-            const money = me.getChilds(5)[index].total;
-            const id = me.getChilds(5)[index].id;
-            const payInfo = await SToVTopayMoney({ id });
-            //                console.log(payInfo);
-            //                me.$confirm(`打款支付${payInfo.data.money}？(总额百分比${payInfo.data.remitRatio || 0})`, '提示', {
-            me.$confirm(`打款支付${payInfo.data.money}？(总价:${money}，折扣：${(1 - payInfo.data.remitRatio).toFixed(2) * 100 + '%'}，实际:${payInfo.data.money})`, '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-            }).then(async () => {
-                const res = await SToVpayMoney({ id });
-                //                    console.log(res);
-                if (res.success) {
-                    me.$message({
-                        type: 'success',
-                        message: $lang('打款成功!')
-                    });
-                    history.go(0)
-                }
-
-            }).catch(() => {
-                me.$message({
-                    type: 'info',
-                    message: $lang('打款未成功')
-                });
-            });
-        },
-        openApplyRefund(id) {
-            this.dialog.applyRefund.form.id = id;
-            this.dialog.applyRefund.form.reason = '';
-            this.dialog.applyRefund.form.percent = 100;
-            this.dialog.applyRefund.show = true;
-        },
-        applyRefund() {
-            this.$refs.form.validate(async v => {
-                if (v) {
-                    const res = await applyRefund(this.dialog.applyRefund.form.id, this.dialog.applyRefund.form.percent, this.dialog.applyRefund.form.reason);
-                    if (res.success) {
-                        this.$message.success($lang('申请成功'));
-                        this.dialog.applyRefund.show = false;
-                        location.reload();
-                    } else {
-                        this.$message.error(res.msg);
-                    }
-                }
-            });
-        }
+      }
+    };
+  },
+  async mounted() {
+    // alert(this.tabState)
+    let id = this.$route.query.id;
+    if (id.indexOf("SubTask-") > -1) {
+      id = this.$route.query.taskId;
     }
-}
+    const qq = await getTalkByGroupId(id);
+    console.log(id + $lang("获取聊天组信息"), qq);
+    if (qq.success) {
+      if (
+        qq.data &&
+        qq.data.groupDetails &&
+        qq.data.groupDetails.data &&
+        qq.data.sChatUser &&
+        qq.data.sChatUser.entities
+      ) {
+        this.chatConfig = {
+          groupid: qq.data.groupDetails.data[0].id,
+          userid: qq.data.sChatUser.entities[0].username,
+          userimg: qq.data.sUser.info.headUrl,
+          userRole: "S",
+          userphone: qq.data.sUser.phone,
+          username: qq.data.sUser.info.nickName || qq.data.sUser.phone,
+          youname:
+            qq.data.targetUser.info.nickName +
+            '<img class="shoujiicon" src="' +
+            shouji +
+            '" /> ' +
+            qq.data.targetUser.phone,
+          youimg: qq.data.targetUser.info.headUrl,
+          youRole: "B",
+          youphone: qq.data.targetUser.phone,
+          id: id
+        };
+      } else {
+        this.msg = $lang("聊天相关数据出现异常");
+      }
+    } else {
+      this.msg = qq.msg;
+    }
+    const re = await TaskInfoById(id);
+    if (re.success) {
+      this.taskInfo = re.data;
+    }
+    const stateGroup = [];
+    const res = await ChildTaskList(id);
+
+    if (res.success) {
+      const list = res.data ? res.data : [];
+      ChildTaskState("S").map((value, i) => {
+        const model = {
+          name: value,
+          childs: []
+        };
+        list.forEach(item => {
+          if (i == item.state) {
+            model.childs.push(item);
+          }
+        });
+        stateGroup.push(model);
+      });
+      stateGroup[2].childs = stateGroup[2].childs.concat(stateGroup[3].childs);
+
+      stateGroup.splice(3, 1);
+      stateGroup.shift();
+      console.log("stateGroup", stateGroup);
+
+      this.stateGroup = stateGroup;
+    } else {
+      this.$message.warning(res.msg);
+    }
+  },
+  methods: {
+    changStateToPay(id) {
+      const me = this;
+      me
+        .$confirm($lang(`是否确定该子任务？`), $lang("提示"), {
+          confirmButtonText: $lang("确定"),
+          cancelButtonText: $lang("取消"),
+          type: "warning"
+        })
+        .then(async () => {
+          const res = await UpdateChildTaskForSure({ id }, 2);
+          //                    console.log(res)
+          if (res.success) {
+            me.$message({
+              type: "success",
+              message: $lang("修改成功!")
+            });
+            history.go(0);
+          } else {
+            me.$message.error(res.msg);
+          }
+        })
+        .catch(() => {});
+    },
+    toPay() {
+      const id = this.zhifuIds[0];
+      PayChildTask(id).then(res => {
+        alert(res.msg);
+      });
+    },
+    getChilds(index) {
+      return this.stateGroup[index] ? this.stateGroup[index].childs : [];
+    },
+    handleClose() {
+      this.dialogVisible = false;
+    },
+    toRedirectT() {
+      this.$router.push({
+        name: "toFinally",
+        query: { id: this.$route.query.taskId || this.$route.query.id }
+      });
+    },
+    toRedirect(name, id) {
+      this.$router.push({ name, query: { id } });
+    },
+    async toShowPay(index) {
+      const me = this;
+      //                const res = await SToVpayMoney({id});
+      //                console.log(res);
+      const money = me.getChilds(5)[index].total;
+      const id = me.getChilds(5)[index].id;
+      const payInfo = await SToVTopayMoney({ id });
+      //                console.log(payInfo);
+      //                me.$confirm(`打款支付${payInfo.data.money}？(总额百分比${payInfo.data.remitRatio || 0})`, '提示', {
+      me
+        .$confirm(
+          `打款支付${payInfo.data.money}？(总价:${money}，折扣：${(1 -
+            payInfo.data.remitRatio
+          ).toFixed(2) *
+            100 +
+            "%"}，实际:${payInfo.data.money})`,
+          "提示",
+          {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning"
+          }
+        )
+        .then(async () => {
+          const res = await SToVpayMoney({ id });
+          //                    console.log(res);
+          if (res.success) {
+            me.$message({
+              type: "success",
+              message: $lang("打款成功!")
+            });
+            history.go(0);
+          }
+        })
+        .catch(() => {
+          me.$message({
+            type: "info",
+            message: $lang("打款未成功")
+          });
+        });
+    },
+    openApplyRefund(id) {
+      this.dialog.applyRefund.form.id = id;
+      this.dialog.applyRefund.form.reason = "";
+      this.dialog.applyRefund.form.percent = 100;
+      this.dialog.applyRefund.show = true;
+    },
+    applyRefund() {
+      this.$refs.form.validate(async v => {
+        if (v) {
+          const res = await applyRefund(
+            this.dialog.applyRefund.form.id,
+            this.dialog.applyRefund.form.percent,
+            this.dialog.applyRefund.form.reason
+          );
+          if (res.success) {
+            this.$message.success($lang("申请成功"));
+            this.dialog.applyRefund.show = false;
+            location.reload();
+          } else {
+            this.$message.error(res.msg);
+          }
+        }
+      });
+    }
+  }
+};
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <TInfo :onload="onTInfoLoad">
+  <TInfo class="toedit" :onload="onTInfoLoad">
     <div slot="footer" class="bt-dashed">
       <div class="set-btn-wrap bt-dashed" style='text-align: left;'>
         <el-button type="sure" @click="dialogVisible=true">{{$lang('修改价格')}}</el-button>
@@ -12,6 +12,10 @@
             <p>{{$lang('任务名称：')}}{{item.projectName}}</p>
             <p>{{$lang('任务出价：')}}{{item.total}}</p>
             <p>{{$lang('任务状态：')}}{{stateName(item.state)}}</p>
+            <p style="width:270px;">
+              <span>{{$lang('截止时间：')}}</span>
+              <el-date-picker type="date" placeholder="请选择日期" v-model="item.entryEndTime" @change="item._entryEndTime=item.entryEndTime,UpdateTime(item,$event)"></el-date-picker>
+            </p>
             <!--<p v-if="item.total">总占比例：{{(item.total/total*100).toFixed(2)}}%</p>-->
             <el-button type="sure" @click="toRedirectEdit(item.id)" v-if="item.state<3">{{$lang('编辑')}}</el-button>
             <el-button type="cancle" @click="toDelete(item.id)" v-if="['0','2','3'].includes(item.state)">{{$lang('删除')}}</el-button>
@@ -46,9 +50,27 @@
     </div>
   </TInfo>
 </template>
+<style>
+.toedit .allot-task-li .el-button {
+  width: auto;
+}
+.toedit .el-date-editor > i {
+  display: none;
+}
+.toedit .allot-task-li {
+  align-items: center;
+  display: inline-flex;
+}
+</style>
 <script>
-import TInfo from '@/components/TInfo'
-import { ChildTaskList, DeleteTaskInfo, ChildTaskState, UpdateTotal } from '@/apis/task'
+import TInfo from "@/components/TInfo";
+import {
+  ChildTaskList,
+  DeleteTaskInfo,
+  ChildTaskState,
+  UpdateTotal,
+  UpdateTime
+} from "@/apis/task";
 export default {
   components: { TInfo },
   data() {
@@ -59,37 +81,37 @@ export default {
         totalType: "",
         total: ""
       }
-    }
+    };
   },
   methods: {
     updatePrice() {
       const id = this.$route.query.id;
-      const { totalType, total } = this.form
-      UpdateTotal({ id, totalType, total }).then((res) => {
+      const { totalType, total } = this.form;
+      UpdateTotal({ id, totalType, total }).then(res => {
         this.$message({
-          message: res.msg || $lang('价格修改成功'),
-          type: res.success ? 'success' : 'error',
+          message: res.msg || $lang("价格修改成功"),
+          type: res.success ? "success" : "error",
           onClose: () => {
             if (res.success) {
-              this.dialogVisible = false
-              this.$router.go(0)
+              this.dialogVisible = false;
+              this.$router.go(0);
             }
           }
         });
-      })
+      });
     },
     toChatT() {
       const id = this.$route.query.id;
-      this.$router.push({ name: "S_ChatT", query: { id: id } })
+      this.$router.push({ name: "S_ChatT", query: { id: id } });
     },
     stateName(state) {
-      return ChildTaskState("S", state)
+      return ChildTaskState("S", state);
     },
     toDispatch(id) {
-      this.$router.push({ name: "toFenPei", query: { id: id } })
+      this.$router.push({ name: "toFenPei", query: { id: id } });
     },
     toLookBM(id) {
-      this.$router.push({ name: "S_toBaoMing", query: { id: id } })
+      this.$router.push({ name: "S_toBaoMing", query: { id: id } });
     },
     toRedirectCreate() {
       const id = this.$route.query.id;
@@ -100,20 +122,24 @@ export default {
           maxTotal -= this.list.total;
         }
       }
-      this.$router.push({ name: "S_CreateTask", query: { id: id }, params: { maxTotal } })
+      this.$router.push({
+        name: "S_CreateTask",
+        query: { id: id },
+        params: { maxTotal }
+      });
     },
     toRedirectEdit(childid) {
       const id = this.$route.query.id;
-      this.$router.push({ name: "S_CreateTask", query: { id, childid } })
+      this.$router.push({ name: "S_CreateTask", query: { id, childid } });
     },
     async toDelete(id) {
-      const res = await DeleteTaskInfo(id)
+      const res = await DeleteTaskInfo(id);
       this.$message({
-        message: res.msg || $lang('删除成功'),
-        type: res.success ? 'success' : 'error',
+        message: res.msg || $lang("删除成功"),
+        type: res.success ? "success" : "error",
         onClose: () => {
           if (res.success) {
-            this.$router.go(0)
+            this.$router.go(0);
           }
         }
       });
@@ -121,17 +147,26 @@ export default {
     onTInfoLoad(data) {
       this.form.totalType = data.totalType;
       this.form.total = data.total;
+    },
+    async UpdateTime(task, entryEndTime) {
+      console.log(task);
+      const res = await UpdateTime(task.id, entryEndTime);
+      if (res.success) {
+        this.$message($lang("修改成功"));
+      } else {
+        task.entryEndTime = task._entryEndTime;
+      }
     }
   },
   async mounted() {
     const id = this.$route.query.id;
-    const res = await ChildTaskList(id)
+    const res = await ChildTaskList(id);
 
     if (res.success) {
       this.list = res.data ? res.data : [];
     } else {
-      this.$message.warning(res.msg)
+      this.$message.warning(res.msg);
     }
   }
-}
+};
 </script>

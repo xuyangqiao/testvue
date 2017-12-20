@@ -22,27 +22,28 @@
 
       <div class="allot-chose-wrap">
         <template>
-          <el-table ref="singleTable" :data="vlist" highlight-current-row @current-change="handleCurrentChange" style="width: 100%">
-            <el-table-column type="index" width="">
+          <el-table ref="singleTable" :data="vlist" highlight-current-row @current-change="handleCurrentRowChange" style="width: 100%">
+            <el-table-column type="index">
             </el-table-column>
-            <el-table-column :label="$lang('昵称')" width="">
+            <el-table-column :label="$lang('昵称')">
               <template scope="scope">
                 <!-- <span @click="toVUser(scope.row)"></span> -->
                 <router-link style="cursor:pointer;" :to="{ name: 'S-VuserInfo', query: { userId: scope.row.userid } }" target="_blank">{{scope.row.nickName}}</router-link>
               </template>
             </el-table-column>
-            <el-table-column property="createTime" :label="$lang('注册时间')" width="">
+            <el-table-column property="createTime" :label="$lang('注册时间')">
             </el-table-column>
-            <el-table-column prop="tag" :label="$lang('标签')" width="">
+            <el-table-column prop="tag" :label="$lang('标签')">
               <template scope="scope">
                 <el-tag :type="'success'">{{scope.row.label}}</el-tag>
               </template>
             </el-table-column>
+            <el-table-column property="remarkName" :label="$lang('备注')"/>
           </el-table>
         </template>
         <div class="page-wrap clearfix">
           <div class="fr">
-            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pagination.currentPage" :page-sizes="[100, 200, 300, 400]" :page-size="pagination.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="pagination.total">
+            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pagination.currentPage" :page-sizes="[4,8,12,16]" :page-size="pagination.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="pagination.total">
             </el-pagination>
           </div>
         </div>
@@ -76,10 +77,15 @@
 </template>
 
 <script>
-import TsInfo from '@/components/TsInfo'
-import VUserInfo from './VUserInfo'
-import { UserList } from '@/apis/person'
-import { SubentrySignUp, SubentryList, AssignedTask, applyRefund } from '@/apis/task'
+import TsInfo from "@/components/TsInfo";
+import VUserInfo from "./VUserInfo";
+import { UserList } from "@/apis/person";
+import {
+  SubentrySignUp,
+  SubentryList,
+  AssignedTask,
+  applyRefund
+} from "@/apis/task";
 export default {
   components: { TsInfo, VUserInfo },
   data() {
@@ -90,22 +96,22 @@ export default {
       type: 1,
       pagination: {
         currentPage: 1,
-        pageSize: 100,
-        total: 0,
+        pageSize: 12,
+        total: 0
       },
       dialog: {
         applyRefund: {
           show: false,
           form: {
-            reason: ''
+            reason: ""
           }
         },
         info: {
           show: false,
-          id: ''
+          id: ""
         }
       }
-    }
+    };
   },
   async mounted() {
     this.queryType(this.type);
@@ -117,11 +123,11 @@ export default {
       const res = await AssignedTask(id, userid, this.$route.query.state || 4);
       this.$message({
         message: res.msg,
-        type: res.success ? 'success' : 'error',
+        type: res.success ? "success" : "error",
         onClose: () => {
           if (res.success) {
             // this.stageTasks.push(res.data)
-            this.$router.go(-1)
+            this.$router.go(-1);
           }
         }
       });
@@ -129,7 +135,7 @@ export default {
     queryType(type) {
       this.type = type || this.type;
       if (this.type == 1) {
-        this.querySubentrySignUp(this.$route.query.id)
+        this.querySubentrySignUp(this.$route.query.id);
       } else {
         this.queryUserList();
       }
@@ -137,48 +143,60 @@ export default {
     async queryUserList() {
       const { pageSize, currentPage } = this.pagination;
       console.log(pageSize, currentPage);
-      const res = await UserList({ userType: "V", seekValue: this.seekValue, page: currentPage, row: pageSize });
+      const res = await UserList({
+        userType: "V",
+        seekValue: this.seekValue,
+        page: currentPage,
+        row: pageSize
+      });
       if (res.success) {
-        this.vlist = res.data.list.map((item) => {
+        this.vlist = res.data.list.map(item => {
           return {
             nickName: item.nickName,
             createTime: item.createTime,
             userid: item.id,
-            label: item.lable
-          }
+            label: item.lable,
+            remarkName: item.remarkName
+          };
         });
         this.pagination = {
           currentPage: res.data.pageNum,
           pageSize: res.data.pageSize,
           total: res.data.total
-        }
+        };
       }
     },
     async querySubentrySignUp(id) {
-      const { pageSize, currentPage }=this.pagination;
-      const res = await SubentryList(id, this.seekValue, 1, currentPage, pageSize );
-      console.log("............", res)
+      const { pageSize, currentPage } = this.pagination;
+      const res = await SubentryList(
+        id,
+        this.seekValue,
+        1,
+        currentPage,
+        pageSize
+      );
+      console.log("............", res);
       if (res.success) {
-        this.vlist = res.data.list.map((item) => {
+        this.vlist = res.data.list.map(item => {
           return {
             nickName: item.nickName,
             createTime: item.createTime,
             userid: item.vUserId,
             label: item.lable
-          }
+          };
         });
         this.pagination = {
           currentPage: res.data.pageNum,
           pageSize: res.data.pageSize,
           total: res.data.total
-        }
+        };
       }
     },
     handleSizeChange(pageSize) {
       this.pagination.pageSize = pageSize;
       this.pagination.currentPage = 1;
       if (this.type == 1) {
-        this.querySubentrySignUp(this.$route.query.id)
+        this.querySubentrySignUp(this.$route.query.id);
       } else {
         this.queryUserList();
       }
@@ -187,42 +205,52 @@ export default {
       this.pagination.currentPage = pageNum;
       this.currentRow = pageNum;
       if (this.type == 1) {
-        this.querySubentrySignUp(this.$route.query.id)
+        this.querySubentrySignUp(this.$route.query.id);
       } else {
         this.queryUserList();
       }
     },
+    handleCurrentRowChange(row) {
+      this.currentRow = row;
+    },
     toVUser(data) {
-      data.userid && this.$router.push({ name: 'S-VuserInfo', query: { userId: data.userid } });
+      data.userid &&
+        this.$router.push({
+          name: "S-VuserInfo",
+          query: { userId: data.userid }
+        });
       // if (data.userid) {
       //   this.dialog.info.id = data.userid;
       //   this.dialog.info.show = true;
       // }
     },
     openApplyRefund() {
-      this.dialog.applyRefund.reason = '';
+      this.dialog.applyRefund.reason = "";
       this.dialog.applyRefund.show = true;
     },
     async applyRefund() {
       if (this.dialog.applyRefund.reason) {
-        const res = await applyRefund(this.$route.query.id, this.dialog.applyRefund.reason);
+        const res = await applyRefund(
+          this.$route.query.id,
+          this.dialog.applyRefund.reason
+        );
         if (res.success) {
-          this.$message.success($lang('申请成功'));
+          this.$message.success($lang("申请成功"));
           this.$router.reload();
           this.dialog.applyRefund.show = false;
         } else {
           this.$message.error(res.msg);
         }
       } else {
-        this.$message.warning($lang('请填写退款原因'));
+        this.$message.warning($lang("请填写退款原因"));
       }
     }
   }
-}
+};
 </script>
 
 <style>
-.el-table__body tr.current-row>td {
+.el-table__body tr.current-row > td {
   color: #ffffff;
   background-color: #1f2e65 !important;
 }

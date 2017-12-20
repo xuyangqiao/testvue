@@ -1,5 +1,5 @@
 <template>
-  <div class="lr-content-wrapper">
+  <div class="lr-content-wrapper forget">
     <div class="login-logo" @click="$router.push({ path: '/'})"></div>
      <div class="lr-main">
         <div class="box-flex-media-box login-left">
@@ -13,12 +13,12 @@
                 <div class="lr-main-right reg-wrapper">
                    <h3 class="main-title">{{$lang('忘记密码')}}</h3>
                    <div class="lr-form-wrap">
-                        <el-form ref="form" :model="form" label-width="0" :rules="rules">      
+                        <el-form ref="form" :model="form" label-width="20" :rules="rules">      
                             <VerifyCode ref="VerifyCode" :phone="form.phone" :code="form.code" :getData="getData" :parentClass="'reg-wrapper'" :type="'forgetPwd'"></VerifyCode>
-                            <el-form-item prop="password1">
+                            <el-form-item prop="password1" label=" " required>
                                <el-input type="password" v-model="form.password1" :placeholder="$lang('请输入密码')"></el-input>
                             </el-form-item>
-                            <el-form-item prop="password1">
+                            <el-form-item prop="password1" label=" " required>
                                <el-input type="password" v-model="form.password2" :placeholder="$lang('请再次输入密码')" ></el-input>
                             </el-form-item>
                             <el-form-item class="pad-top-15">
@@ -32,6 +32,13 @@
      </div>
   </div>
 </template>
+
+<style>
+.forget .el-form-item__content {
+  width: 300px;
+  display: inline-block;
+}
+</style>
 
 <script>
 import VerifyCode from '@/components/VerifyCode'

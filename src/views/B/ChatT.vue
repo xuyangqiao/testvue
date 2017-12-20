@@ -26,7 +26,7 @@
                                         <p class="name">{{m.projectName}}</p>
                                     </div>
                                 </div>
-                                <a href="javascript:;" class="more" @click="$router.push({name:'B_TaskChildDetail',query: { id: m.id }})">{{$lang('查看')}}&gt;</a>
+                                <a href="javascript:;" class="more" @click="$router.push({name:'B_TaskChildDetail',query: { id: m.id, taskId:m.taskId }})">{{$lang('查看')}}&gt;</a>
                             </li>
                         </ul>
                     </li>
@@ -56,7 +56,7 @@
                                     <div class="moey">
                                         <p>{{'￥' + m.total}}</p>
                                     </div>
-                                    <a href="javascript:;" class="more" @click="$router.push({name:'B_TaskChildDetail',query: { id: m.id }})">{{$lang('查看')}}&gt;</a>
+                                    <a href="javascript:;" class="more" @click="$router.push({name:'B_TaskChildDetail',query: { id: m.id, taskId:m.taskId }})">{{$lang('查看')}}&gt;</a>
                                 </li>
                             </el-checkbox-group>
                         </ul>
@@ -87,7 +87,7 @@
                                     <div class="moey">
                                         <p>{{'￥' + m.total}}</p>
                                     </div>
-                                    <a href="javascript:;" class="more" @click="$router.push({name:'B_TaskChildDetail',query: { id: m.id }})">{{$lang('查看')}}&gt;</a>&nbsp;&nbsp;&nbsp;
+                                    <a href="javascript:;" class="more" @click="$router.push({name:'B_TaskChildDetail',query: { id: m.id, taskId:m.taskId }})">{{$lang('查看')}}&gt;</a>&nbsp;&nbsp;&nbsp;
                                     <a href="javascript:;" class="more" @click="$router.push({name:'B-userInfo-bag',query: { id: userId, index: 3 }})">{{$lang('去支付')}}&gt;</a>
                                 </li>
                             </el-checkbox-group>
@@ -111,7 +111,7 @@
                                         <p class="name">{{m.projectName}}</p>
                                     </div>
                                 </div>
-                                <a href="javascript:;" class="more" @click="$router.push({name:'B_TaskChildDetail',query: { id: m.id }})">{{$lang('查看')}}&gt;</a>
+                                <a href="javascript:;" class="more" @click="$router.push({name:'B_TaskChildDetail',query: { id: m.id, taskId:m.taskId }})">{{$lang('查看')}}&gt;</a>
                             </li>
                         </ul>
                     </li>
@@ -133,7 +133,7 @@
                                         <p class="name">{{m.projectName}}</p>
                                     </div>
                                 </div>
-                                <a href="javascript:;" class="more" @click="$router.push({name:'B_ChatD',query: { id: m.id }})">{{$lang('查看')}}&gt;</a>
+                                <a href="javascript:;" class="more" @click="$router.push({name:'B_ChatD',query: { id: m.id, taskId:m.taskId }})">{{$lang('查看')}}&gt;</a>
                             </li>
                         </ul>
                     </li>
@@ -155,9 +155,9 @@
                                         <p class="name">{{m.projectName}}</p>
                                     </div>
                                 </div>
-                                <a href="javascript:;" class="more" @click="$router.push({name:'B_TaskCheck',query: { id: m.id }})">{{$lang('去验收')}}&gt;</a>&nbsp;&nbsp;&nbsp;
+                                <a href="javascript:;" class="more" @click="$router.push({name:'B_TaskCheck',query: { id: m.id, taskId:m.taskId }})">{{$lang('去验收')}}&gt;</a>&nbsp;&nbsp;&nbsp;
                                 <!--<a href="javascript:;" class="more" @click="$router.push({name:'B-detail',query: { id: $route.query.id }})">{{$lang('查看详情')}}&gt;</a>&nbsp;&nbsp;&nbsp;-->
-                                <a href="javascript:;" class="more" @click="$router.push({name:'B_ChatD',query: { id: m.id }})">{{$lang('查看')}}&gt;</a>
+                                <a href="javascript:;" class="more" @click="$router.push({name:'B_ChatD',query: { id: m.id, taskId:m.taskId }})">{{$lang('查看')}}&gt;</a>
                             </li>
                         </ul>
                     </li>
@@ -179,11 +179,11 @@
                                         <p class="name">{{m.projectName}}</p>
                                     </div>
                                 </div>
-                                <!--<a href="javascript:;" class="more" @click="$router.push({name:'B_History',query: { id: m.id, index: -1 }})">{{$lang('下载')}}&gt;</a>&nbsp;&nbsp;&nbsp;-->
+                                <!--<a href="javascript:;" class="more" @click="$router.push({name:'B_History',query: { id: m.id, taskId:m.taskId, index: -1 }})">{{$lang('下载')}}&gt;</a>&nbsp;&nbsp;&nbsp;-->
                                 <a href="javascript:;" class="more" @click="downloadLastFile(m.id)">{{$lang('下载')}}&gt;</a>&nbsp;&nbsp;&nbsp;
-                                <a href="javascript:;" class="more" @click="$router.push({name:'B_DTaskCheck',query: { id: m.id, index: -1 }})">{{$lang('预览')}}&gt;</a>&nbsp;&nbsp;&nbsp;
-                                <a href="javascript:;" class="more" @click="$router.push({name:'B_Detail',query: { id: m.id }})">{{$lang('任务详情')}}&gt;</a>&nbsp;&nbsp;&nbsp;
-                                <a href="javascript:;" class="more" @click="$router.push({name:'B_ChatD',query: { id: m.id }})">{{$lang('聊天记录')}}&gt;</a>
+                                <a href="javascript:;" class="more" @click="$router.push({name:'B_DTaskCheck',query: { id: m.id, taskId:m.taskId, index: -1 }})">{{$lang('预览')}}&gt;</a>&nbsp;&nbsp;&nbsp;
+                                <a href="javascript:;" class="more" @click="$router.push({name:'B_Detail',query: { id: m.id, taskId:m.taskId }})">{{$lang('任务详情')}}&gt;</a>&nbsp;&nbsp;&nbsp;
+                                <a href="javascript:;" class="more" @click="$router.push({name:'B_ChatD',query: { id: m.id, taskId:m.taskId }})">{{$lang('聊天记录')}}&gt;</a>
                             </li>
                         </ul>
                     </li>
@@ -205,7 +205,7 @@
                                         <p class="name">{{m.projectName}}</p>
                                     </div>
                                 </div>
-                                <a href="javascript:;" class="more" @click="$router.push({name:'B_TaskChildDetail',query: { id: m.id,isOnlyChat:true }})">{{$lang('查看')}}&gt;</a>
+                                <a href="javascript:;" class="more" @click="$router.push({name:'B_TaskChildDetail',query: { id: m.id, taskId:m.taskId, isOnlyChat:true }})">{{$lang('查看')}}&gt;</a>
                             </li>
                         </ul>
                     </li>
@@ -226,7 +226,7 @@
                                         <p class="name">{{m.projectName}}</p>
                                     </div>
                                 </div>
-                                <a href="javascript:;" class="more" @click="$router.push({name:'B_TaskChildDetail',query: { id: m.id,isOnlyChat:true }})">{{$lang('查看')}}&gt;</a>
+                                <a href="javascript:;" class="more" @click="$router.push({name:'B_TaskChildDetail',query: { id: m.id, taskId:m.taskId, isOnlyChat:true }})">{{$lang('查看')}}&gt;</a>
                             </li>
                         </ul>
                     </li>
@@ -329,268 +329,310 @@
 
 <style>
 .chart-wrpaper .el-checkbox__label {
-    display: none;
+  display: none;
 }
 </style>
 
 <script>
-import Chat from '@/components/Chat'
-import SlideBtns from '@/components/SlideBtns'
-import { ChildTaskList, ChildTaskState, TaskInfoById, PayChildTask, getTalkByGroupId, ChildTaskInfo } from '@/apis/task'
-import { addOrder, getAliapyInfo, createWXPayOrder, checkByOrderId, cancelOrder, getMoney, balancePay } from '@/apis/money'
-import { getAllFile } from '@/apis/files'
-import axios from 'axios'
-import { getUser } from '@/apis/storage'
+import Chat from "@/components/Chat";
+import SlideBtns from "@/components/SlideBtns";
+import {
+  ChildTaskList,
+  ChildTaskState,
+  TaskInfoById,
+  PayChildTask,
+  getTalkByGroupId,
+  ChildTaskInfo
+} from "@/apis/task";
+import {
+  addOrder,
+  getAliapyInfo,
+  createWXPayOrder,
+  checkByOrderId,
+  cancelOrder,
+  getMoney,
+  balancePay
+} from "@/apis/money";
+import { getAllFile } from "@/apis/files";
+import axios from "axios";
+import { getUser } from "@/apis/storage";
 
 export default {
-    components: { Chat, SlideBtns },
-    data() {
-        return {
-            zhifuIds: [],
-            payDialogVisible: false,   //去支付
-            cashType: 1,
-            total: 0,
-            balance: 0, //余额
-            orderId: "",
-            WXPayImgShow: false,
-            WXImgSrc: "",
-            WXPayTimes: "",
-            stateGroup: [],
-            taskInfo: {},
-            chatConfig: {},
-            msg: "正在加载中...",
-            WXPaying: false,
-            userId: '',
+  components: { Chat, SlideBtns },
+  data() {
+    return {
+      zhifuIds: [],
+      payDialogVisible: false, //去支付
+      cashType: 1,
+      total: 0,
+      balance: 0, //余额
+      orderId: "",
+      WXPayImgShow: false,
+      WXImgSrc: "",
+      WXPayTimes: "",
+      stateGroup: [],
+      taskInfo: {},
+      chatConfig: {},
+      msg: "正在加载中...",
+      WXPaying: false,
+      userId: "",
 
-            bUserType: localStorage.LoginUser ? JSON.parse(localStorage.LoginUser).bUserType : 0,
-            parentId: null
-        }
-    },
-    async mounted() {
-
-        this.userId = getUser().userId;
-        // alert(this.tabState)
-        let id = this.$route.query.id;
-        if (id.indexOf("SubTask-") > -1) {
-            id = this.$route.query.taskId;
-        }
-        const qq = await getTalkByGroupId(id);
-        console.log(id + "获取聊天组信息", qq)
-        if (qq.success) {
-            if (qq.data && qq.data.targetUser) {
-                console.log(qq.data);
-                this.parentId = qq.data.targetUser.parentId;
-            }
-            if (qq.data && qq.data.groupDetails && qq.data.groupDetails.data && qq.data.targetChatUser && qq.data.targetChatUser.entities) {
-                this.chatConfig = {
-                    groupid: qq.data.groupDetails.data[0].id,
-                    userid: qq.data.targetChatUser.entities[0].username,
-                    userimg: qq.data.targetUser.info.headUrl,
-                    username: qq.data.targetUser.info.nickName || qq.data.targetUser.phone,
-                    userphone: qq.data.targetUser.phone,
-                    userRole: "B",
-                    youname: qq.data.sUser.info.nickName || qq.data.sUser.phone,
-                    youimg: qq.data.sUser.info.headUrl,
-                    youRole: "S",
-                    youphone: qq.data.sUser.phone,
-                    id: id
-                    // isReserve:true
-                }
-            } else {
-                this.msg = "聊天相关数据出现异常";
-            }
-        } else {
-            this.msg = qq.msg;
-        }
-        const re = await TaskInfoById(id);
-        if (re.success) {
-            this.taskInfo = re.data;
-        }
-        const stateGroup = [];
-        const res = await ChildTaskList(id);
-        if (res.success) {
-            const list = res.data ? res.data : [];
-            ChildTaskState("B").map((value, i) => {
-                const model = {
-                    name: value,
-                    childs: []
-                };
-                list.forEach((item) => {
-                    if (i == item.state) {
-                        model.childs.push(item)
-                    }
-                });
-                stateGroup.push(model)
-            });
-
-            stateGroup[7].childs = stateGroup[7].childs.concat(stateGroup[8].childs);
-            // // delete stateGroup[2]
-            stateGroup.shift();
-            console.log(stateGroup)
-            this.stateGroup = stateGroup;
-
-        } else {
-            this.$message.warning(res.msg)
-        }
-    },
-    methods: {
-        async toPay() {
-            //                const id = this.zhifuIds[0];
-            //                PayChildTask(id).then((res) => {
-            //                    alert(res.msg)
-            //                })
-            const me = this;
-            if (me.cashType == 3) {//余额支付
-                if (me.balance < me.total) {
-                    me.$message('余额不足');
-                    return
-                }
-                me.$confirm(`确定用余额支付${me.total}元？`).then(async data => {
-                    if (data == 'confirm') {
-                        const data = await balancePay({ orderId: me.orderId });
-                        //                        console.log(data);
-                        if (data.success) {
-                            me.$message('操作成功');
-                            setTimeout(function() {
-                                history.go(0)
-                            }, 200)
-                        } else {
-                            me.$message.error(data.msg)
-                        }
-                    }
-                }).catch(data => {
-
-                });
-            }
-            if (me.cashType == 1) {//支付宝支付
-                const alipayData = await getAliapyInfo({ outTradeNo: me.orderId, subject: "子订单选择支付：" + me.orderId, totalFee: me.total, body: `1&&${location.href}` });
-                let div = document.createElement("div");
-                div.innerHTML = alipayData.data;
-                document.body.appendChild(div);
-                document.forms['alipaysubmit'].submit();
-            }
-            if (me.cashType == 2) {//微信支付
-                //                'http://api.vswork.com/api/wxpay/createOrder?orderId=170730202640d04e4c198f8226b11c&attach=1'
-                //                'http://api.vswork.com/api/wxpay/createOrder?orderId=170730202813d7563f411c8b26b11c&attach=1'
-                me.WXPayImgShow = true;
-                me.WXImgSrc = `${axios.defaults.baseURL}/wxpay/createOrder?orderId=${me.orderId}&attach=1`;
-                me.WXPaying = true;
-                me.WXPayTimes = setInterval(me.queryWXPayState, 5000);
-            }
-        },
-        async queryWXPayState() {
-            const me = this;
-            const orderId = me.orderId;
-            const type = "1";
-            const WXPayState = await checkByOrderId({ orderId, type });
-            if (WXPayState.data.state == "2") {
-                me.$message.success('支付成功');
-                clearInterval(me.WXPayTimes);
-                me.WXPayImgShow = false;
-                me.WXImgSrc = "";
-                me.WXPaying = false;
-                me.payDialogVisible = false;
-                history.go(0);
-            } else if (WXPayState.data.state == "3") {
-                me.$message.error('支付失败');
-                clearInterval(me.WXPayTimes);
-                me.WXPayImgShow = false;
-                me.WXPaying = "";
-                me.WXImgSrc = "";
-            }
-        },
-        WXPayImgClose() {
-            const me = this;
-            me.$confirm('确认取消支付？').then(data => {
-                if (data == 'confirm') {
-                    me.WXImgSrc = "";
-                    me.WXPayImgShow = false;
-                    clearInterval(me.WXPayTimes);
-                }
-            }).catch(data => {
-
-            });
-        },
-        getChilds(index) {
-            return this.stateGroup[index] ? this.stateGroup[index].childs : []
-        },
-        payDialogClose() {
-            const me = this;
-            me.$confirm('确认取消支付？').then(data => {
-                if (data == 'confirm') {
-                    cancelOrder(me.orderId);
-                    me.orderId = "";
-                    me.payDialogVisible = false;
-                    history.go(0)
-                }
-            }).catch(data => { });
-        },
-        async openPayDialog(state) {
-            const me = this;
-            if (me.zhifuIds.length == 0) {
-                me.$message("选择为空");
-                return;
-            }
-            const subtaskId = me.zhifuIds.join(',');
-            const data = await addOrder({ subtaskId });
-            if (!data.success) {
-                me.$message({ type: 'error', message: data.msg });
-                return false;
-            }
-            //获取余额
-            const userId = getUser().userId;
-            const moneyData = await getMoney({ userId });
-            console.log(moneyData);
-            if (moneyData.success) {
-                me.balance = moneyData.data.money
-            }
-            me.orderId = data.data.orderId;
-            me.total = data.data.total;
-
-            if (this.parentId == null) me.payDialogVisible = true;
-            else location.reload();
-        },
-        toRedirectT() {
-            let id = this.$route.query.id;
-            if (id.indexOf("SubTask-") > -1) {
-                id = this.$route.query.taskId;
-            }
-            this.$router.push({ name: "B-detail", query: { id: id } })
-        },
-        toRedirect(name, id) {
-            this.$router.push({ name, query: { id } })
-        },
-        async downloadLastFile(id) {//"TaskStage-25ec6ce178acacaf"
-            const me = this;
-            const taskData = await ChildTaskInfo(id);
-            if (!taskData.success) {
-                me.$message.error(taskData.msg);
-                return;
-            }
-
-            const taskStage = taskData.data.taskStage;
-            if (taskStage.length == 0) {
-                me.$message.error('任务阶段为空');
-                return;
-            }
-
-            const fileData = await getAllFile('enclosure', taskStage[taskStage.length - 1].id);
-            if (fileData.data.length == 0) {
-                me.$message('文件列表为空');
-                return
-            }
-
-            let lastFile = fileData.data.sort((a, b) => new Date(a.createTime) > new Date(b.createTime) ? -1 : 1)[0];
-
-            var a = document.createElement('a');
-            a.href = lastFile.url;
-            a.download = lastFile.fileName;
-            var ev = document.createEvent('MouseEvents');
-            ev.initEvent('click', false, true);
-            a.dispatchEvent(ev);
-        }
+      bUserType: localStorage.LoginUser
+        ? JSON.parse(localStorage.LoginUser).bUserType
+        : 0,
+      parentId: null
+    };
+  },
+  async mounted() {
+    this.userId = getUser().userId;
+    // alert(this.tabState)
+    let id = this.$route.query.id;
+    if (id.indexOf("SubTask-") > -1) {
+      id = this.$route.query.taskId;
     }
-}
+    const qq = await getTalkByGroupId(id);
+    console.log(id + "获取聊天组信息", qq);
+    if (qq.success) {
+      if (qq.data && qq.data.targetUser) {
+        console.log(qq.data);
+        this.parentId = qq.data.targetUser.parentId;
+      }
+      if (
+        qq.data &&
+        qq.data.groupDetails &&
+        qq.data.groupDetails.data &&
+        qq.data.targetChatUser &&
+        qq.data.targetChatUser.entities
+      ) {
+        this.chatConfig = {
+          groupid: qq.data.groupDetails.data[0].id,
+          userid: qq.data.targetChatUser.entities[0].username,
+          userimg: qq.data.targetUser.info.headUrl,
+          username:
+            qq.data.targetUser.info.nickName || qq.data.targetUser.phone,
+          userphone: qq.data.targetUser.phone,
+          userRole: "B",
+          youname: qq.data.sUser.info.nickName || qq.data.sUser.phone,
+          youimg: qq.data.sUser.info.headUrl,
+          youRole: "S",
+          youphone: qq.data.sUser.phone,
+          id: id
+          // isReserve:true
+        };
+      } else {
+        this.msg = "聊天相关数据出现异常";
+      }
+    } else {
+      this.msg = qq.msg;
+    }
+    const re = await TaskInfoById(id);
+    if (re.success) {
+      this.taskInfo = re.data;
+    }
+    const stateGroup = [];
+    const res = await ChildTaskList(id);
+    if (res.success) {
+      const list = res.data ? res.data : [];
+      ChildTaskState("B").map((value, i) => {
+        const model = {
+          name: value,
+          childs: []
+        };
+        list.forEach(item => {
+          if (i == item.state) {
+            model.childs.push(item);
+          }
+        });
+        stateGroup.push(model);
+      });
+
+      stateGroup[7].childs = stateGroup[7].childs.concat(stateGroup[8].childs);
+      // // delete stateGroup[2]
+      stateGroup.shift();
+      console.log(stateGroup);
+      this.stateGroup = stateGroup;
+    } else {
+      this.$message.warning(res.msg);
+    }
+  },
+  methods: {
+    async toPay() {
+      //                const id = this.zhifuIds[0];
+      //                PayChildTask(id).then((res) => {
+      //                    alert(res.msg)
+      //                })
+      const me = this;
+      if (me.cashType == 3) {
+        //余额支付
+        if (me.balance < me.total) {
+          me.$message("余额不足");
+          return;
+        }
+        me
+          .$confirm(`确定用余额支付${me.total}元？`)
+          .then(async data => {
+            if (data == "confirm") {
+              const data = await balancePay({ orderId: me.orderId });
+              //                        console.log(data);
+              if (data.success) {
+                me.$message("操作成功");
+                setTimeout(function() {
+                  history.go(0);
+                }, 200);
+              } else {
+                me.$message.error(data.msg);
+              }
+            }
+          })
+          .catch(data => {});
+      }
+      if (me.cashType == 1) {
+        //支付宝支付
+        const alipayData = await getAliapyInfo({
+          outTradeNo: me.orderId,
+          subject: "子订单选择支付：" + me.orderId,
+          totalFee: me.total,
+          body: `1&&${location.href}`
+        });
+        let div = document.createElement("div");
+        div.innerHTML = alipayData.data;
+        document.body.appendChild(div);
+        document.forms["alipaysubmit"].submit();
+      }
+      if (me.cashType == 2) {
+        //微信支付
+        //                'http://api.vswork.com/api/wxpay/createOrder?orderId=170730202640d04e4c198f8226b11c&attach=1'
+        //                'http://api.vswork.com/api/wxpay/createOrder?orderId=170730202813d7563f411c8b26b11c&attach=1'
+        me.WXPayImgShow = true;
+        me.WXImgSrc = `${axios.defaults
+          .baseURL}/wxpay/createOrder?orderId=${me.orderId}&attach=1`;
+        me.WXPaying = true;
+        me.WXPayTimes = setInterval(me.queryWXPayState, 5000);
+      }
+    },
+    async queryWXPayState() {
+      const me = this;
+      const orderId = me.orderId;
+      const type = "1";
+      const WXPayState = await checkByOrderId({ orderId, type });
+      if (WXPayState.data.state == "2") {
+        me.$message.success("支付成功");
+        clearInterval(me.WXPayTimes);
+        me.WXPayImgShow = false;
+        me.WXImgSrc = "";
+        me.WXPaying = false;
+        me.payDialogVisible = false;
+        history.go(0);
+      } else if (WXPayState.data.state == "3") {
+        me.$message.error("支付失败");
+        clearInterval(me.WXPayTimes);
+        me.WXPayImgShow = false;
+        me.WXPaying = "";
+        me.WXImgSrc = "";
+      }
+    },
+    WXPayImgClose() {
+      const me = this;
+      me
+        .$confirm("确认取消支付？")
+        .then(data => {
+          if (data == "confirm") {
+            me.WXImgSrc = "";
+            me.WXPayImgShow = false;
+            clearInterval(me.WXPayTimes);
+          }
+        })
+        .catch(data => {});
+    },
+    getChilds(index) {
+      return this.stateGroup[index] ? this.stateGroup[index].childs : [];
+    },
+    payDialogClose() {
+      const me = this;
+      me
+        .$confirm("确认取消支付？")
+        .then(data => {
+          if (data == "confirm") {
+            cancelOrder(me.orderId);
+            me.orderId = "";
+            me.payDialogVisible = false;
+            history.go(0);
+          }
+        })
+        .catch(data => {});
+    },
+    async openPayDialog(state) {
+      const me = this;
+      if (me.zhifuIds.length == 0) {
+        me.$message("选择为空");
+        return;
+      }
+      const subtaskId = me.zhifuIds.join(",");
+      const data = await addOrder({ subtaskId });
+      if (!data.success) {
+        me.$message({ type: "error", message: data.msg });
+        return false;
+      }
+      //获取余额
+      const userId = getUser().userId;
+      const moneyData = await getMoney({ userId });
+      console.log(moneyData);
+      if (moneyData.success) {
+        me.balance = moneyData.data.money;
+      }
+      me.orderId = data.data.orderId;
+      me.total = data.data.total;
+
+      if (this.parentId == null) me.payDialogVisible = true;
+      else location.reload();
+    },
+    toRedirectT() {
+      let id = this.$route.query.id;
+      if (id.indexOf("SubTask-") > -1) {
+        id = this.$route.query.taskId;
+      }
+      this.$router.push({ name: "B-detail", query: { id: id } });
+    },
+    toRedirect(name, id) {
+      this.$router.push({ name, query: { id } });
+    },
+    async downloadLastFile(id) {
+      //"TaskStage-25ec6ce178acacaf"
+      const me = this;
+      const taskData = await ChildTaskInfo(id);
+      if (!taskData.success) {
+        me.$message.error(taskData.msg);
+        return;
+      }
+
+      const taskStage = taskData.data.taskStage;
+      if (taskStage.length == 0) {
+        me.$message.error("任务阶段为空");
+        return;
+      }
+
+      const fileData = await getAllFile(
+        "enclosure",
+        taskStage[taskStage.length - 1].id
+      );
+      if (fileData.data.length == 0) {
+        me.$message("文件列表为空");
+        return;
+      }
+
+      let lastFile = fileData.data.sort(
+        (a, b) => (new Date(a.createTime) > new Date(b.createTime) ? -1 : 1)
+      )[0];
+
+      var a = document.createElement("a");
+      a.href = lastFile.url;
+      a.download = lastFile.fileName;
+      var ev = document.createEvent("MouseEvents");
+      ev.initEvent("click", false, true);
+      a.dispatchEvent(ev);
+    }
+  }
+};
 //    'http://vswork.cttwow.com/vsworkapi/api/wxpay/createOrder?orderId=1707171203583c9855c50d5ddd426d&attach=2'
 //    'http://vswork.cttwow.com/vsworkapi/api/wxpay/createOrder?orderId=170717141643abb3739d9cfddd426d&attach=2'
 //    'http://vswork.cttwow.com/vsworkapi/api/wxpay/createOrder?orderId=170717120441dafaf0d60113dd426d&attach=2'

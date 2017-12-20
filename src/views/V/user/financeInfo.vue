@@ -41,20 +41,20 @@
                                     </ul>
                                 </template>
                             </el-form-item>
-                            <el-form-item :label="$lang('请输入提现金额')" prop="money">
+                            <el-form-item :label="$lang('请输入提现金额')" prop="money" required>
                                 <el-input :placeholder="$lang('请输入提现金额')" v-model="cashForm.money"></el-input>
                             </el-form-item>
-                            <el-form-item :label="$lang('请输入账户名称')" prop="name">
+                            <el-form-item :label="$lang('请输入账户名称')" prop="name" required>
                                 <el-input :placeholder="$lang('请输入账户名称')" v-model="cashForm.name"></el-input>
                             </el-form-item>
 
-                            <el-form-item :label="$lang('请输入支付宝账号')" v-show="cashForm.atmType==1">
+                            <el-form-item :label="$lang('请输入支付宝账号')" v-show="cashForm.atmType==1" required>
                                 <el-input :placeholder="$lang('请输入支付宝账号')" v-model="cashForm.cardNum"></el-input>
                             </el-form-item>
-                            <el-form-item :label="$lang('请输入银行卡号')" v-show="cashForm.atmType==2" prop="cardNum">
+                            <el-form-item :label="$lang('请输入银行卡号')" v-show="cashForm.atmType==2" prop="cardNum" required>
                                 <el-input :placeholder="$lang('请输入银行卡号')" v-model="cashForm.cardNum"></el-input>
                             </el-form-item>
-                            <el-form-item :label="$lang('请输入开户行')" v-show="cashForm.atmType==2" >
+                            <el-form-item :label="$lang('请输入开户行')" v-show="cashForm.atmType==2" required>
                                 <el-input :placeholder="$lang('请输入开户行')" v-model="cashForm.bankName"></el-input>
                             </el-form-item>
 
@@ -63,6 +63,10 @@
                             <el-col :span="16" :offset="4">
                                 <el-button type="sure" class="fr" @click="addAtms">{{$lang('提现')}}</el-button>
                             </el-col>
+                        </el-row>
+                        <el-row style="margin:10px 0px;text-align:center;" v-if="cashForm.atmType==2">
+                            <div style="margin:10px;font-size:16px;">必须为本人身份证办理的银行卡 (否则审核不通过)</div>
+                            <div style="margin:10px;color:red;">提现超出***金额需缴纳个人所得税 (此部分税费与平台无关)</div>
                         </el-row>
                     </div>
                 </div>
@@ -186,194 +190,206 @@
 </template>
 
 <script>
-    import {addAtms, getMoney} from '@/apis/money'
-    import {recordList} from '@/apis/person'
-    import {formatNumber} from '@/apis/util'
+import { addAtms, getMoney } from "@/apis/money";
+import { recordList } from "@/apis/person";
+import { formatNumber } from "@/apis/util";
 
-    export default {
-        data() {
-            return {
-                loading:false,
-                dialogVisible:false,
-                nextTo:false,
-                userId: "",
-                totalMoney: 0,
-                navIndex: 1,//总nav
-                operateType: "index",//资金页操作类型
-                billIndex: 1,//账单页tab
-                cashForm: {
-                    atmType: '1',
-                    money: '',
-                    name: '',
-                    cardNum: '',
-                    bankName: '',
-                },
-                billTable1: [],
-                billTable2: [],
-                billTable3: [],
-                 //分页参数
-                pagiOpt1:{
-                    total:0,
-                    page:1,
-                    row:5
-                },
-                pagiOpt2:{
-                    total:0,
-                    page:1,
-                    row:5
-                },
-                pagiOpt3:{
-                    total:0,
-                    page:1,
-                    row:5
-                },
-                rules:{
-                    money:[{validator: this.validateMoney, trigger: 'blur'}],
-                    name:[{validator: this.validateName, trigger: 'blur'}],
-                    cardNum:[{validator: this.validateCardName, trigger: 'blur'}],
-                }
-            }
-        },
-        mounted() {
-            this.userId = this.$route.query.userId || getUser().userId;
-            this.getMoney();
-            this.recordList('-1',1);
-        },
-        methods: {
-            toTixian(){
-                this.operateType='cash';
-                this.cashForm={
-                    atmType: '1',
-                    money: '',
-                    name: '',
-                    cardNum: '',
-                    bankName: '',
-                }
-            },
-            changeType(index){
-                this.$refs["cashForm"].resetFields();
-                this.cashForm.atmType=index;
-            },
-            validateMoney(rule, value, callback) {
-                if (value === '') {
-                    callback(new Error('金额不能为空'));
-                } else if (!(/^[+]?[\d]+(([\.]{1}[\d]+)|([\d]*))$/.test(value))) {
-                    callback(new Error('请输入正确的金额'));
-                } else {
-                    callback();
-                }
-            },
-            validateName(rule, value, callback) {
-                if (value === '') {
-                    callback(new Error('账户名不能为空'));
-                } else {
-                    callback();
-                }
-            },
-            validateCardName(rule, value, callback) {
-                if (value === '') {
-                    callback(new Error('银行卡号不能为空'));
-                } else {
-                    callback();
-                }
-            },
-            formatNum(str){
-                return formatNumber(str);
-            },
-            //获取账户余额
-            async getMoney() {
-                const userId = this.$route.query.userId || getUser().userId;
-                const res = await getMoney({userId});
-                if (res.success) {
-                    this.totalMoney = res.data.money
-                }
-            },
-            async recordList(type,index){
-                this.billIndex=index;
-                const res=await recordList({type:type,page:this['pagiOpt'+index].page,row:this['pagiOpt'+index].row})
-                if(res.success){
-                    this['billTable'+index]=res.data.list;
-                    this['pagiOpt'+index].total=res.data.total;
-                }else{
-                    this.$message.error(res.msg);
-                }
-            },
-            sizeChange1(i){
-                this.pagiOpt1.row=i;
-                this.recordList('-1',1);
-            },
-            currentChange1(i){
-               this.pagiOpt1.page=i;
-               this.recordList('-1',1);
-            },
-            sizeChange2(i){
-                this.pagiOpt2.row=i;
-                this.recordList('项目收入',2);
-            },
-            currentChange2(i){
-               this.pagiOpt2.page=i;
-               this.recordList('项目收入',2);
-            },
-            sizeChange3(i){
-                this.pagiOpt3.row=i;
-                this.recordList('提现',3);
-            },
-            currentChange3(i){
-               this.pagiOpt3.page=i;
-               this.recordList('提现',3);
-            },
-            addAtms(){
-                this.$refs.cashForm.validate((valid)=>{
-                    if(valid){
-                        this.loading=true;
-                        this.doAddAtms();
-                    }else{
-                        return false
-                    }
-                })
-            },
-            //用户提现
-            async doAddAtms() {
-                const me = this;
-                let atmType = me.cashForm.atmType,
-                    money = me.cashForm.money,
-                    name = me.cashForm.name,
-                    cardNum,
-                    bankName = "";
-                if (atmType == 1) {//支付宝提现
-                    cardNum = me.cashForm.cardNum;
-                } else if (atmType == 2) {//银联提现
-                    cardNum = me.cashForm.cardNum;
-                    bankName = me.cashForm.bankName;
-                }
-                const atomData = await addAtms({atmType, money, name, cardNum, bankName});
-                this.loading=false;
-                if (atomData.success) {
-                    me.$message("提现成功")
-                }else{
-                    me.$message.error(atomData.msg)
-                }
-                me.getMoney();
-                me.operateType = 'index'
-            },
-            cancalEdit(){
-                this.$router.push({name:this.nextTo})
-                this.dialogVisible=false;
-            }
-        },
-        beforeRouteLeave(to, from, next){
-            next();
-            // if(this.operateType=='cash'){
-            //     this.dialogVisible=true;
-            //     if(this.nextTo){
-            //         next()
-            //     }else{
-            //         next(false)
-            //         this.nextTo=to.name
-            //     }
-            // }else{
-            //     next()
-            // }
+export default {
+  data() {
+    return {
+      loading: false,
+      dialogVisible: false,
+      nextTo: false,
+      userId: "",
+      totalMoney: 0,
+      navIndex: 1, //总nav
+      operateType: "index", //资金页操作类型
+      billIndex: 1, //账单页tab
+      cashForm: {
+        atmType: "1",
+        money: "",
+        name: "",
+        cardNum: "",
+        bankName: ""
+      },
+      billTable1: [],
+      billTable2: [],
+      billTable3: [],
+      //分页参数
+      pagiOpt1: {
+        total: 0,
+        page: 1,
+        row: 5
+      },
+      pagiOpt2: {
+        total: 0,
+        page: 1,
+        row: 5
+      },
+      pagiOpt3: {
+        total: 0,
+        page: 1,
+        row: 5
+      },
+      rules: {
+        money: [{ validator: this.validateMoney, trigger: "blur" }],
+        name: [{ validator: this.validateName, trigger: "blur" }],
+        cardNum: [{ validator: this.validateCardName, trigger: "blur" }]
+      }
+    };
+  },
+  mounted() {
+    this.userId = this.$route.query.userId || getUser().userId;
+    this.getMoney();
+    this.recordList("-1", 1);
+  },
+  methods: {
+    toTixian() {
+      this.operateType = "cash";
+      this.cashForm = {
+        atmType: "1",
+        money: "",
+        name: "",
+        cardNum: "",
+        bankName: ""
+      };
+    },
+    changeType(index) {
+      this.$refs["cashForm"].resetFields();
+      this.cashForm.atmType = index;
+    },
+    validateMoney(rule, value, callback) {
+      if (value === "") {
+        callback(new Error("金额不能为空"));
+      } else if (!/^[+]?[\d]+(([\.]{1}[\d]+)|([\d]*))$/.test(value)) {
+        callback(new Error("请输入正确的金额"));
+      } else {
+        callback();
+      }
+    },
+    validateName(rule, value, callback) {
+      if (value === "") {
+        callback(new Error("账户名不能为空"));
+      } else {
+        callback();
+      }
+    },
+    validateCardName(rule, value, callback) {
+      if (value === "") {
+        callback(new Error("银行卡号不能为空"));
+      } else {
+        callback();
+      }
+    },
+    formatNum(str) {
+      return formatNumber(str);
+    },
+    //获取账户余额
+    async getMoney() {
+      const userId = this.$route.query.userId || getUser().userId;
+      const res = await getMoney({ userId });
+      if (res.success) {
+        this.totalMoney = res.data.money;
+      }
+    },
+    async recordList(type, index) {
+      this.billIndex = index;
+      const res = await recordList({
+        type: type,
+        page: this["pagiOpt" + index].page,
+        row: this["pagiOpt" + index].row
+      });
+      if (res.success) {
+        this["billTable" + index] = res.data.list;
+        this["pagiOpt" + index].total = res.data.total;
+      } else {
+        this.$message.error(res.msg);
+      }
+    },
+    sizeChange1(i) {
+      this.pagiOpt1.row = i;
+      this.recordList("-1", 1);
+    },
+    currentChange1(i) {
+      this.pagiOpt1.page = i;
+      this.recordList("-1", 1);
+    },
+    sizeChange2(i) {
+      this.pagiOpt2.row = i;
+      this.recordList("项目收入", 2);
+    },
+    currentChange2(i) {
+      this.pagiOpt2.page = i;
+      this.recordList("项目收入", 2);
+    },
+    sizeChange3(i) {
+      this.pagiOpt3.row = i;
+      this.recordList("提现", 3);
+    },
+    currentChange3(i) {
+      this.pagiOpt3.page = i;
+      this.recordList("提现", 3);
+    },
+    addAtms() {
+      this.$refs.cashForm.validate(valid => {
+        if (valid) {
+          this.loading = true;
+          this.doAddAtms();
+        } else {
+          return false;
         }
+      });
+    },
+    //用户提现
+    async doAddAtms() {
+      const me = this;
+      let atmType = me.cashForm.atmType,
+        money = me.cashForm.money,
+        name = me.cashForm.name,
+        cardNum,
+        bankName = "";
+      if (atmType == 1) {
+        //支付宝提现
+        cardNum = me.cashForm.cardNum;
+      } else if (atmType == 2) {
+        //银联提现
+        cardNum = me.cashForm.cardNum;
+        bankName = me.cashForm.bankName;
+      }
+      const atomData = await addAtms({
+        atmType,
+        money,
+        name,
+        cardNum,
+        bankName
+      });
+      this.loading = false;
+      if (atomData.success) {
+        me.$message("提现成功");
+      } else {
+        me.$message.error(atomData.msg);
+      }
+      me.getMoney();
+      me.operateType = "index";
+    },
+    cancalEdit() {
+      this.$router.push({ name: this.nextTo });
+      this.dialogVisible = false;
     }
+  },
+  beforeRouteLeave(to, from, next) {
+    next();
+    // if(this.operateType=='cash'){
+    //     this.dialogVisible=true;
+    //     if(this.nextTo){
+    //         next()
+    //     }else{
+    //         next(false)
+    //         this.nextTo=to.name
+    //     }
+    // }else{
+    //     next()
+    // }
+  }
+};
 </script>

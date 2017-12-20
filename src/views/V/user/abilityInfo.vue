@@ -146,23 +146,23 @@
                     <el-form :model="workForm" label-width="90px">
                         <el-row>
                             <el-col :span="10">
-                                <el-form-item :label="$lang('作品名称:')">
+                                <el-form-item :label="$lang('作品名称:')" required>
                                     <el-input v-model="workForm.worksName"></el-input>
                                 </el-form-item>
-                                <el-form-item :label="$lang('完成日期:')">
+                                <el-form-item :label="$lang('完成日期:')" required>
                                     <el-date-picker type="datetime" v-model="workForm.worksEndTime" :placeholder="$lang('请选择时间')" format='yyyy-MM-dd HH:mm:ss' style="width:100%">
                                     </el-date-picker>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="24">
-                                <el-form-item :label="$lang('参考图片:')" class="update-images-list">
+                                <el-form-item class="update-images-list" :label="$lang('参考图片:')" required>
                                     <el-upload ref="ReferencePicture" action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" :on-change="ReferencePictureChange" :auto-upload="false" multiple>
                                         <i class="el-icon-plus"></i>
                                     </el-upload>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="10" class="update-text">
-                                <el-form-item :label="$lang('附件:')">
+                                <el-form-item :label="$lang('附件:')" required>
                                     <el-upload ref="EnclosureFile" class="upload-demo" action="https://jsonplaceholder.typicode.com/posts/" :auto-upload="false" multiple>
                                         <el-button slot="trigger" size="small" type="sure">{{$lang('添加文件')}}</el-button>
                                     </el-upload>
