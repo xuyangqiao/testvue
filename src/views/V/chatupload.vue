@@ -390,7 +390,10 @@ export default {
     },
     uploadChecked() {
       const me = this;
-      me.toSubmitUploadShow = true;
+      this.sourcePath = "";
+      this.IndexFileList = [];
+      this.form.fileVersion = "";
+      this.toSubmitUploadShow = true;
     },
     toSubmitUploadClose() {
       const me = this;

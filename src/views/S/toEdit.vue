@@ -150,7 +150,7 @@ export default {
     },
     async UpdateTime(task, entryEndTime) {
       console.log(task);
-      const res = await UpdateTime(task.id, entryEndTime);
+      const res = await UpdateTime(task.id, entryEndTime + " 00:00:00");
       if (res.success) {
         this.$message($lang("修改成功"));
       } else {
