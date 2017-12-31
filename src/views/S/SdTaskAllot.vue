@@ -31,14 +31,14 @@
                 <router-link style="cursor:pointer;" :to="{ name: 'S-VuserInfo', query: { userId: scope.row.userid } }" target="_blank">{{scope.row.nickName}}</router-link>
               </template>
             </el-table-column>
-            <el-table-column property="createTime" :label="$lang('注册时间')">
+            <el-table-column :label="$lang('注册时间')" prop="createTime">
             </el-table-column>
-            <el-table-column prop="tag" :label="$lang('标签')">
+            <el-table-column :label="$lang('标签')" prop="tag">
               <template scope="scope">
                 <el-tag :type="'success'">{{scope.row.label}}</el-tag>
               </template>
             </el-table-column>
-            <el-table-column property="remarkName" :label="$lang('备注')"/>
+            <el-table-column :label="$lang('备注')" prop="remarkName"></el-table-column>
           </el-table>
         </template>
         <div class="page-wrap clearfix">
@@ -182,7 +182,8 @@ export default {
             nickName: item.nickName,
             createTime: item.createTime,
             userid: item.vUserId,
-            label: item.lable
+            label: item.lable,
+            remarkName: item.remarkName
           };
         });
         this.pagination = {

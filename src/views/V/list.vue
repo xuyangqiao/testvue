@@ -19,7 +19,7 @@ export default {
                 { name: $lang("已报名"), value: -100, count: 99, color: "zjz", to: "V_signInOut" },
                 { name: $lang("制作中"), value: 5, count: 99, color: "zzz", to: "V_ChatUpload" },
                 { name: $lang("验收中"), value: 6, count: 99, color: "ysz", to: "V_ChatUpload" },
-                { name: $lang("已完成"), value: 7, count: 99, color: "wc", to: "V_detail", querys: { isOnlyChat: true } },
+                { name: $lang("已完成"), value: 7, count: 99, color: "wc", to: "V_ChatUpload" },
                 { name: $lang("已打款"), value: 8, count: 99, color: "wc", to: "V_detail", querys: { isOnlyChat: true } },
                 // { name: "退款申请中", value: 9, count: 99, color: "wc", to: "V_detail" },
                 // { name: "已关闭", value: 10, count: 99, color: "wc", to: "V_detail" },

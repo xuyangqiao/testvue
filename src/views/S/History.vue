@@ -31,72 +31,70 @@
 </template>
 
 <script>
-import { getAllFileWithPage } from '@/apis/files'
-import SlideBtns from '@/components/SlideBtns'
+import { getAllFileWithPage } from "@/apis/files";
+import SlideBtns from "@/components/SlideBtns";
 export default {
-    components: { SlideBtns },
-    data() {
-        return {
-            fileData: [],
-            multipleSelection: [],
-            total: 1,
-            pageSize: 1
-        }
-    },
-    async created() {
-        const me = this;
+  components: { SlideBtns },
+  data() {
+    return {
+      fileData: [],
+      multipleSelection: [],
+      total: 1,
+      pageSize: 1
+    };
+  },
+  async created() {
+    const me = this;
 
-        const id = me.$route.query.id;
-        const TaskStage = me.$route.query.TaskStage;
-        const index = me.$route.query.index;
-        let res;
-        if (index == -1) {
-            res = await getAllFileWithPage("checked", TaskStage);
-        } else {
-            res = await getAllFileWithPage("enclosure", TaskStage);
-        }
-        if (res.success) {
-            me.fileData = res.data.list;
-            me.total = res.data.total;
-            me.pageSize = res.data.pageSize
-        }
-    },
-    methods: {
-        handleSelectionChange(val) {
-            this.multipleSelection = val;
-            console.log(val)
-        },
-        proview({ fileVersion, url }) {
-            this.$router.push({ name: 'S_Proview', query: { fileVersion, url } });
-        },
-        downloadSelected() {
-            const me = this;
-            if (me.multipleSelection.length == 0) {
-                me.$message($lang("未选择文件"));
-                return
-            }
-            me.multipleSelection.map(row => {
-                me.downloadFile(row.alias, row.url)
-            })
-        },
-        downloadFile(fileName, url) {
-            var a = document.createElement('a');
-            a.href = url;
-            a.download = fileName;
-            var ev = document.createEvent('MouseEvents');
-            ev.initEvent('click', false, true);
-            a.dispatchEvent(ev);
-        },
-        async currentChange(currentPage) {
-            const me = this;
-            const TaskStage = me.$route.query.TaskStage;
-            const res = await getAllFileWithPage("", TaskStage, currentPage);
-            if (res.success) {
-                me.fileData = res.data.list;
-                me.total = res.data.total;
-                me.pageSize = res.data.pageSize
-            }
-        }
+    const id = me.$route.query.id;
+    const TaskStage = me.$route.query.TaskStage;
+    const index = me.$route.query.index;
+    let res = await getAllFileWithPage(
+      { "-2": "final", "-1": "checked" }[index] || "enclosure",
+      TaskStage
+    );
+    if (res.success) {
+      me.fileData = res.data.list;
+      me.total = res.data.total;
+      me.pageSize = res.data.pageSize;
     }
-}
+  },
+  methods: {
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
+      console.log(val);
+    },
+    proview({ fileVersion, url }) {
+      this.$router.push({ name: "S_Proview", query: { fileVersion, url } });
+    },
+    downloadSelected() {
+      const me = this;
+      if (me.multipleSelection.length == 0) {
+        me.$message($lang("未选择文件"));
+        return;
+      }
+      me.multipleSelection.map(row => {
+        me.downloadFile(row.alias, row.url);
+      });
+    },
+    downloadFile(fileName, url) {
+      var a = document.createElement("a");
+      a.href = url;
+      a.download = fileName;
+      var ev = document.createEvent("MouseEvents");
+      ev.initEvent("click", false, true);
+      a.dispatchEvent(ev);
+    },
+    async currentChange(currentPage) {
+      const me = this;
+      const TaskStage = me.$route.query.TaskStage;
+      const res = await getAllFileWithPage("", TaskStage, currentPage);
+      if (res.success) {
+        me.fileData = res.data.list;
+        me.total = res.data.total;
+        me.pageSize = res.data.pageSize;
+      }
+    }
+  }
+};
 </script>

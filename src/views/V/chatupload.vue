@@ -59,7 +59,7 @@
                             <dd class="flex1">{{subTask.remarks}}</dd>
                         </dl>
                     </li>
-                    <li class="chart-left-li">
+                    <li class="chart-left-li" v-if="subTask.state>=7">
                         <div class="box-flex-media-box cl-top">
                             <p class="num">
                                 <em>{{taskStage.length + 2}}</em>
@@ -68,7 +68,7 @@
                                 <h4>{{$lang('完成')}}</h4>
                             </a>
                             <el-button type="info" size="small" @click="uploadChecked" v-if="!isOnlyChat">{{$lang('上传文件')}}</el-button>
-                            <el-button type="info" size="small" @click="toRedirect('V_History', '-1')">{{$lang('查看记录')}}</el-button>
+                            <el-button type="info" size="small" @click="toRedirect('V_History', '-2')">{{$lang('查看记录')}}</el-button>
                         </div>
                     </li>
                 </ul>
@@ -363,7 +363,7 @@ export default {
     toRedirect(name, index) {
       const me = this;
       let TaskStage;
-      if (index != -1) {
+      if (index >= 0) {
         TaskStage = me.taskStage[index].id;
       } else {
         // ！！！有疑问，路过看看这个 id 对不对
@@ -440,7 +440,8 @@ export default {
     submit() {
       let file = this.selectedFile,
         version = this.form.fileVersion,
-        path = this.sourcePath;
+        path = this.sourcePath,
+        findex = this.subTask.state >= 7 ? "final" : "checked";
       if (!version) {
         this.$message.warning($lang("请先选择"));
       } else if (version == "__path__" ? !path : !file) {
@@ -453,7 +454,7 @@ export default {
         if (version == "__path__") {
           this.addFileToServer({
             bindid: this.subTask.id,
-            findex: "checked",
+            findex,
             url: path,
             fileName: `自定义路径 ${path}`,
             alias: `自定义路径 ${path}`,
@@ -482,7 +483,7 @@ export default {
                 console.log("data", data);
                 this.addFileToServer({
                   bindid: this.subTask.id,
-                  findex: "checked",
+                  findex,
                   url:
                     data.url || data.res.requestUrls[0].replace(/\?.*/gm, ""),
                   fileName: file.raw.name,
