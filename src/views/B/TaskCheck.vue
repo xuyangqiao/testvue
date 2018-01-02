@@ -21,104 +21,113 @@
 </template>
 
 <script>
-import { AccomplishTask, OverruleTask } from '@/apis/task'
-import { getAllFile } from '@/apis/files'
-import { client } from '@/apis/uploadFile'
+import { AccomplishTask, OverruleTask } from "@/apis/task";
+import { getAllFile } from "@/apis/files";
+import { client } from "@/apis/uploadFile";
 
 export default {
-    data() {
-        return {
-            textarea: '',
-            isReject: false,
-            iframeSrc: ''
-        };
-    },
-    async mounted() {
-        const fileData = await getAllFile('checked', this.$route.query.id);
+  data() {
+    return {
+      textarea: "",
+      isReject: false,
+      iframeSrc: ""
+    };
+  },
+  async mounted() {
+    const fileData = await getAllFile("checked", this.$route.query.id);
 
-        let info = (fileData.data || []).sort((a, b) => new Date(a.createTime) > new Date(b.createTime) ? -1 : 1)[0];
+    let info = (fileData.data || []).sort(
+      (a, b) => (new Date(a.createTime) > new Date(b.createTime) ? -1 : 1)
+    )[0];
 
-        if (info) {
-            this.iframeSrc = `http://vsdata.oss-cn-hangzhou.aliyuncs.com/untity/${info.fileVersion}/index.html?vsdata=${info.url}`;
-        } else {
-            this.$message.warning($lang('未找到文件'));
-        }
-
-        //            console.log(fileData);
-        //             const dir = 'task/' + id + '/';
-        //             client.then(oss => {
-        //                 oss.list({
-        //                     prefix: dir,
-        //                     delimiter: '/'
-        //                 }).then(data => {
-        //                     let checkedData = [];
-        //                     if (!data.prefixes || data.prefixes.length == 0) {
-        //                         me.$message('未找到文件')
-        //                     } else {
-        //                         var maxIndex = -1;
-        //                         var maxValue = -1;
-        //                         data.prefixes.map(item => {
-        //                             var arr = item.split('/');
-        //                             var v = arr[arr.length - 2] && parseInt(arr[arr.length - 2]);
-        //                             if (v) {
-        //                                 checkedData.push(item);
-        //                                 if(maxValue < v){
-        //                                     maxValue = v;
-        //                                     maxIndex = checkedData.length - 1
-        //                                 }
-        //                             }
-        //                         });
-        // //                    if(data.prefixes && data.prefixes.length > 0){
-        //                         if(maxIndex == -1){
-        //                             me.$message('未找到文件');
-        //                             return
-        //                         }
-        //                         const lastDir = checkedData[maxIndex] + 'index.html';
-        //                         fileData.data.map(item => {
-        //                             if (item.url.indexOf(lastDir) != -1 && me.iframeSrc == "") {
-        //                                 me.iframeSrc = item.url;
-        //                             }
-        //                         })
-        // //                    }
-        //                     }
-        //                 })
-        //             })
-    },
-    methods: {
-        async toPass() {
-            const id = this.$route.query.id;
-            const res = await AccomplishTask(id);
-            this.$message({
-                message: res.msg,
-                type: res.success ? 'success' : 'error',
-                onClose: () => {
-                    if (res.success) {
-                        this.$router.go(-1)
-                    }
-                }
-            });
-        },
-        async toReject() {
-            const id = this.$route.query.id;
-            if (!this.textarea) {
-                this.$message.warning($lang("驳回内容不可为空"));
-                return;
-            }
-            const res = await OverruleTask(id, this.textarea);
-            this.$message({
-                message: res.msg,
-                type: res.success ? 'success' : 'error',
-                onClose: () => {
-                    if (res.success) {
-                        this.$router.go(-1)
-                    }
-                }
-            });
-        },
-        fullScreen() {
-            let iframe = this.$refs.demo;
-            (iframe.requestFullScreen || iframe.webkitRequestFullScreen || iframe.mozRequestFullScreen).call(iframe);
-        }
+    if (info) {
+      if (info.fileVersion == "__path__" || info.url.includes("index.html")) {
+        this.iframeSrc = info.url;
+      } else {
+        this.iframeSrc = `http://vsdata.oss-cn-hangzhou.aliyuncs.com/untity/${info.fileVersion}/index.html?vsdata=${info.url}`;
+      }
+    } else {
+      this.$message.warning($lang("未找到文件"));
     }
-}
+
+    //            console.log(fileData);
+    //             const dir = 'task/' + id + '/';
+    //             client.then(oss => {
+    //                 oss.list({
+    //                     prefix: dir,
+    //                     delimiter: '/'
+    //                 }).then(data => {
+    //                     let checkedData = [];
+    //                     if (!data.prefixes || data.prefixes.length == 0) {
+    //                         me.$message('未找到文件')
+    //                     } else {
+    //                         var maxIndex = -1;
+    //                         var maxValue = -1;
+    //                         data.prefixes.map(item => {
+    //                             var arr = item.split('/');
+    //                             var v = arr[arr.length - 2] && parseInt(arr[arr.length - 2]);
+    //                             if (v) {
+    //                                 checkedData.push(item);
+    //                                 if(maxValue < v){
+    //                                     maxValue = v;
+    //                                     maxIndex = checkedData.length - 1
+    //                                 }
+    //                             }
+    //                         });
+    // //                    if(data.prefixes && data.prefixes.length > 0){
+    //                         if(maxIndex == -1){
+    //                             me.$message('未找到文件');
+    //                             return
+    //                         }
+    //                         const lastDir = checkedData[maxIndex] + 'index.html';
+    //                         fileData.data.map(item => {
+    //                             if (item.url.indexOf(lastDir) != -1 && me.iframeSrc == "") {
+    //                                 me.iframeSrc = item.url;
+    //                             }
+    //                         })
+    // //                    }
+    //                     }
+    //                 })
+    //             })
+  },
+  methods: {
+    async toPass() {
+      const id = this.$route.query.id;
+      const res = await AccomplishTask(id);
+      this.$message({
+        message: res.msg,
+        type: res.success ? "success" : "error",
+        onClose: () => {
+          if (res.success) {
+            this.$router.go(-1);
+          }
+        }
+      });
+    },
+    async toReject() {
+      const id = this.$route.query.id;
+      if (!this.textarea) {
+        this.$message.warning($lang("驳回内容不可为空"));
+        return;
+      }
+      const res = await OverruleTask(id, this.textarea);
+      this.$message({
+        message: res.msg,
+        type: res.success ? "success" : "error",
+        onClose: () => {
+          if (res.success) {
+            this.$router.go(-1);
+          }
+        }
+      });
+    },
+    fullScreen() {
+      let iframe = this.$refs.demo;
+      (iframe.requestFullScreen ||
+        iframe.webkitRequestFullScreen ||
+        iframe.mozRequestFullScreen
+      ).call(iframe);
+    }
+  }
+};
 </script>
