@@ -65,6 +65,7 @@ export default {
       console.log(val);
     },
     proview({ fileVersion, url }) {
+      console.log(fileVersion, url );
       this.$router.push({ name: "S_Proview", query: { fileVersion, url } });
     },
     downloadSelected() {

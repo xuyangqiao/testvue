@@ -1,7 +1,7 @@
 <template>
   <TInfo :onload="load">
     <div slot="footer" class="set-btn-wrap bt-dashed">
-      <el-button type="sure" @click="onLock">{{$lang('锁定')}}</el-button>
+      <!-- <el-button type="sure" @click="onLock">{{$lang('锁定')}}</el-button> -->
     </div>
   </TInfo>
 </template>

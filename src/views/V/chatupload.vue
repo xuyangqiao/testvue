@@ -422,7 +422,7 @@ export default {
       if (res.success) {
         me.$message($lang("保存文件成功，文件名为") + param.alias);
         me.$refs.chat.sendMessage(param.alias);
-        this.toSubmit();
+        this.subTask.state < 7 && this.toSubmit();
       }
     },
     IndexFileChange(file, fileList) {

@@ -356,7 +356,7 @@ export default {
       const me = this;
       const res = await addFile(param);
       if (res.success) {
-        if (index == me.taskStage.length) {
+        if (this.subTask.state < 7 && index == me.taskStage.length) {
           const id = this.$route.query.id;
           const res = await AcceptanceTask(id);
           this.$message({
@@ -473,11 +473,13 @@ export default {
                 }
               )
               .then(data => {
+                console.log(data.url || data.res.requestUrls[0]);
                 this.addFileToServer({
                   bindid: this.subTask.id,
                   findex,
-                  url:
-                    data.url || data.res.requestUrls[0].replace(/\?.*/gm, ""),
+                  url: (data.url ||
+                    data.res.requestUrls[0].replace(/\?.*/gm, "")
+                  ).replace(/([^\:])\/\//gm, "$1/"),
                   fileName: file.raw.name,
                   alias: file.raw.name,
                   subvsion: this.subTask.latestVersion,

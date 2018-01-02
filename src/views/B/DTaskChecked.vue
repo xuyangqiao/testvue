@@ -11,42 +11,47 @@
 </template>
 
 <script>
-import { AccomplishTask, OverruleTask } from '@/apis/task'
-import { getAllFile } from '@/apis/files'
-import { client } from '@/apis/uploadFile'
-import SlideBtns from '@/components/SlideBtns'
+import { AccomplishTask, OverruleTask } from "@/apis/task";
+import { getAllFile } from "@/apis/files";
+import { client } from "@/apis/uploadFile";
+import SlideBtns from "@/components/SlideBtns";
 export default {
-    components: { SlideBtns },
-    data() {
-        return {
-            textarea: '',
-            isReject: false,
-            iframeSrc: ''
-        };
-    },
-    methods: {
-        fullScreen() {
-            let iframe = this.$refs.demo;
-            (iframe.requestFullScreen || iframe.webkitRequestFullScreen || iframe.mozRequestFullScreen).call(iframe);
-        }
-    },
-    async mounted() {
-        let info = this.$route.query;
-
-        if (!('fileVersion' in info)) {
-            const fileData = await getAllFile('checked', this.$route.query.id);
-            info = (fileData.data || []).sort((a, b) => new Date(a.createTime) > new Date(b.createTime) ? -1 : 1)[0];
-        }
-
-        if (info) {
-            if (info.url.includes('index.html')) {
-                this.iframeSrc = info.url;
-            } else {
-                this.iframeSrc = `http://vsdata.oss-cn-hangzhou.aliyuncs.com/untity/${info.fileVersion}/index.html?vsdata=${info.url}`;
-            }
-        } else {
-            this.$message.warning($lang('未找到文件'));
-        }
+  components: { SlideBtns },
+  data() {
+    return {
+      textarea: "",
+      isReject: false,
+      iframeSrc: ""
+    };
+  },
+  methods: {
+    fullScreen() {
+      let iframe = this.$refs.demo;
+      (iframe.requestFullScreen ||
+        iframe.webkitRequestFullScreen ||
+        iframe.mozRequestFullScreen
+      ).call(iframe);
     }
-}
+  },
+  async mounted() {
+    let info = this.$route.query;
+
+    if (!("fileVersion" in info)) {
+      const fileData = await getAllFile("checked", this.$route.query.id);
+      info = (fileData.data || []).sort(
+        (a, b) => (new Date(a.createTime) > new Date(b.createTime) ? -1 : 1)
+      )[0];
+    }
+
+    if (info) {
+      if (info.fileVersion == "__path__" || info.url.includes("index.html")) {
+        this.iframeSrc = info.url;
+      } else {
+        this.iframeSrc = `http://vsdata.oss-cn-hangzhou.aliyuncs.com/untity/${info.fileVersion}/index.html?vsdata=${info.url}`;
+      }
+    } else {
+      this.$message.warning($lang("未找到文件"));
+    }
+  }
+};
 </script>
