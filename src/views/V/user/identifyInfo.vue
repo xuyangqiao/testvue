@@ -161,14 +161,14 @@ export default {
       }
     },
     validateRealName(rule, value, callback) {
-      if (value === "" || value === undefined) {
+      if (!value) {
         callback(new Error($lang("请输入真实姓名")));
       } else {
         callback();
       }
     },
     validateCardId(rule, value, callback) {
-      if (value === "" || value === undefined) {
+      if (!value) {
         callback(new Error($lang("请输入证件号码")));
       } else if (
         !/^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/.test(
@@ -181,7 +181,7 @@ export default {
       }
     },
     validateValidity(rule, value, callback) {
-      if (value === "" || value === undefined) {
+      if (!value) {
         callback(new Error($lang("请选择证件有效期")));
       } else {
         callback();
@@ -244,14 +244,17 @@ export default {
     },
     save() {
       const me = this;
-      me.$refs["form"].validate(valid => {
-        if (valid) {
-          me.loading = true;
-          me.saveData();
-        } else {
-          return false;
-        }
-      });
+      if (!(this.IDImage1Url && this.IDImage2Url && this.IDImage3Url)) {
+        this.$message.warning(this.$lang("证件照不全"));
+      } else
+        me.$refs["form"].validate(valid => {
+          if (valid) {
+            me.loading = true;
+            me.saveData();
+          } else {
+            return false;
+          }
+        });
     },
     async saveData() {
       const me = this;
