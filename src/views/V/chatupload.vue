@@ -59,13 +59,13 @@
                             <dd class="flex1">{{subTask.remarks}}</dd>
                         </dl>
                     </li>
-                    <li class="chart-left-li" v-if="subTask.state>=7">
+                    <li class="chart-left-li" v-if="subTask.state>=6">
                         <div class="box-flex-media-box cl-top">
                             <p class="num">
                                 <em>{{taskStage.length + 2}}</em>
                             </p>
                             <a href="javascript:;" class="title flex1">
-                                <h4>{{$lang('完成')}}</h4>
+                                <h4>{{$lang('最终文件')}}</h4>
                             </a>
                             <el-button type="info" size="small" @click="uploadChecked" v-if="!isOnlyChat">{{$lang('上传文件')}}</el-button>
                             <el-button type="info" size="small" @click="toRedirect('V_History', '-2')">{{$lang('查看记录')}}</el-button>
@@ -243,7 +243,7 @@ export default {
     //            }
 
     const r = await getFileVersionList();
-    this.versionList = [...r.data, { valueExp: "自定义路径", key: "__path__" }];
+    this.versionList = [{ valueExp: "自定义路径", key: "__path__" }, ...r.data];
   },
   methods: {
     chooseFile(index, file) {

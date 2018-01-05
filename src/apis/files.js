@@ -92,6 +92,12 @@ async function getFileVersionList() {
     return res.data;
 }
 
+//下载了文件
+async function downloaded(id) {
+    const res = await axios.get(`/msg/addDownloadMsg?subTaskId=${id}`);
+    return res.data;
+}
+
 export {
     addFile,
     addFileList,
@@ -104,4 +110,6 @@ export {
     getOSSConfig,
 
     getFileVersionList,
+
+    downloaded
 }

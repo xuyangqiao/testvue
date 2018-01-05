@@ -353,7 +353,7 @@ import {
   getMoney,
   balancePay
 } from "@/apis/money";
-import { getAllFile } from "@/apis/files";
+import { getAllFile, downloaded } from "@/apis/files";
 import axios from "axios";
 import { getUser } from "@/apis/storage";
 
@@ -630,6 +630,8 @@ export default {
       var ev = document.createEvent("MouseEvents");
       ev.initEvent("click", false, true);
       a.dispatchEvent(ev);
+
+      await downloaded(this.$route.query.id);
     }
   }
 };

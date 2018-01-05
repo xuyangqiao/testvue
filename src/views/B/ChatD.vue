@@ -48,6 +48,17 @@
                             <dd class="flex1">{{subTask.remarks}}</dd>
                         </dl>
                     </li>
+                    <li class="chart-left-li" v-if="['7','8'].includes(subTask.state)">
+                        <div class="box-flex-media-box cl-top">
+                            <p class="num">
+                                <em>{{taskStage.length + 2}}</em>
+                            </p>
+                            <a href="javascript:;" class="title flex1">
+                                <h4>{{$lang('最终文件')}}</h4>
+                            </a>
+                            <el-button size="small" type="info" @click="$router.push({name:'B_History',query: { id: subTask.id, index: -2 }})">{{$lang('查看历史')}}</el-button>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -62,57 +73,63 @@
 </template>
 <style>
 .undelete .el-icon-close {
-    display: none !important;
+  display: none !important;
 }
 </style>
 <script>
-import Chat from '@/components/Chat'
-import SlideBtns from '@/components/SlideBtns'
-import { ChildTaskInfo, AcceptanceTask, getTalkByGroupId } from '@/apis/task'
+import Chat from "@/components/Chat";
+import SlideBtns from "@/components/SlideBtns";
+import { ChildTaskInfo, AcceptanceTask, getTalkByGroupId } from "@/apis/task";
 export default {
-    components: { Chat, SlideBtns },
-    data() {
-        return {
-            subTask: {},
-            taskStage: [],
-            chatConfig: {},
-            msg: $lang("正在加载中..."),
-        }
-    },
-    async mounted() {
-        const me = this;
-        const id = this.$route.query.id;
+  components: { Chat, SlideBtns },
+  data() {
+    return {
+      subTask: {},
+      taskStage: [],
+      chatConfig: {},
+      msg: $lang("正在加载中...")
+    };
+  },
+  async mounted() {
+    const me = this;
+    const id = this.$route.query.id;
 
-        const qq = await getTalkByGroupId(id);
-        console.log(id + $lang("获取聊天组信息"), qq)
-        if (qq.success) {
-            if (qq.data && qq.data.groupDetails && qq.data.groupDetails.data && qq.data.sChatUser && qq.data.sChatUser.entities) {
-                this.chatConfig = {
-                    groupid: qq.data.groupDetails.data[0].id,
-                    userid: qq.data.sChatUser.entities[0].username,
-                    userimg: qq.data.sUser.info.headUrl,
-                    username: qq.data.sUser.info.nickName || qq.data.sUser.phone,
-                    userRole: "S",
-                    youname: qq.data.targetUser.info.nickName || qq.data.targetUser.phone,
-                    youimg: qq.data.targetUser.info.headUrl,
-                    youRole: "V",
-                }
-            } else {
-                this.msg = $lang("聊天相关数据出现异常");
-            }
-        } else {
-            this.msg = qq.msg;
-        }
-
-        // const id = this.$route.query.id;
-
-        const res = await ChildTaskInfo(id);
-        if (res.success) {
-            this.subTask = res.data.subTask;
-            this.taskStage = res.data.taskStage;
-        } else {
-            this.$message.warning(res.msg)
-        }
+    const qq = await getTalkByGroupId(id);
+    console.log(id + $lang("获取聊天组信息"), qq);
+    if (qq.success) {
+      if (
+        qq.data &&
+        qq.data.groupDetails &&
+        qq.data.groupDetails.data &&
+        qq.data.sChatUser &&
+        qq.data.sChatUser.entities
+      ) {
+        this.chatConfig = {
+          groupid: qq.data.groupDetails.data[0].id,
+          userid: qq.data.sChatUser.entities[0].username,
+          userimg: qq.data.sUser.info.headUrl,
+          username: qq.data.sUser.info.nickName || qq.data.sUser.phone,
+          userRole: "S",
+          youname: qq.data.targetUser.info.nickName || qq.data.targetUser.phone,
+          youimg: qq.data.targetUser.info.headUrl,
+          youRole: "V"
+        };
+      } else {
+        this.msg = $lang("聊天相关数据出现异常");
+      }
+    } else {
+      this.msg = qq.msg;
     }
-}
+
+    // const id = this.$route.query.id;
+
+    const res = await ChildTaskInfo(id);
+    if (res.success) {
+      this.subTask = res.data.subTask;
+      this.taskStage = res.data.taskStage;
+    } else {
+      this.$message.warning(res.msg);
+    }
+  }
+};
 </script>

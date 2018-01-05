@@ -30,10 +30,10 @@
                             <el-form-item :label="$lang('请选择提现方式')">
                                 <template>
                                     <ul class="clearfix">
-                                        <li class="zffs-li" :class="cashForm.atmType==1&&'active'" @click="changeType(1)">
+                                        <!-- <li class="zffs-li" :class="cashForm.atmType==1&&'active'" @click="changeType(1)">
                                             <span class="zf-zfb"><i></i></span>
                                             <p>{{$lang('支付宝提现')}}</p>
-                                        </li>
+                                        </li> -->
                                         <li class="zffs-li" :class="cashForm.atmType==2&&'active'" @click="changeType(2)">
                                             <span class="zf-yl"><i></i></span>
                                             <p>{{$lang('银联提现')}}</p>
@@ -247,7 +247,7 @@ export default {
     toTixian() {
       this.operateType = "cash";
       this.cashForm = {
-        atmType: "1",
+        atmType: "2",
         money: "",
         name: "",
         cardNum: "",

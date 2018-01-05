@@ -17,7 +17,6 @@
                             </p>
                             <a href="javascript:;" class="title flex1">
                                 <h4>{{item.stageName}}</h4>
-
                             </a>
                             <!--<el-button type="success" @click="chooseFile(i, $event)">上传</el-button>-->
                             <!--<input type="file" @click="chooseFile(i)">-->
@@ -59,13 +58,13 @@
                             <dd class="flex1">{{subTask.remarks}}</dd>
                         </dl>
                     </li>
-                    <li class="chart-left-li" v-if="subTask.state>=7">
+                    <li class="chart-left-li" v-if="subTask.state>=6">
                         <div class="box-flex-media-box cl-top">
                             <p class="num">
                                 <em>{{taskStage.length + 2}}</em>
                             </p>
                             <a href="javascript:;" class="title flex1">
-                                <h4>{{$lang('完成')}}</h4>
+                                <h4>{{$lang('最终文件')}}</h4>
                             </a>
                             <el-button type="info" size="small" @click="uploadChecked" v-if="!isOnlyChat">{{$lang('上传文件')}}</el-button>
                             <el-button type="info" size="small" @click="toRedirect('S_History', '-2')">{{$lang('查看记录')}}</el-button>
@@ -147,7 +146,8 @@ export default {
       },
       uploaded: false,
       loading: false,
-      sourcePath: ""
+      sourcePath: "",
+      submitAcceptance: -1
     };
   },
   async mounted() {
@@ -207,6 +207,7 @@ export default {
       //                    res.data.subTask.latestVersion = latestVersion + 1;
       //                }
       this.subTask = res.data.subTask;
+      this.submitAcceptance = ["5", "6"].includes(this.subTask.state);
       this.taskStage = res.data.taskStage;
       const dir = "task/" + res.data.subTask.id + "/";
       client.then(oss => {
@@ -249,7 +250,7 @@ export default {
     //            }
 
     const r = await getFileVersionList();
-    this.versionList = [...r.data, { valueExp: "自定义路径", key: "__path__" }];
+    this.versionList = [{ valueExp: "自定义路径", key: "__path__" }, ...r.data];
   },
   methods: {
     chooseFile(index, file) {
@@ -352,13 +353,28 @@ export default {
         this.$message($lang("请选择要上传的文件"));
       }
     },
-    async addFileToServer(param, index) {
+    // async addFileToServer(param, index) {
+    //   const me = this;
+    //   const res = await addFile(param);
+    //   if (res.success) {
+    //     if (this.submitAcceptance && index == me.taskStage.length) {
+    //       const id = this.$route.query.id;
+    //       const res = await AcceptanceTask(id);
+    //       this.$message({
+    //         message: res.msg,
+    //         type: res.success ? "success" : "error"
+    //       });
+    //     }
+    //   }
+    // },
+    async addFileToServer(param) {
       const me = this;
       const res = await addFile(param);
       if (res.success) {
-        if (this.subTask.state < 7 && index == me.taskStage.length) {
-          const id = this.$route.query.id;
-          const res = await AcceptanceTask(id);
+        me.$message($lang("保存文件成功，文件名为") + param.alias);
+        me.$refs.chat.sendMessage(param.alias);
+        if (this.submitAcceptance) {
+          const res = await AcceptanceTask(this.$route.query.id);
           this.$message({
             message: res.msg,
             type: res.success ? "success" : "error"
@@ -414,14 +430,6 @@ export default {
 
       // });
       me.toSubmitUploadShow = false;
-    },
-    async addFileToServer(param) {
-      const me = this;
-      const res = await addFile(param);
-      if (res.success) {
-        me.$message($lang("保存文件成功，文件名为") + param.alias);
-        me.$refs.chat.sendMessage(param.alias);
-      }
     },
     IndexFileChange(file, fileList) {
       if (fileList.length > 1) {
