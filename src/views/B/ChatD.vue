@@ -30,7 +30,7 @@
                             <dd class="flex1">{{item.stageRemarks}}</dd>
                         </dl>
                     </li>
-                    <li class="chart-left-li">
+                    <li class="chart-left-li" v-if="['5','6','7','8'].includes(subTask.state)">
                         <div class="box-flex-media-box cl-top">
                             <p class="num">
                                 <em>{{taskStage.length + 1}}</em>
@@ -56,6 +56,7 @@
                             <a href="javascript:;" class="title flex1">
                                 <h4>{{$lang('最终文件')}}</h4>
                             </a>
+                            <el-button type="info" size="small" @click="downloadLastFile()" v-if="!isOnlyChat">{{$lang('下载')}}</el-button>
                             <el-button size="small" type="info" @click="$router.push({name:'B_History',query: { id: subTask.id, index: -2 }})">{{$lang('查看历史')}}</el-button>
                         </div>
                     </li>
@@ -80,6 +81,7 @@
 import Chat from "@/components/Chat";
 import SlideBtns from "@/components/SlideBtns";
 import { ChildTaskInfo, AcceptanceTask, getTalkByGroupId } from "@/apis/task";
+import { getFile, downloaded } from "@/apis/files";
 export default {
   components: { Chat, SlideBtns },
   data() {
@@ -129,6 +131,18 @@ export default {
       this.taskStage = res.data.taskStage;
     } else {
       this.$message.warning(res.msg);
+    }
+  },
+  methods: {
+    async downloadLastFile() {
+      let res = await getFile("final", this.$route.query.id);
+      var a = document.createElement("a");
+      a.href = res.data.url;
+      a.download = res.data.fileName;
+      var ev = document.createEvent("MouseEvents");
+      ev.initEvent("click", false, true);
+      a.dispatchEvent(ev);
+      await downloaded(this.$route.query.id);
     }
   }
 };

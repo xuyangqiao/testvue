@@ -353,7 +353,7 @@ import {
   getMoney,
   balancePay
 } from "@/apis/money";
-import { getAllFile, downloaded } from "@/apis/files";
+import { getAllFile, downloaded, getFile } from "@/apis/files";
 import axios from "axios";
 import { getUser } from "@/apis/storage";
 
@@ -596,37 +596,42 @@ export default {
     toRedirect(name, id) {
       this.$router.push({ name, query: { id } });
     },
-    async downloadLastFile(id) {
-      //"TaskStage-25ec6ce178acacaf"
-      const me = this;
-      const taskData = await ChildTaskInfo(id);
-      if (!taskData.success) {
-        me.$message.error(taskData.msg);
-        return;
-      }
-
-      const taskStage = taskData.data.taskStage;
-      if (taskStage.length == 0) {
-        me.$message.error("任务阶段为空");
-        return;
-      }
-
-      const fileData = await getAllFile(
-        "enclosure",
-        taskStage[taskStage.length - 1].id
-      );
-      if (fileData.data.length == 0) {
-        me.$message("文件列表为空");
-        return;
-      }
-
-      let lastFile = fileData.data.sort(
-        (a, b) => (new Date(a.createTime) > new Date(b.createTime) ? -1 : 1)
-      )[0];
+    async downloadLastFile() {
+      //   //"TaskStage-25ec6ce178acacaf"
+      //   const me = this;
+      //   const taskData = await ChildTaskInfo(id);
+      //   if (!taskData.success) {
+      //     me.$message.error(taskData.msg);
+      //     return;
+      //   }
+      //   const taskStage = taskData.data.taskStage;
+      //   if (taskStage.length == 0) {
+      //     me.$message.error("任务阶段为空");
+      //     return;
+      //   }
+      //   const fileData = await getAllFile(
+      //     "enclosure",
+      //     taskStage[taskStage.length - 1].id
+      //   );
+      //   if (fileData.data.length == 0) {
+      //     me.$message("文件列表为空");
+      //     return;
+      //   }
+      //   let lastFile = fileData.data.sort(
+      //     (a, b) => (new Date(a.createTime) > new Date(b.createTime) ? -1 : 1)
+      //   )[0];
+      //   var a = document.createElement("a");
+      //   a.href = lastFile.url;
+      //   a.download = lastFile.fileName;
+      //   var ev = document.createEvent("MouseEvents");
+      //   ev.initEvent("click", false, true);
+      //   a.dispatchEvent(ev);
+      //   await downloaded(this.$route.query.id);
+      let res = await getFile("final", this.$route.query.id);
 
       var a = document.createElement("a");
-      a.href = lastFile.url;
-      a.download = lastFile.fileName;
+      a.href = res.data.url;
+      a.download = res.data.fileName;
       var ev = document.createEvent("MouseEvents");
       ev.initEvent("click", false, true);
       a.dispatchEvent(ev);

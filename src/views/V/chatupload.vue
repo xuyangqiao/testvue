@@ -46,7 +46,8 @@
                                 <h4>{{$lang('验收')}}</h4>
 
                             </a>
-                            <el-button type="info" size="small" @click="uploadChecked" v-if="!isOnlyChat">{{$lang('上传文件')}}</el-button>
+                            <el-button type="info" size="small" @click="proview" v-if="subTask.state>=5">{{$lang('预览')}}</el-button>
+                            <el-button type="info" size="small" @click="uploadChecked" v-if="!isOnlyChat&&['5','6','7'].includes(subTask.state)">{{$lang('上传文件')}}</el-button>
                             <!-- <el-button type="info" size="small" @click="toSubmit" v-if="!isOnlyChat&&uploaded">{{$lang('提交验收')}}</el-button> -->
                             <el-button type="info" size="small" @click="toRedirect('V_History', '-1')">{{$lang('查看记录')}}</el-button>
                         </div>
@@ -67,7 +68,11 @@
                             <a href="javascript:;" class="title flex1">
                                 <h4>{{$lang('最终文件')}}</h4>
                             </a>
-                            <el-button type="info" size="small" @click="uploadChecked" v-if="!isOnlyChat">{{$lang('上传文件')}}</el-button>
+                            <el-button type="info" size="small" @click="downloadLastFile()" v-if="!isOnlyChat">{{$lang('下载')}}</el-button>
+                            <el-button type="info" @click="()=>$refs.file.click()" :loading="!!lastProgress" size="small">
+                              {{$lang('上传文件')}}
+                              <input type="file" @change="uploadLastFile" ref="file" hidden/>
+                            </el-button>
                             <el-button type="info" size="small" @click="toRedirect('V_History', '-2')">{{$lang('查看记录')}}</el-button>
                         </div>
                     </li>
@@ -82,6 +87,9 @@
         </div>
         <el-dialog :title="$lang('上传文件')" ref="toSubmitUpload" :visible.sync="toSubmitUploadShow" size="tiny" :before-close="toSubmitUploadClose" v-loading.body="loading">
             <el-form>
+                <el-form-item>
+                  <h2>验收预览</h2>
+                </el-form-item>
                 <el-form-item :label="$lang('格式选择：')">
                     <el-select v-model="form.fileVersion" :placeholder="$lang('请选择')">
                         <el-option :label="o.valueExp" :value="o.key" v-for="o in versionList" :key="o.id"></el-option>
@@ -94,9 +102,21 @@
                         <el-progress :percentage="progress.check" v-if="progress.check"></el-progress>
                     </el-upload>
                 </el-form-item>
+                <el-form-item>
+                  <el-button type="primary" @click="submit">{{$lang('确 定')}}</el-button>
+                </el-form-item>
+                <div style="border-bottom:1px solid #999999;margin-bottom:20px;"></div>
+                <el-form-item>
+                    <h2 style="display:inline;">{{$lang('最终文件')}}&nbsp;&nbsp;&nbsp;</h2>
+                    <el-button type="primary" @click="()=>$refs.file.click()" size="small">
+                      {{$lang('上传文件')}}
+                      <input type="file" @change="uploadLastFile" ref="file" hidden/>
+                    </el-button>
+                    <el-progress :percentage="lastProgress" v-if="lastProgress"></el-progress>
+                </el-form-item>
             </el-form>
             <div slot="footer">
-                <el-button type="primary" @click="submit">{{$lang('确 定')}}</el-button>
+                <el-button type="primary" @click="acceptance">{{$lang('提交验收')}}</el-button>
             </div>
         </el-dialog>
     </div>
@@ -115,13 +135,18 @@
 .chatupload .el-upload {
   text-align: left;
 }
+
+.el-form-item__content .el-progress--line .el-progress-bar {
+  margin-right: -70px;
+  padding-right: 70px;
+}
 </style>
 <script>
 import Chat from "@/components/Chat";
 import { ChildTaskInfo, AcceptanceTask, getTalkByGroupId } from "@/apis/task";
 import { addFile } from "@/apis/files";
 import { client, uploadFile, progress } from "@/apis/uploadFile";
-import { getAllFile, getFileVersionList } from "@/apis/files";
+import { getAllFile, getFileVersionList, getFile } from "@/apis/files";
 
 export default {
   components: { Chat },
@@ -149,7 +174,8 @@ export default {
       progress: {
         check: 0
       },
-      sourcePath: ""
+      sourcePath: "",
+      lastProgress: 0
     };
   },
   async mounted() {
@@ -246,6 +272,59 @@ export default {
     this.versionList = [{ valueExp: "自定义路径", key: "__path__" }, ...r.data];
   },
   methods: {
+    async acceptance() {
+      await AcceptanceTask(this.$route.query.id);
+    },
+    async proview() {
+      let res = await getFile("checked", this.$route.query.id);
+      this.$router.push({
+        name: "V_Proview",
+        query: { fileVersion: res.data.fileVersion, url: res.data.url }
+      });
+    },
+    async downloadLastFile() {
+      let res = await getFile("final", this.$route.query.id);
+      var a = document.createElement("a");
+      a.href = res.data.url;
+      a.download = res.data.fileName;
+      var ev = document.createEvent("MouseEvents");
+      ev.initEvent("click", false, true);
+      a.dispatchEvent(ev);
+    },
+    uploadLastFile(e) {
+      e.target.progress = 0;
+      let self = this,
+        file = e.target.files[0];
+      if (file) {
+        client.then(oss => {
+          oss
+            .multipartUpload(
+              `/task/${this.$route.query.id}/${this.$route.query
+                .taskId}/${file.name}`,
+              file,
+              {
+                *progress(p) {
+                  console.log(p);
+                  self.lastProgress = parseFloat((p * 100).toFixed(2));
+                }
+              }
+            )
+            .then(data => {
+              console.log(data.url || data.res.requestUrls[0]);
+              this.addFileToServer({
+                bindid: this.$route.query.id,
+                findex: "final",
+                url: data.url || data.res.requestUrls[0].replace(/\?.*/gm, ""),
+                fileName: file.name,
+                alias: file.name
+              });
+              this.lastProgress = 0;
+            });
+        });
+      } else {
+        this.$message($lang("请选择要上传的文件"));
+      }
+    },
     chooseFile(index, file) {
       const me = this;
       //加载断点
