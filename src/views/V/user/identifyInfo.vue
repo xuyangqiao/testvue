@@ -34,23 +34,23 @@
             </div>
             <div class="account-edit account-edit-v" v-if="edit" v-loading="loading">
                 <el-form ref="form" :model="form1" label-width="110" :rules="rules">
-                    <el-form-item :label="$lang('真实姓名:')" prop="realName">
+                    <el-form-item :label="$lang('真实姓名:')" prop="realName" required>
                         <el-col :span="12">
                             <el-input v-model="form1.realName" :placeholder="$lang('真实姓名')"></el-input>
                         </el-col>
                     </el-form-item>
-                    <el-form-item :label="$lang('证件号码:')" prop="cardId">
+                    <el-form-item :label="$lang('证件号码:')" prop="cardId" required>
                         <el-col :span="12">
                             <el-input :placeholder="$lang('请输入证件号码')" v-model="form1.cardId"></el-input>
                         </el-col>
                     </el-form-item>
-                    <el-form-item :label="$lang('证件有效期:')" prop="validity">
+                    <el-form-item :label="$lang('证件有效期:')" prop="validity" required>
                         <el-col :span="12">
                             <el-date-picker v-model="form1.validity" type="date" :placeholder="$lang('证件有效期')" style=" width:100%">
                             </el-date-picker>
                         </el-col>
                     </el-form-item>
-                    <el-form-item :label="$lang('上传证件照:')" class="upload-zhengjianzhao">
+                    <el-form-item :label="$lang('上传证件照:')" class="upload-zhengjianzhao" required>
                         <el-row :gutter="20" class="zjz-wrap">
                             <el-col :span="8">
                                 <el-upload class="avatar-uploader" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false" ref="IDImage1" :on-change="IDImage1Change">

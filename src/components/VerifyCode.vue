@@ -10,8 +10,8 @@
                 </el-col>
                 <el-col :span="9">
                     <div class="vcode-wrap">
-                    <canvas id="imgCode" width="95" height="36" @click="drawPic"></canvas>
-                        <a href="javascript:;" @click="drawPic"></a>
+                      <canvas id="imgCode" width="95" height="36" @click="drawPic"></canvas>
+                      <!-- <a href="javascript:;" @click="drawPic"></a> -->
                     </div>
                 </el-col>
             </el-form-item>

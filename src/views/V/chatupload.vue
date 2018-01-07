@@ -60,7 +60,7 @@
                             <dd class="flex1">{{subTask.remarks}}</dd>
                         </dl>
                     </li>
-                    <li class="chart-left-li" v-if="subTask.state>=6">
+                    <li class="chart-left-li" v-if="subTask.state>=7">
                         <div class="box-flex-media-box cl-top">
                             <p class="num">
                                 <em>{{taskStage.length + 2}}</em>
@@ -69,7 +69,7 @@
                                 <h4>{{$lang('最终文件')}}</h4>
                             </a>
                             <el-button type="info" size="small" @click="downloadLastFile()" v-if="!isOnlyChat">{{$lang('下载')}}</el-button>
-                            <el-button type="info" @click="()=>$refs.file.click()" :loading="!!lastProgress" size="small">
+                            <el-button type="info" @click="()=>$refs.file.click()" :loading="lastFileUpdated" size="small">
                               {{$lang('上传文件')}}
                               <input type="file" @change="uploadLastFile" ref="file" hidden/>
                             </el-button>
@@ -175,7 +175,8 @@ export default {
         check: 0
       },
       sourcePath: "",
-      lastProgress: 0
+      lastProgress: 0,
+      lastFileUpdated: false
     };
   },
   async mounted() {
@@ -274,6 +275,7 @@ export default {
   methods: {
     async acceptance() {
       await AcceptanceTask(this.$route.query.id);
+      this.toSubmitUploadShow = false;
     },
     async proview() {
       let res = await getFile("checked", this.$route.query.id);
@@ -297,6 +299,7 @@ export default {
         file = e.target.files[0];
       if (file) {
         client.then(oss => {
+          this.lastFileUpdated = true;
           oss
             .multipartUpload(
               `/task/${this.$route.query.id}/${this.$route.query
@@ -310,6 +313,7 @@ export default {
               }
             )
             .then(data => {
+              this.lastFileUpdated = false;
               console.log(data.url || data.res.requestUrls[0]);
               this.addFileToServer({
                 bindid: this.$route.query.id,
@@ -318,7 +322,6 @@ export default {
                 fileName: file.name,
                 alias: file.name
               });
-              this.lastProgress = 0;
             });
         });
       } else {
@@ -429,14 +432,14 @@ export default {
       const me = this;
       const res = await addFile(param);
       if (res.success) {
-        if (index == me.taskStage.length) {
-          const id = this.$route.query.id;
-          const res = await AcceptanceTask(id);
-          this.$message({
-            message: res.msg,
-            type: res.success ? "success" : "error"
-          });
-        }
+        // if (index == me.taskStage.length) {
+        //   const id = this.$route.query.id;
+        //   const res = await AcceptanceTask(id);
+        //   this.$message({
+        //     message: res.msg,
+        //     type: res.success ? "success" : "error"
+        //   });
+        // }
       }
     },
     toRedirect(name, index) {
@@ -460,15 +463,16 @@ export default {
       this.$router.push({ name, query: { id: id } });
     },
     async toSubmit() {
-      const id = this.$route.query.id;
-      const res = await AcceptanceTask(id);
-      this.$message({
-        message: res.msg,
-        type: res.success ? "success" : "error"
-      });
+      // const id = this.$route.query.id;
+      // const res = await AcceptanceTask(id);
+      // this.$message({
+      //   message: res.msg,
+      //   type: res.success ? "success" : "error"
+      // });
     },
     uploadChecked() {
       const me = this;
+      this.lastProgress = 0;
       this.sourcePath = "";
       this.IndexFileList = [];
       this.form.fileVersion = "";
@@ -540,7 +544,7 @@ export default {
             subvsion: this.subTask.latestVersion,
             fileVersion: version
           });
-          this.loading = this.toSubmitUploadShow = false;
+          this.loading = false;
           this.uploaded = true;
         } else
           client.then(oss => {
@@ -570,7 +574,7 @@ export default {
                   subvsion: this.subTask.latestVersion,
                   fileVersion: version
                 });
-                this.loading = this.toSubmitUploadShow = false;
+                this.loading = false;
                 this.uploaded = true;
               });
           });

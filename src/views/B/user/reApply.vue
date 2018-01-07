@@ -215,14 +215,18 @@ export default {
       });
     },
     saveModify() {
-      this.$refs["form2"].validate(valid => {
-        if (valid) {
-          this.loading = true;
-          this.dosaveModify();
-        } else {
-          return false;
-        }
-      });
+      if (this.imageUrl) {
+        this.$refs["form2"].validate(valid => {
+          if (valid) {
+            this.loading = true;
+            this.dosaveModify();
+          } else {
+            return false;
+          }
+        });
+      } else {
+        this.$message.warning(this.$lang("请上传盖公章的营业执照复印件"));
+      }
     },
     //保存企业认证信息
     async dosaveModify() {

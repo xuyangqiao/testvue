@@ -113,229 +113,248 @@
     </div>
 </template>
 <script>
-    import ChangePwd from '@/components/changePwd';
-    import {UpdateCompanyB, CheckCompanyInfoB} from '@/apis/person'
-    import {isLogin, getUser} from '@/apis/storage'
-    import areaData from '@/apis/area.json'
-    import {addFile, deleteFileByParam} from '@/apis/files'
-    import {uploadFile, deleteOssFile} from '@/apis/uploadFile'
+import ChangePwd from "@/components/changePwd";
+import { UpdateCompanyB, CheckCompanyInfoB } from "@/apis/person";
+import { isLogin, getUser } from "@/apis/storage";
+import areaData from "@/apis/area.json";
+import { addFile, deleteFileByParam } from "@/apis/files";
+import { uploadFile, deleteOssFile } from "@/apis/uploadFile";
 
-    export default {
-        components: {
-            ChangePwd
-        },
-        data() {
-            return {
-                loading:false,
-                dialogVisible:false,
-                nextTo:false,
-                userId: "",
-                hasEdit: true,
-                accType: 1,
-                editCom: false,
-                form1: {},//企业认证详情
-                form2: {},//企业认证编辑
-                tableData: [],
-                //地址下拉选择数据
-                options: areaData,
-                imageUrl: '',
-                licenseImg: '',
-                licenseImgName: '',
-                rules:{
-                    name:[{validator: this.validateName, trigger: 'blur'}],
-                    licenseNum:[{validator: this.validateLicenseNum, trigger: 'blur'}],
-                    licenseYear:[{validator: this.validateYear, trigger: 'blur'}],
-
-                }
-            }
-        },
-        created() {
-            this.userId = this.$route.query.userId || getUser().userId;
-            this.hasEdit = this.$route.query.userId == getUser().userId || getUser().userType == "B"
-            this.CheckCompanyInfo();
-        },
-        methods: {
-           validateName(rule, value, callback) {
-                if (value === '') {
-                    callback(new Error($lang('请输入')));
-                }else {
-                    callback();
-                }
-            },
-            validateYear(rule, value, callback) {
-                if (value === '') {
-                    callback(new Error($lang('请输入')));
-                }else if(!Number.isInteger(+value)){
-                    callback(new Error($lang('请输入正确的格式')));
-                }else{
-                    callback();
-                }
-            },
-            validateLicenseNum(rule, value, callback){
-                if (value === '') {
-                    callback(new Error($lang('请输入')));
-                }else if(!/^[0-9|A-Z]{18}$/.test(value)){
-                    callback(new Error($lang('18位数字和大写字母组合')));
-                }else{
-                    callback();
-                }
-            },
-            getAddr(obj){
-                let address=""
-                if(obj.addressProvince){
-                    address=[obj.addressProvince, obj.addressCity, obj.addressArea].join("-")
-                }
-                if(obj.address){
-                    address=address+"/" + (obj.address||"");
-                }
-                return address;
-            },
-            async CheckCompanyInfo() {
-                const res = await CheckCompanyInfoB({userId: this.userId});
-                if (res.success) {
-                    let CompanyInfo = res.data;
-                    if (CompanyInfo.fullState == '1') {
-                        this.hasEdit = false;
-                    } else {
-                        let address = this.getAddr(CompanyInfo);
-                        this.form1 = Object.assign({}, CompanyInfo, {
-                            userId: this.userId,
-                            address: address,
-                        })
-                    }
-                    this.imageUrl = CompanyInfo.licenseImg;
-                    this.licenseImg = CompanyInfo.licenseImg;
-                    this.licenseImgName = CompanyInfo.licenseImgName
-                } else {
-                    this.form1 = {}
-                }
-            },
-            //打开编辑页面
-            openEditInfo() {
-                this.editCom = true;
-                this.form2 = Object.assign({}, this.form1, {
-                    compAddr1: this.form1.licenseAddress ? this.form1.licenseAddress.split('-') : [],
-                    compAddr2: this.form1.addressProvince ? [this.form1.addressProvince, this.form1.addressCity, this.form1.addressArea] : [],
-                    address: this.form1.address ? this.form1.address.split('/')[1] : ""
-                })
-            },
-            saveModify(){
-                this.$refs['form2'].validate((valid)=>{
-                    if(valid){
-                        this.loading=true;
-                        this.dosaveModify();
-                    }else{
-                        return false;
-                    }
-                })
-            },
-            //保存企业认证信息
-            async dosaveModify() {
-                const me = this;
-                let param = Object.assign({}, this.form2, {
-                    licenseAddress: this.form2.compAddr1.join('-'),
-                    addressProvince: this.form2.compAddr2[0],
-                    addressCity: this.form2.compAddr2[1],
-                    addressArea: this.form2.compAddr2[2],
-                });
-                if (this.form2.id) {
-                    param.id = this.form2.id
-                }
-                delete param.licenseImg;
-                delete param.licenseImgName;
-                const res = await UpdateCompanyB(param);
-                if (res.success) {
-                    let CompanyInfo = res.data;
-                    let address =this.getAddr(CompanyInfo);
-                    this.form1 = Object.assign({}, CompanyInfo, {
-                        address: address,
-                    });
-                    const businessLicense = me.$refs.businessLicense.uploadFiles;
-                    const id = getUser().userId;
-                    if (businessLicense[0] && businessLicense[0].raw) {
-                        if (me.licenseImg) {
-                            deleteFileByParam(id, "businesslicense");
-                            deleteOssFile([`/user-info/${id}/company/${me.licenseImgName}`]);
-                        }
-                        const file = businessLicense[businessLicense.length - 1].raw;
-                        uploadFile(businessLicense[businessLicense.length - 1].raw, `/user-info/${id}/company`).then(async function (data) {
-                            const fileName = data.name.slice(data.name.lastIndexOf("/") + 1);
-                            const addFileData = await addFile({
-                                fileName: file.name,
-                                alias: fileName,
-                                findex: "businesslicense",
-                                bindid: id,
-                                url: data.url ? data.url : data.res.requestUrls[0].replace(/\?.*/gm, '')
-                            });
-                            me.loading=false;
-                            if (addFileData.success) {
-                                me.imageUrl = addFileData.data.url;
-                                me.licenseImgName = addFileData.data.fileName;
-                                me.licenseImg = addFileData.data.url;
-                                me.$message($lang("操作成功"));
-                                //返回展示界面
-                                me.editCom = false;
-                            }else{
-                                me.$message.error(addFileData.msg);
-                            }
-                        })
-                    } else {
-                        me.$message($lang("操作成功"));
-                        //返回展示界面
-                        me.editCom = false;
-                    }
-                } else {
-                    me.loading=false;
-                    this.$message.error(res.msg)
-                }
-
-
-            },
-            //选择城市
-            handleChange1(value) {
-                this.form2.compAddr1 = value
-            },
-            handleChange2(value) {
-                this.form2.compAddr2 = value
-            },
-            //营业执照改变
-            businessLicenseChange(file) {
-                const me = this;
-                const fileName = file.name.slice(file.name.lastIndexOf(".") + 1).toLowerCase();
-                if (!(fileName == "jpg" || fileName == "bmp" || fileName == "png")) {
-                    this.$message($lang('只能上传jpg、png、bmp文件'));
-                    me.$refs.businessLicense.uploadFiles.pop();
-                    return
-                }
-                if (file.size > 10485760) {
-                    this.$message($lang('文件大小不能超过10M'));
-                    me.$refs.businessLicense.uploadFiles.pop();
-                    return
-                }
-                const reader = new FileReader();
-                reader.readAsDataURL(file.raw);
-                reader.onload = function (e) {
-                    me.imageUrl = e.target.result
-                }
-            }, 
-            cancalEdit(){
-                this.$router.push({name:this.nextTo})
-                this.dialogVisible=false;
-            },
-        },
-        beforeRouteLeave(to, from, next){
-            next();
-            // if(this.editCom||this.accType==2){
-            //     this.dialogVisible=true;
-            //     if(this.nextTo){
-            //         next()
-            //     }else{
-            //         next(false)
-            //         this.nextTo=to.name
-            //     }
-            // }else{
-            //     next()
-            // }
+export default {
+  components: {
+    ChangePwd
+  },
+  data() {
+    return {
+      loading: false,
+      dialogVisible: false,
+      nextTo: false,
+      userId: "",
+      hasEdit: true,
+      accType: 1,
+      editCom: false,
+      form1: {}, //企业认证详情
+      form2: {}, //企业认证编辑
+      tableData: [],
+      //地址下拉选择数据
+      options: areaData,
+      imageUrl: "",
+      licenseImg: "",
+      licenseImgName: "",
+      rules: {
+        name: [{ validator: this.validateName, trigger: "blur" }],
+        licenseNum: [{ validator: this.validateLicenseNum, trigger: "blur" }],
+        licenseYear: [{ validator: this.validateYear, trigger: "blur" }]
+      }
+    };
+  },
+  created() {
+    this.userId = this.$route.query.userId || getUser().userId;
+    this.hasEdit =
+      this.$route.query.userId == getUser().userId || getUser().userType == "B";
+    this.CheckCompanyInfo();
+  },
+  methods: {
+    validateName(rule, value, callback) {
+      if (value === "") {
+        callback(new Error($lang("请输入")));
+      } else {
+        callback();
+      }
+    },
+    validateYear(rule, value, callback) {
+      if (value === "") {
+        callback(new Error($lang("请输入")));
+      } else if (!Number.isInteger(+value)) {
+        callback(new Error($lang("请输入正确的格式")));
+      } else {
+        callback();
+      }
+    },
+    validateLicenseNum(rule, value, callback) {
+      if (value === "") {
+        callback(new Error($lang("请输入")));
+      } else if (!/^[0-9|A-Z]{18}$/.test(value)) {
+        callback(new Error($lang("18位数字和大写字母组合")));
+      } else {
+        callback();
+      }
+    },
+    getAddr(obj) {
+      let address = "";
+      if (obj.addressProvince) {
+        address = [obj.addressProvince, obj.addressCity, obj.addressArea].join(
+          "-"
+        );
+      }
+      if (obj.address) {
+        address = address + "/" + (obj.address || "");
+      }
+      return address;
+    },
+    async CheckCompanyInfo() {
+      const res = await CheckCompanyInfoB({ userId: this.userId });
+      if (res.success) {
+        let CompanyInfo = res.data;
+        if (CompanyInfo.fullState == "1") {
+          this.hasEdit = false;
+        } else {
+          let address = this.getAddr(CompanyInfo);
+          this.form1 = Object.assign({}, CompanyInfo, {
+            userId: this.userId,
+            address: address
+          });
         }
+        this.imageUrl = CompanyInfo.licenseImg;
+        this.licenseImg = CompanyInfo.licenseImg;
+        this.licenseImgName = CompanyInfo.licenseImgName;
+      } else {
+        this.form1 = {};
+      }
+    },
+    //打开编辑页面
+    openEditInfo() {
+      this.editCom = true;
+      this.form2 = Object.assign({}, this.form1, {
+        compAddr1: this.form1.licenseAddress
+          ? this.form1.licenseAddress.split("-")
+          : [],
+        compAddr2: this.form1.addressProvince
+          ? [
+              this.form1.addressProvince,
+              this.form1.addressCity,
+              this.form1.addressArea
+            ]
+          : [],
+        address: this.form1.address ? this.form1.address.split("/")[1] : ""
+      });
+    },
+    saveModify() {
+      if (this.imageUrl) {
+        this.$refs["form2"].validate(valid => {
+          if (valid) {
+            this.loading = true;
+            this.dosaveModify();
+          } else {
+            return false;
+          }
+        });
+      } else {
+        this.$message.warning(this.$lang("请上传盖公章的营业执照复印件"));
+      }
+    },
+    //保存企业认证信息
+    async dosaveModify() {
+      const me = this;
+      let param = Object.assign({}, this.form2, {
+        licenseAddress: this.form2.compAddr1.join("-"),
+        addressProvince: this.form2.compAddr2[0],
+        addressCity: this.form2.compAddr2[1],
+        addressArea: this.form2.compAddr2[2]
+      });
+      if (this.form2.id) {
+        param.id = this.form2.id;
+      }
+      delete param.licenseImg;
+      delete param.licenseImgName;
+      const res = await UpdateCompanyB(param);
+      if (res.success) {
+        let CompanyInfo = res.data;
+        let address = this.getAddr(CompanyInfo);
+        this.form1 = Object.assign({}, CompanyInfo, {
+          address: address
+        });
+        const businessLicense = me.$refs.businessLicense.uploadFiles;
+        const id = getUser().userId;
+        if (businessLicense[0] && businessLicense[0].raw) {
+          if (me.licenseImg) {
+            deleteFileByParam(id, "businesslicense");
+            deleteOssFile([`/user-info/${id}/company/${me.licenseImgName}`]);
+          }
+          const file = businessLicense[businessLicense.length - 1].raw;
+          uploadFile(
+            businessLicense[businessLicense.length - 1].raw,
+            `/user-info/${id}/company`
+          ).then(async function(data) {
+            const fileName = data.name.slice(data.name.lastIndexOf("/") + 1);
+            const addFileData = await addFile({
+              fileName: file.name,
+              alias: fileName,
+              findex: "businesslicense",
+              bindid: id,
+              url: data.url
+                ? data.url
+                : data.res.requestUrls[0].replace(/\?.*/gm, "")
+            });
+            me.loading = false;
+            if (addFileData.success) {
+              me.imageUrl = addFileData.data.url;
+              me.licenseImgName = addFileData.data.fileName;
+              me.licenseImg = addFileData.data.url;
+              me.$message($lang("操作成功"));
+              //返回展示界面
+              me.editCom = false;
+            } else {
+              me.$message.error(addFileData.msg);
+            }
+          });
+        } else {
+          me.$message($lang("操作成功"));
+          //返回展示界面
+          me.editCom = false;
+        }
+      } else {
+        me.loading = false;
+        this.$message.error(res.msg);
+      }
+    },
+    //选择城市
+    handleChange1(value) {
+      this.form2.compAddr1 = value;
+    },
+    handleChange2(value) {
+      this.form2.compAddr2 = value;
+    },
+    //营业执照改变
+    businessLicenseChange(file) {
+      const me = this;
+      const fileName = file.name
+        .slice(file.name.lastIndexOf(".") + 1)
+        .toLowerCase();
+      if (!(fileName == "jpg" || fileName == "bmp" || fileName == "png")) {
+        this.$message($lang("只能上传jpg、png、bmp文件"));
+        me.$refs.businessLicense.uploadFiles.pop();
+        return;
+      }
+      if (file.size > 10485760) {
+        this.$message($lang("文件大小不能超过10M"));
+        me.$refs.businessLicense.uploadFiles.pop();
+        return;
+      }
+      const reader = new FileReader();
+      reader.readAsDataURL(file.raw);
+      reader.onload = function(e) {
+        me.imageUrl = e.target.result;
+      };
+    },
+    cancalEdit() {
+      this.$router.push({ name: this.nextTo });
+      this.dialogVisible = false;
     }
+  },
+  beforeRouteLeave(to, from, next) {
+    next();
+    // if(this.editCom||this.accType==2){
+    //     this.dialogVisible=true;
+    //     if(this.nextTo){
+    //         next()
+    //     }else{
+    //         next(false)
+    //         this.nextTo=to.name
+    //     }
+    // }else{
+    //     next()
+    // }
+  }
+};
 </script>

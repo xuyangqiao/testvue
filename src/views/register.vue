@@ -112,18 +112,23 @@ export default {
       };
       const res = await Register(param);
       if (res.success) {
-        let isV = this.$route.query.type == "V";
-        this.$message.success({
-          showClose: isV,
-          message: isV
-            ? $lang("欢迎来到VSWORK协作平台，请通过“个人中心”→“身份验证”尽快完善信息，完成身份验证~")
-            : $lang("注册成功！"),
-          duration: isV ? 0 : 3000
-        });
-        this.$router.push({ name: "login" });
+        if (this.$route.query.type == "V") {
+          this.$alert(
+            this.$lang("欢迎来到VSWORK协作平台，请通过“个人中心”→“身份验证”尽快完善信息，完成身份验证~"),
+            this.$lang("注册成功"),
+            {
+              confirmButtonText: "确定",
+              callback: action => {
+                this.$router.push({ name: "login" });
+              }
+            }
+          );
+        } else {
+          this.$message.success($lang("注册成功！"));
+          this.$router.push({ name: "login" });
+        }
 
-        //注册聊天
-        var options = {
+        conn.registerUser({
           username: param.phone,
           password: param.password,
           nickname: param.phone,
@@ -135,8 +140,7 @@ export default {
             console.log("%c 注册聊天失败", "color: red");
           },
           apiUrl: WebIM.config.apiURL
-        };
-        conn.registerUser(options);
+        });
       } else {
         if (res.code == "1007" || res.code == "1005" || res.code == "1006") {
           this.$refs.VerifyCode.clear(res.code);

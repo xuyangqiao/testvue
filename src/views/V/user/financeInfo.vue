@@ -65,8 +65,8 @@
                             </el-col>
                         </el-row>
                         <el-row style="margin:10px 0px;text-align:center;" v-if="cashForm.atmType==2">
-                            <div style="margin:10px;font-size:16px;">必须为本人身份证办理的银行卡 (否则审核不通过)</div>
-                            <div style="margin:10px;color:red;">提现超出***金额需缴纳个人所得税 (此部分税费与平台无关)</div>
+                            <div style="margin:10px;font-size:16px;">{{$lang('必须为本人身份证办理的银行卡 (否则审核不通过)')}}</div>
+                            <div style="margin:10px;color:red;">{{$lang('根据《中华人民共和国个人所得税法》和《中华人民共和国个人所得税法实施条例》的要求，月收入超出3500的部分需缴纳个人所得税')}}</div>
                         </el-row>
                     </div>
                 </div>

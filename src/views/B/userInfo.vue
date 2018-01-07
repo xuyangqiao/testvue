@@ -20,7 +20,7 @@
                         <li class="snu-li-04" :class="{ active: navIndx=='child' }">
                             <router-link :to="{ name: 'B-userInfo-child', query: { userId: userId } }">{{$lang('子账号管理')}}</router-link>
                         </li>
-                        <li class="snu-li-02" :class="{ active: navIndx=='account' }">
+                        <li class="snu-li-02" :class="{ active: navIndx=='reapply' }">
                             <router-link :to="{ name: 'B-userInfo-reApply', query: { userId: userId }} ">{{$lang('重新认证')}}</router-link>
                         </li>
                     </ul>
@@ -56,40 +56,40 @@
 </template>
 
 <script>
-import { isLogin, getUser } from '@/apis/storage'
-import SlideBtns from '@/components/SlideBtns'
+import { isLogin, getUser } from "@/apis/storage";
+import SlideBtns from "@/components/SlideBtns";
 export default {
-    components: {
-        SlideBtns
-    },
-    data() {
-        return {
-            navIndx: 'base',
-            bUserType: "0",
-            userId: getUser().userId
-        }
-    },
-    created() {
-        const LoginUser = JSON.parse(localStorage.getItem('LoginUser'));
-        this.bUserType = LoginUser.bUserType || "0";
-        this.navIndx = this.getStatus(this.$route.path);
-        //拼接路由中的query
-        if (this.$route.query && this.$route.query.userId) {
-            this.userId = this.$route.query.userId
-        } else {
-            this.userId = getUser().userId
-        }
-    },
-    watch: {
-        '$route.path': function(val, oldVal) {
-            this.navIndx = this.getStatus(val)
-        }
-    },
-    methods: {
-        getStatus(urlStr) {
-            var urlStrArr = urlStr.split('/')
-            return urlStrArr[urlStrArr.length - 1]
-        }
+  components: {
+    SlideBtns
+  },
+  data() {
+    return {
+      navIndx: "base",
+      bUserType: "0",
+      userId: getUser().userId
+    };
+  },
+  created() {
+    const LoginUser = JSON.parse(localStorage.getItem("LoginUser"));
+    this.bUserType = LoginUser.bUserType || "0";
+    this.navIndx = this.getStatus(this.$route.path);
+    //拼接路由中的query
+    if (this.$route.query && this.$route.query.userId) {
+      this.userId = this.$route.query.userId;
+    } else {
+      this.userId = getUser().userId;
     }
-}
+  },
+  watch: {
+    "$route.path": function(val, oldVal) {
+      this.navIndx = this.getStatus(val);
+    }
+  },
+  methods: {
+    getStatus(urlStr) {
+      var urlStrArr = urlStr.split("/");
+      return urlStrArr[urlStrArr.length - 1];
+    }
+  }
+};
 </script>

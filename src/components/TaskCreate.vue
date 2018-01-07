@@ -629,10 +629,10 @@ export default {
           me.$message.error($lang("应用类别不能为空"));
           return;
         }
-        if (form1.remarks == "") {
-          me.$message.error($lang("备注不能为空"));
-          return;
-        }
+        // if (form1.remarks == "") {
+        //   me.$message.error($lang("备注不能为空"));
+        //   return;
+        // }
         if (me.$refs.ReferencePicture.uploadFiles.length == 0) {
           me.$message.error($lang("至少需要一张参考图"));
           return;

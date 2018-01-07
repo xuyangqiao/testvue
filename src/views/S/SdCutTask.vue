@@ -158,14 +158,14 @@
                         </el-form-item>
                         <el-row>
                             <el-col :span="12" class="update-text">
-                                <el-form-item :label="$lang('附件:')" required>
+                                <el-form-item :label="$lang('附件:')">
                                     <el-upload class="upload-demo" ref="EnclosureFile" action="https://jsonplaceholder.typicode.com/posts/" :on-remove="removeFile" :file-list="EnclosureFileList" :auto-upload="false" :multiple="true">
                                         <el-button slot="trigger" size="small" type="primary">{{$lang('添加文件')}}</el-button>
                                     </el-upload>
                                 </el-form-item>
                             </el-col>
                         </el-row>
-                        <el-form-item :label="$lang('状态:')" required>
+                        <el-form-item :label="$lang('状态:')">
                             <el-select v-model="form.state" :placeholder="$lang('请选择')">
                                 <el-option :label="$lang('草稿')" value="0"></el-option>
                                 <el-option :label="$lang('待确认')" value="1"></el-option>
@@ -173,7 +173,7 @@
                             </el-select>
                         </el-form-item>
 
-                        <el-form-item :label="$lang('备注:')" required>
+                        <el-form-item :label="$lang('备注:')">
                             <el-input type="textarea" v-model="form.remarks" :rows="5" :placeholder="$lang('请输入内容')" class="textarea-width-790"></el-input>
                         </el-form-item>
 
@@ -557,6 +557,7 @@ export default {
       this.loadinginstace = Loading.service({ fullscreen: true });
       const res = await this._CreateChildTask(this.form, this.form.state);
       console.log("fffffffffffffffffffffffffffffffffff", res);
+      this.loadinginstace.close();
       // this.$message({
       //     message: res.msg,
       //     type: res.success ? 'success' : 'error',
@@ -642,6 +643,10 @@ export default {
         this.$message.warning($lang("请添加阶段性任务"));
         return false;
       }
+      if (!this.$refs.ReferencePicture.uploadFiles.length) {
+        this.$message.warning($lang("请上传参考图片"));
+        return false;
+      }
       return true;
     },
     async __updateTask() {
@@ -655,7 +660,6 @@ export default {
       if (!validate) {
         return false;
       }
-      // console.log
       this.loadinginstace = Loading.service({ fullscreen: true });
       const res = await UpdateChildTask(this.form, this.form.state);
       if (res.success) {
@@ -891,6 +895,9 @@ export default {
     cancelStage(item) {
       item.editable = false;
     }
+  },
+  destroyed() {
+    this.loadinginstace.close();
   }
 };
 </script>
