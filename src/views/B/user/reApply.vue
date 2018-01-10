@@ -154,7 +154,7 @@ export default {
     validateYear(rule, value, callback) {
       if (!value) {
         callback(new Error($lang("请输入营业年年限")));
-      } else if (!Number.isInteger(value)) {
+      } else if (value != parseInt(value)) {
         callback(new Error($lang("请输入正确的格式")));
       } else {
         callback();
