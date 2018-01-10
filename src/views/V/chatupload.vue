@@ -274,8 +274,11 @@ export default {
   },
   methods: {
     async acceptance() {
-      await AcceptanceTask(this.$route.query.id);
+      let res = await AcceptanceTask(this.$route.query.id);
       this.toSubmitUploadShow = false;
+      if (res.success) {
+        this.$message.success(this.$lang("提交验收成功"));
+      }
     },
     async proview() {
       let res = await getFile("checked", this.$route.query.id);

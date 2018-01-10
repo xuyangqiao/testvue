@@ -115,68 +115,69 @@
 </template>
 
 <script>
-import { getTackParam, TaskInfoById } from '@/apis/task.js'
-import TsInfo from '@/components/TsInfo'
+import { getTackParam, TaskInfoById } from "@/apis/task.js";
+import { getFile } from "@/apis/files.js";
+import TsInfo from "@/components/TsInfo";
 export default {
-    props: {
-        tid: null,
-        onload: Function,
-        isZong: {
-            type: Boolean,
-            default: true
-        },
-        role: String,
-        stateName: String,
-        title: String,
-        userType: String
+  props: {
+    tid: null,
+    onload: Function,
+    isZong: {
+      type: Boolean,
+      default: true
     },
-    components: { TsInfo },
-    data() {
-        return {
-            referImg: [],
-            form: {
-                appAreas: '',
-                appAreasName: '',
-                vevironments: '',
-                vevironmentsName: '',
-                appType: '',
-                appTypeName: '',
-                remarks: '',
-                logo: ''
-            },
-            imgList: [],
-            fileList: [],
-            dialogVisible: false,
-            dialogImageUrl: "",
-            dialogImageIndex: 0
-        }
-    },
-    async mounted() {
-        //   const id = this.$route.query.id;
-        //   //根据ID 查询总任务
-        //   const data = await TaskInfoById(id);
-        //   this.onload&&this.onload(data)
-        // this.form.projectName = data.projectName;
-        // this.form.state = data.state;
-        // this.form.total = data.total;
-        // this.form.packageType = data.packageType;
-        // this.form.taskEndTime = data.taskEndTime;
-        // //从localStorage 获取任务参数，没有就重新请求
-        //   let TaskParamCache = localStorage.getItem("TaskParam");
-        //   let taskGroup;
-        //   if(TaskParamCache){
-        //   taskGroup = JSON.parse(TaskParamCache).taskGroup;
-        // }else{
-        //   taskGroup = await getTackParam().taskGroup;
-        // }
-        // for(let i=0,l=taskGroup.length;i>l;i++){
-        //     if(taskGroup[i].id == data.groupId){
-        //         this.form.group = taskGroup[i].groupName;
-        //         console.log(taskGroup[i]);
-        //         break;
-        //   }
-        // }
-        /*  {
+    role: String,
+    stateName: String,
+    title: String,
+    userType: String
+  },
+  components: { TsInfo },
+  data() {
+    return {
+      referImg: [],
+      form: {
+        appAreas: "",
+        appAreasName: "",
+        vevironments: "",
+        vevironmentsName: "",
+        appType: "",
+        appTypeName: "",
+        remarks: "",
+        logo: ""
+      },
+      imgList: [],
+      fileList: [],
+      dialogVisible: false,
+      dialogImageUrl: "",
+      dialogImageIndex: 0
+    };
+  },
+  async mounted() {
+    //   const id = this.$route.query.id;
+    //   //根据ID 查询总任务
+    //   const data = await TaskInfoById(id);
+    //   this.onload&&this.onload(data)
+    // this.form.projectName = data.projectName;
+    // this.form.state = data.state;
+    // this.form.total = data.total;
+    // this.form.packageType = data.packageType;
+    // this.form.taskEndTime = data.taskEndTime;
+    // //从localStorage 获取任务参数，没有就重新请求
+    //   let TaskParamCache = localStorage.getItem("TaskParam");
+    //   let taskGroup;
+    //   if(TaskParamCache){
+    //   taskGroup = JSON.parse(TaskParamCache).taskGroup;
+    // }else{
+    //   taskGroup = await getTackParam().taskGroup;
+    // }
+    // for(let i=0,l=taskGroup.length;i>l;i++){
+    //     if(taskGroup[i].id == data.groupId){
+    //         this.form.group = taskGroup[i].groupName;
+    //         console.log(taskGroup[i]);
+    //         break;
+    //   }
+    // }
+    /*  {
          "id": "Task-1e5682154bcaec3a",
          "remarks": "1",
          "sort": 0,
@@ -203,83 +204,92 @@ export default {
          "sUserId": null,
          "taskEndTime": "1"
          }*/
-    },
-    methods: {
-        onloadCallBack(taskInfo, fileData) {
-            // console.log(fileData);
-            const me = this;
-            Object.assign(this.form, taskInfo)
-            if (fileData && Array.isArray(fileData)) {
-                me.imgList = [];
-                me.fileList = [];
-                for (let i = 0, l = fileData.length; i < l; i++) {
-                    if (fileData[i].findex == "referencechart") {
-                        me.imgList.push(fileData[i].url);
-                    } else if (fileData[i].findex == "enclosure") {
-                        me.fileList.push({ url: fileData[i].url, fileName: fileData[i].fileName });
-                    }
-                }
-            }
-            this.onload && this.onload(taskInfo, fileData)
-        },
-        //            handleRemove(file, fileList) {
-        //                console.log(file, fileList);
-        //            },
-        handlePictureCardPreview(index) {
-            this.dialogImageUrl = this.imgList[index];
-            this.dialogVisible = true;
-            this.dialogImageIndex = index;
-        },
-        imgPreviewArrow(state) {
-            const length = this.imgList.length;
-            if (state == -1) {
-                if (this.imgList[this.dialogImageIndex - 1]) {
-                    this.dialogImageUrl = this.imgList[--this.dialogImageIndex]
-                } else {
-                    this.dialogImageIndex = length - 1;
-                    this.dialogImageUrl = this.imgList[this.dialogImageIndex]
-                }
-            } else {
-                if (this.imgList[this.dialogImageIndex + 1]) {
-                    this.dialogImageUrl = this.imgList[++this.dialogImageIndex]
-                } else {
-                    this.dialogImageIndex = 0;
-                    this.dialogImageUrl = this.imgList[this.dialogImageIndex]
-                }
-            }
-        },
-        downloadFile(url, fileName) {
-            var a = document.createElement('a');
-            a.href = url;
-            a.download = fileName;
-            var ev = document.createEvent('MouseEvents');
-            ev.initEvent('click', false, true);
-            a.dispatchEvent(ev);
-        },
-        //            handleChange(file, fileList) {
-        //                this.fileList3 = fileList.slice(-3);
-        //            },
-        //            handleAvatarSuccess(res, file) {
-        //                this.imageUrl = URL.createObjectURL(file.raw);
-        //            },
-        //            beforeAvatarUpload(file) {
-        //                const isJPG = file.type === 'image/jpeg';
-        //                const isLt2M = file.size / 1024 / 1024 < 2;
-        //
-        //                if (!isJPG) {
-        //                    this.$message.error('上传头像图片只能是 JPG 格式!');
-        //                }
-        //                if (!isLt2M) {
-        //                    this.$message.error('上传头像图片大小不能超过 2MB!');
-        //                }
-        //                return isJPG && isLt2M;
-        //            }
-        toProview() {
-            let loginUser = JSON.parse(localStorage.LoginUser || '{}');
-            console.log(this.$refs.tsInfo.fileData)
-            let fileData = this.$refs.tsInfo.fileData;
-            this.$router.push({ name: `${loginUser.userType}_${{ B: 'DTaskCheck' }[loginUser.userType] || 'Proview'}`, query: { fileVersion: fileData.fileVersion, url: fileData.url } })
+  },
+  methods: {
+    onloadCallBack(taskInfo, fileData) {
+      // console.log(fileData);
+      const me = this;
+      Object.assign(this.form, taskInfo);
+      if (fileData && Array.isArray(fileData)) {
+        me.imgList = [];
+        me.fileList = [];
+        for (let i = 0, l = fileData.length; i < l; i++) {
+          if (fileData[i].findex == "referencechart") {
+            me.imgList.push(fileData[i].url);
+          } else if (fileData[i].findex == "enclosure") {
+            me.fileList.push({
+              url: fileData[i].url,
+              fileName: fileData[i].fileName
+            });
+          }
         }
+      }
+      this.onload && this.onload(taskInfo, fileData);
+    },
+    //            handleRemove(file, fileList) {
+    //                console.log(file, fileList);
+    //            },
+    handlePictureCardPreview(index) {
+      this.dialogImageUrl = this.imgList[index];
+      this.dialogVisible = true;
+      this.dialogImageIndex = index;
+    },
+    imgPreviewArrow(state) {
+      const length = this.imgList.length;
+      if (state == -1) {
+        if (this.imgList[this.dialogImageIndex - 1]) {
+          this.dialogImageUrl = this.imgList[--this.dialogImageIndex];
+        } else {
+          this.dialogImageIndex = length - 1;
+          this.dialogImageUrl = this.imgList[this.dialogImageIndex];
+        }
+      } else {
+        if (this.imgList[this.dialogImageIndex + 1]) {
+          this.dialogImageUrl = this.imgList[++this.dialogImageIndex];
+        } else {
+          this.dialogImageIndex = 0;
+          this.dialogImageUrl = this.imgList[this.dialogImageIndex];
+        }
+      }
+    },
+    downloadFile(url, fileName) {
+      var a = document.createElement("a");
+      a.href = url;
+      a.download = fileName;
+      var ev = document.createEvent("MouseEvents");
+      ev.initEvent("click", false, true);
+      a.dispatchEvent(ev);
+    },
+    //            handleChange(file, fileList) {
+    //                this.fileList3 = fileList.slice(-3);
+    //            },
+    //            handleAvatarSuccess(res, file) {
+    //                this.imageUrl = URL.createObjectURL(file.raw);
+    //            },
+    //            beforeAvatarUpload(file) {
+    //                const isJPG = file.type === 'image/jpeg';
+    //                const isLt2M = file.size / 1024 / 1024 < 2;
+    //
+    //                if (!isJPG) {
+    //                    this.$message.error('上传头像图片只能是 JPG 格式!');
+    //                }
+    //                if (!isLt2M) {
+    //                    this.$message.error('上传头像图片大小不能超过 2MB!');
+    //                }
+    //                return isJPG && isLt2M;
+    //            }
+    async toProview() {
+      let loginUser = JSON.parse(localStorage.LoginUser || "{}");
+      let fileData = this.$refs.tsInfo.fileData;
+      console.log(JSON.parse(JSON.stringify(fileData)));
+      let res = await getFile("checked", this.$route.query.id);
+      this.$router.push({
+        name: `${loginUser.userType}_${{ B: "DTaskCheck" }[
+          loginUser.userType
+        ] || "Proview"}`,
+        query: { fileVersion: res.data.fileVersion, url: res.data.url }
+      });
     }
-}
+  }
+};
 </script>

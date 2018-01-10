@@ -382,11 +382,6 @@ export default {
     },
     //新增作品集
     async addWork() {
-      this.loading2 = true;
-      const me = this;
-      let param = Object.assign({}, this.workForm);
-      param.worksEndTime = formatTime(param.worksEndTime);
-
       if (!this.workForm.worksName) {
         this.$message.warning(this.$lang("请输入作品名称"));
       } else if (!this.workForm.worksEndTime) {
@@ -396,6 +391,11 @@ export default {
       } else if (!this.$refs.EnclosureFile.uploadFiles.length) {
         this.$message.warning(this.$lang("请上传附件"));
       } else {
+        this.loading2 = true;
+        const me = this;
+        let param = Object.assign({}, this.workForm);
+        param.worksEndTime = formatTime(param.worksEndTime);
+
         const res = await SaveWorkCollectionV(param);
         if (res.success) {
           this.workList.push(res.data);

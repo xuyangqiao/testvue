@@ -41,13 +41,13 @@
                             {{$lang('年')}}
                         </el-col>
                     </el-form-item>
-                    <el-form-item :label="$lang('营业执照所在地')" required>
+                    <el-form-item :label="$lang('营业执照所在地')" prop="compAddr1" required>
                         <el-col :span="12">
                             <el-cascader :options="options" v-model="form2.compAddr1" @change="handleChange1">
                             </el-cascader>
                         </el-col>
                     </el-form-item>
-                    <el-form-item :label="$lang('常用地址')" required>
+                    <el-form-item :label="$lang('常用地址')" prop="compAddr2" required>
                         <el-col :span="10">
                             <el-cascader expand-trigger="hover" :options="options" v-model="form2.compAddr2" @change="handleChange2">
                             </el-cascader>
@@ -57,7 +57,7 @@
                         </el-col>
                     </el-form-item>
 
-                    <el-form-item :label="$lang('营业范围')" required>
+                    <el-form-item :label="$lang('营业范围')" prop="licenseRange" required>
                         <el-col :span="24">
                             <el-input type="textarea" v-model="form2.licenseRange" :rows="4" :placeholder="$lang('请输入营业范围')"></el-input>
                         </el-col>
@@ -128,6 +128,10 @@ export default {
       licenseImgName: "",
       rules: {
         name: [{ validator: this.validateName, trigger: "blur" }],
+        licenseRange: [{ required: true, message: "请输入营业范围", trigger: "blur" }],
+        compAddr1: [{ validator: this.validateCompAddr1, trigger: "blur" }],
+        compAddr2: [{ validator: this.validateCompAddr2, trigger: "blur" }],
+        address: [{ validator: this.validateAddress, trigger: "blur" }],
         licenseNum: [{ validator: this.validateLicenseNum, trigger: "blur" }],
         licenseYear: [{ validator: this.validateYear, trigger: "blur" }]
       }
@@ -141,26 +145,40 @@ export default {
   },
   methods: {
     validateName(rule, value, callback) {
-      if (value === "") {
-        callback(new Error($lang("请输入")));
+      if (!value) {
+        callback(new Error($lang("请输入企业名称")));
       } else {
         callback();
       }
     },
     validateYear(rule, value, callback) {
-      if (value === "") {
-        callback(new Error($lang("请输入")));
-      } else if (!Number.isInteger(+value)) {
+      if (!value) {
+        callback(new Error($lang("请输入营业年年限")));
+      } else if (!Number.isInteger(value)) {
         callback(new Error($lang("请输入正确的格式")));
       } else {
         callback();
       }
     },
     validateLicenseNum(rule, value, callback) {
-      if (value === "") {
-        callback(new Error($lang("请输入")));
+      if (!value) {
+        callback(new Error($lang("请输入营业执照号")));
       } else if (!/^[0-9|A-Z]{18}$/.test(value)) {
         callback(new Error($lang("18位数字和大写字母组合")));
+      } else {
+        callback();
+      }
+    },
+    validateCompAddr1(rule, value, callback) {
+      if (!value.length) {
+        callback(new Error($lang("请选择营业执照所在地")));
+      } else {
+        callback();
+      }
+    },
+    validateCompAddr2(rule, value, callback) {
+      if (!value.length || !this.form2.address) {
+        callback(new Error($lang("请选择常用地址并且输入详细地址")));
       } else {
         callback();
       }

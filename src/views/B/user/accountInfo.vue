@@ -21,17 +21,17 @@
             <!-- 账户管理-编辑 -->
             <div class="bus-account-edit" v-if="editCom" v-loading="loading">
                 <el-form ref="form2" :model="form2" label-width="110px" :rules="rules">
-                    <el-form-item :label="$lang('企业名称')" prop="name">
+                    <el-form-item :label="$lang('企业名称')" prop="name" required>
                         <el-col :span="12">
                             <el-input v-model="form2.name" :placeholder="$lang('请输入企业名称')"></el-input>
                         </el-col>
                     </el-form-item>
-                    <el-form-item :label="$lang('营业执照号')" prop="licenseNum">
+                    <el-form-item :label="$lang('营业执照号')" prop="licenseNum" required>
                         <el-col :span="12">
                             <el-input v-model="form2.licenseNum" :placeholder="$lang('请输入营业执照注册号/统一社会信用号码')"></el-input>
                         </el-col>
                     </el-form-item>
-                    <el-form-item :label="$lang('营业年限')" prop="licenseYear">
+                    <el-form-item :label="$lang('营业年限')" prop="licenseYear" required>
                         <el-col :span="12">
                             <el-input v-model="form2.licenseYear" :placeholder="$lang('请输入营业年限')"></el-input>
                         </el-col>
@@ -39,7 +39,7 @@
                             {{$lang('年')}}
                         </el-col>
                     </el-form-item>
-                    <el-form-item :label="$lang('营业执照所在地')">
+                    <el-form-item :label="$lang('营业执照所在地')" prop="compAddr1" required>
                         <el-col :span="12">
                             <el-cascader
                                 :options="options"
@@ -48,7 +48,7 @@
                             </el-cascader>
                         </el-col>
                     </el-form-item>
-                    <el-form-item :label="$lang('常用地址')">
+                    <el-form-item :label="$lang('常用地址')" prop="compAddr2" required>
                         <el-col :span="10">
                             <el-cascader
                                 expand-trigger="hover"
@@ -62,12 +62,12 @@
                         </el-col>
                     </el-form-item>
 
-                    <el-form-item :label="$lang('营业范围')">
+                    <el-form-item :label="$lang('营业范围')" prop="licenseRange" required>
                         <el-col :span="24">
                             <el-input type="textarea" v-model="form2.licenseRange" :rows="4" :placeholder="$lang('请输入营业范围')"></el-input>
                         </el-col>
                     </el-form-item>
-                    <el-form-item :label="$lang('营业执照复印件')">
+                    <el-form-item :label="$lang('营业执照复印件')" required>
                         <el-col :span="12">
                             <el-upload
                                 class="avatar-uploader width-100"
@@ -143,6 +143,10 @@ export default {
       licenseImgName: "",
       rules: {
         name: [{ validator: this.validateName, trigger: "blur" }],
+        licenseRange: [{ required: true, message: "请输入营业范围", trigger: "blur" }],
+        compAddr1: [{ validator: this.validateCompAddr1, trigger: "blur" }],
+        compAddr2: [{ validator: this.validateCompAddr2, trigger: "blur" }],
+        address: [{ validator: this.validateAddress, trigger: "blur" }],
         licenseNum: [{ validator: this.validateLicenseNum, trigger: "blur" }],
         licenseYear: [{ validator: this.validateYear, trigger: "blur" }]
       }
@@ -156,26 +160,40 @@ export default {
   },
   methods: {
     validateName(rule, value, callback) {
-      if (value === "") {
-        callback(new Error($lang("请输入")));
+      if (!value) {
+        callback(new Error($lang("请输入企业名称")));
       } else {
         callback();
       }
     },
     validateYear(rule, value, callback) {
-      if (value === "") {
-        callback(new Error($lang("请输入")));
-      } else if (!Number.isInteger(+value)) {
+      if (!value) {
+        callback(new Error($lang("请输入营业年年限")));
+      } else if (!Number.isInteger(value)) {
         callback(new Error($lang("请输入正确的格式")));
       } else {
         callback();
       }
     },
     validateLicenseNum(rule, value, callback) {
-      if (value === "") {
-        callback(new Error($lang("请输入")));
+      if (!value) {
+        callback(new Error($lang("请输入营业执照号")));
       } else if (!/^[0-9|A-Z]{18}$/.test(value)) {
         callback(new Error($lang("18位数字和大写字母组合")));
+      } else {
+        callback();
+      }
+    },
+    validateCompAddr1(rule, value, callback) {
+      if (!value.length) {
+        callback(new Error($lang("请选择营业执照所在地")));
+      } else {
+        callback();
+      }
+    },
+    validateCompAddr2(rule, value, callback) {
+      if (!value.length || !this.form2.address) {
+        callback(new Error($lang("请选择常用地址并且输入详细地址")));
       } else {
         callback();
       }
