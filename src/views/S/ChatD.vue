@@ -286,7 +286,7 @@ export default {
       if (res.success) {
         this.$message.success(this.$lang("提交验收成功"));
       } else {
-        this.$message.success(this.$lang("提交验收失败"));
+        this.$message.error(res.msg);
       }
     },
     async proview() {
