@@ -53,10 +53,9 @@
                                 </el-form-item>
                                 <el-form-item :label="$lang('贴图属性:')" required>
                                     <el-tree ref="tree" :data="configs.mapAtrr" show-checkbox node-key="id" :props="{
-                                                                                                                                                                                                    children: 'children',
-                                                                                                                                                                                                    label: 'label'
-                                                                                                                                                                                                }">
-                                    </el-tree>
+                                        children: 'children',
+                                        label: 'label'
+                                    }"></el-tree>
                                 </el-form-item>
                                 <el-form-item :label="$lang('模型风格:')" required>
                                     <el-select v-model="form.chartlatFormat" :placeholder="$lang('请选择')" class="select-width-all">
@@ -654,7 +653,7 @@ export default {
       const treenode = this.$refs.tree.getCheckedNodes();
       this.form.chartlatProperty1 = treenode
         .filter(node => !node.children)
-        .map(node => node.id);
+        .map(node => node.label);
 
       const validate = this.validatefn();
       if (!validate) {
@@ -676,7 +675,7 @@ export default {
       const treenode = this.$refs.tree.getCheckedNodes();
       this.form.chartlatProperty1 = treenode
         .filter(node => !node.children)
-        .map(node => node.id);
+        .map(node => node.label);
       if (
         this.stage.stageName &&
         this.stage.stageEndTime &&

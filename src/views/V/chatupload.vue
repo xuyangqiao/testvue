@@ -116,7 +116,7 @@
                 </el-form-item>
             </el-form>
             <div slot="footer">
-                <el-button type="primary" @click="acceptance">{{$lang('提交验收')}}</el-button>
+                <el-button type="primary" @click="acceptance" v-if="['5','6'].includes(subTask.state)">{{$lang('提交验收')}}</el-button>
             </div>
         </el-dialog>
     </div>
@@ -278,6 +278,8 @@ export default {
       this.toSubmitUploadShow = false;
       if (res.success) {
         this.$message.success(this.$lang("提交验收成功"));
+      } else {
+        this.$message.success(this.$lang("提交验收失败"));
       }
     },
     async proview() {

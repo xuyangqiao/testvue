@@ -126,7 +126,9 @@ export default {
       }
     },
     keyPress(e) {
-      this.doLogin("loginForm");
+      if (e.key == "Enter") {
+        this.doLogin("loginForm");
+      }
     }
   },
   created() {

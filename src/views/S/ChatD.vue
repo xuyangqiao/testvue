@@ -114,7 +114,7 @@
                 </el-form-item>
             </el-form>
             <div slot="footer">
-                <el-button type="primary" @click="acceptance">{{$lang('提交验收')}}</el-button>
+                <el-button type="primary" @click="acceptance" v-if="['5','6'].includes(subTask.state)">{{$lang('提交验收')}}</el-button>
             </div>
         </el-dialog>
     </div>
@@ -285,12 +285,14 @@ export default {
       this.toSubmitUploadShow = false;
       if (res.success) {
         this.$message.success(this.$lang("提交验收成功"));
+      } else {
+        this.$message.success(this.$lang("提交验收失败"));
       }
     },
     async proview() {
       let res = await getFile("checked", this.$route.query.id);
       this.$router.push({
-        name: "V_Proview",
+        name: "S_Proview",
         query: { fileVersion: res.data.fileVersion, url: res.data.url }
       });
     },
@@ -383,6 +385,7 @@ export default {
         }
         const fileType = file.name.slice(file.name.lastIndexOf("."));
         client.then(oss => {
+          console.log("oss", oss);
           oss
             .multipartUpload(
               `/task/${me.$route.query.id}/${me.$route.query
@@ -390,16 +393,22 @@ export default {
               file,
               {
                 checkpoint: currCheckPoint,
-                progress: function*(progress, point) {
+                *progress(progress, point) {
+                  console.log(1);
                   me.$set(me.progress, index, parseInt(progress * 100));
+                  console.log(2);
                   let localPoint = JSON.parse(localStorage.localPoint);
+                  console.log(3);
                   localPoint[index] = point;
+                  console.log(4);
                   localStorage.localPoint = JSON.stringify(localPoint);
+                  console.log(5);
                   //                                console.log('上传中...', me.progress[index], point);
                 }
               }
             )
             .then(data => {
+              console.log("data", data);
               //                            me.$message(`文件${file.name}上传完成，文件名为${fileName}`);
               me.$set(me.uploading, index, false);
               let localPoint = JSON.parse(localStorage.localPoint);
