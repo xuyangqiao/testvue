@@ -20,7 +20,7 @@ export default {
                 { name: $lang("审核中"), value: [1, 2], color: "li_shz", to: "B-detail" },
                 { name: $lang("未通过"), value: 3, color: "li_shz", to: "B-reject" },
                 { name: $lang("已受理"), value: 4, color: "li_ysl", to: "B_ChatT" },
-                { name: $lang("已完成"), value: 5, color: "li_ywc", to: "B-detail" }
+                { name: $lang("已完成"), value: 5, color: "li_ywc", to: "B_ChatT" }
             ],
             childTasks: [
                 { name: $lang("全部"), value: "", color: "li_dsh" },

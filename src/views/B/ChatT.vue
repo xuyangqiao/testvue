@@ -21,7 +21,7 @@
                                 <div class="flex1">
                                     <div class="box-flex-media-box">
                                         <p class="user-header">
-                                            <img :src="m.url" />
+                                            <img :src="`${m.url}?x-oss-process=image/resize,w_50,h_50`" />
                                         </p>
                                         <p class="name">{{m.projectName}}</p>
                                     </div>
@@ -37,7 +37,7 @@
                             <a href="javascript:;" class="title flex1">
                                 <h4 class="height70">{{$lang('待支付(勾选之后可支付)')}}</h4>
                             </a>
-                            <el-button type="sure" @click="openPayDialog(1)" v-if="getChilds(1).length">{{ parentId?['',$lang('申请支付'),''][bUserType]:$lang('支付') }}</el-button>
+                            <el-button type="sure" @click="openPayDialog(1)" v-if="getChilds(1).length" :disabled="payLoading">{{ parentId?['',$lang('申请支付'),''][bUserType]:$lang('支付') }}</el-button>
                         </div>
                         <ul class="chose-people-ul" v-if="getChilds(1).length">
                             <el-checkbox-group v-model="zhifuIds">
@@ -48,7 +48,7 @@
                                     <div class="flex1">
                                         <div class="box-flex-media-box">
                                             <p class="user-header">
-                                                <img :src="m.url" />
+                                                <img :src="`${m.url}?x-oss-process=image/resize,w_50,h_50`" />
                                             </p>
                                             <p class="name">{{m.projectName}}</p>
                                         </div>
@@ -79,7 +79,7 @@
                                     <div class="flex1">
                                         <div class="box-flex-media-box">
                                             <p class="user-header">
-                                                <img :src="m.url" />
+                                                <img :src="`${m.url}?x-oss-process=image/resize,w_50,h_50`" />
                                             </p>
                                             <p class="name flex1">{{m.projectName}}</p>
                                         </div>
@@ -106,7 +106,7 @@
                                 <div class="flex1">
                                     <div class="box-flex-media-box">
                                         <p class="user-header">
-                                            <img :src="m.url" />
+                                            <img :src="`${m.url}?x-oss-process=image/resize,w_50,h_50`" />
                                         </p>
                                         <p class="name">{{m.projectName}}</p>
                                     </div>
@@ -128,7 +128,7 @@
                                 <div class="flex1">
                                     <div class="box-flex-media-box">
                                         <p class="user-header">
-                                            <img :src="m.url" />
+                                            <img :src="`${m.url}?x-oss-process=image/resize,w_50,h_50`" />
                                         </p>
                                         <p class="name">{{m.projectName}}</p>
                                     </div>
@@ -150,7 +150,7 @@
                                 <div class="flex1">
                                     <div class="box-flex-media-box">
                                         <p class="user-header">
-                                            <img :src="m.url" />
+                                            <img :src="`${m.url}?x-oss-process=image/resize,w_50,h_50`" />
                                         </p>
                                         <p class="name">{{m.projectName}}</p>
                                     </div>
@@ -174,7 +174,7 @@
                                 <div class="flex1">
                                     <div class="box-flex-media-box">
                                         <p class="user-header">
-                                            <img :src="m.url" />
+                                            <img :src="`${m.url}?x-oss-process=image/resize,w_50,h_50`" />
                                         </p>
                                         <p class="name">{{m.projectName}}</p>
                                     </div>
@@ -200,7 +200,7 @@
                                 <div class="flex1">
                                     <div class="box-flex-media-box">
                                         <p class="user-header">
-                                            <img :src="m.url" />
+                                            <img :src="`${m.url}?x-oss-process=image/resize,w_50,h_50`" />
                                         </p>
                                         <p class="name">{{m.projectName}}</p>
                                     </div>
@@ -221,7 +221,7 @@
                                 <div class="flex1">
                                     <div class="box-flex-media-box">
                                         <p class="user-header">
-                                            <img :src="m.url" />
+                                            <img :src="`${m.url}?x-oss-process=image/resize,w_50,h_50`" />
                                         </p>
                                         <p class="name">{{m.projectName}}</p>
                                     </div>
@@ -376,6 +376,7 @@ export default {
       msg: "正在加载中...",
       WXPaying: false,
       userId: "",
+      payLoading: false,
 
       bUserType: localStorage.LoginUser
         ? JSON.parse(localStorage.LoginUser).bUserType
@@ -562,6 +563,7 @@ export default {
         .catch(data => {});
     },
     async openPayDialog(state) {
+      this.payLoading = true;
       const me = this;
       if (me.zhifuIds.length == 0) {
         me.$message("选择为空");
@@ -573,6 +575,7 @@ export default {
         me.$message({ type: "error", message: data.msg });
         return false;
       }
+      this.payLoading = false;
       //获取余额
       const userId = getUser().userId;
       const moneyData = await getMoney({ userId });

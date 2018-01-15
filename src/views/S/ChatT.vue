@@ -22,7 +22,7 @@
                                 <div class="flex1">
                                     <div class="box-flex-media-box">
                                         <p class="user-header">
-                                            <img :src="m.url" />
+                                            <img :src="`${m.url}?x-oss-process=image/resize,w_50,h_50`" />
                                         </p>
                                         <p class="name">{{m.projectName}}</p>
                                     </div>
@@ -47,7 +47,7 @@
                                     <div class="flex1">
                                         <div class="box-flex-media-box">
                                             <p class="user-header">
-                                                <img :src="m.url" />
+                                                <img :src="`${m.url}?x-oss-process=image/resize,w_50,h_50`" />
                                             </p>
                                             <p class="name flex1">{{m.projectName}}</p>
                                         </div>
@@ -72,7 +72,7 @@
                                 <div class="flex1">
                                     <div class="box-flex-media-box">
                                         <p class="user-header">
-                                            <img :src="m.url" />
+                                            <img :src="`${m.url}?x-oss-process=image/resize,w_50,h_50`" />
                                         </p>
                                         <p class="name">{{m.projectName}}</p>
                                     </div>
@@ -95,7 +95,7 @@
                                 <div class="flex1">
                                     <div class="box-flex-media-box">
                                         <p class="user-header">
-                                            <img :src="m.url" />
+                                            <img :src="`${m.url}?x-oss-process=image/resize,w_50,h_50`" />
                                         </p>
                                         <p class="name">{{m.projectName}}</p>
                                     </div>
@@ -119,7 +119,7 @@
                                 <div class="flex1">
                                     <div class="box-flex-media-box">
                                         <p class="user-header">
-                                            <img :src="m.url" />
+                                            <img :src="`${m.url}?x-oss-process=image/resize,w_50,h_50`" />
                                         </p>
                                         <p class="name">{{m.projectName}}</p>
                                     </div>
@@ -141,7 +141,7 @@
                                 <div class="flex1">
                                     <div class="box-flex-media-box">
                                         <p class="user-header">
-                                            <img :src="m.url" />
+                                            <img :src="`${m.url}?x-oss-process=image/resize,w_50,h_50`" />
                                         </p>
                                         <p class="name">{{m.projectName}}</p>
                                     </div>
@@ -167,7 +167,7 @@
                                 <div class="flex1">
                                     <div class="box-flex-media-box">
                                         <p class="user-header">
-                                            <img :src="m.url" />
+                                            <img :src="`${m.url}?x-oss-process=image/resize,w_50,h_50`" />
                                         </p>
                                         <p class="name">{{m.projectName}}</p>
                                     </div>
@@ -188,7 +188,7 @@
                                 <div class="flex1">
                                     <div class="box-flex-media-box">
                                         <p class="user-header">
-                                            <img :src="m.url" />
+                                            <img :src="`${m.url}?x-oss-process=image/resize,w_50,h_50`" />
                                         </p>
                                         <p class="name">{{m.projectName}}</p>
                                     </div>
@@ -209,7 +209,7 @@
                                 <div class="flex1">
                                     <div class="box-flex-media-box">
                                         <p class="user-header">
-                                            <img :src="m.url" />
+                                            <img :src="`${m.url}?x-oss-process=image/resize,w_50,h_50`" />
                                         </p>
                                         <p class="name">{{m.projectName}}</p>
                                     </div>

@@ -529,7 +529,7 @@ export default {
       let file = this.selectedFile,
         version = this.form.fileVersion,
         path = this.sourcePath,
-        findex = this.subTask.state >= 7 ? "final" : "checked";
+        findex = "checked";
       if (!version) {
         this.$message.warning($lang("请先选择"));
       } else if (version == "__path__" ? !path : !file) {

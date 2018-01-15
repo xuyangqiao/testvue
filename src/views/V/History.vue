@@ -1,7 +1,7 @@
 <template>
     <div class="history-download">
         <div style="padding: 0 50px">
-            <el-button @click="downloadSelected" class="download-selected">{{$lang('下载选中')}}</el-button>
+            <!-- <el-button @click="downloadSelected" class="download-selected">{{$lang('下载选中')}}</el-button> -->
             <h1>{{$lang('历史文件')}}</h1>
         </div>
 

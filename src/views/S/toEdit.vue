@@ -1,5 +1,5 @@
 <template>
-  <TInfo class="toedit" :onload="onTInfoLoad">
+  <TInfo class="toedit" :tid="$route.query.taskId" :onload="onTInfoLoad">
     <div slot="footer" class="bt-dashed">
       <div class="set-btn-wrap bt-dashed" style='text-align: left;'>
         <el-button type="sure" @click="dialogVisible=true">{{$lang('修改价格')}}</el-button>
@@ -159,12 +159,13 @@ export default {
     }
   },
   async mounted() {
-    const id = this.$route.query.id;
+    const id = this.$route.query.taskId;
     const res = await ChildTaskList(id);
 
     if (res.success) {
       this.list = res.data ? res.data : [];
     } else {
+      console.log("error", res.msg);
       this.$message.warning(res.msg);
     }
   }
