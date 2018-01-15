@@ -159,7 +159,7 @@ export default {
     }
   },
   async mounted() {
-    const id = this.$route.query.taskId;
+    const id = this.$route.query.taskId || this.$route.query.id;
     const res = await ChildTaskList(id);
 
     if (res.success) {
