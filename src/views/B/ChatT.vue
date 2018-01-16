@@ -599,7 +599,7 @@ export default {
     toRedirect(name, id) {
       this.$router.push({ name, query: { id } });
     },
-    async downloadLastFile() {
+    async downloadLastFile(id) {
       //   //"TaskStage-25ec6ce178acacaf"
       //   const me = this;
       //   const taskData = await ChildTaskInfo(id);
@@ -630,16 +630,22 @@ export default {
       //   ev.initEvent("click", false, true);
       //   a.dispatchEvent(ev);
       //   await downloaded(this.$route.query.id);
-      let res = await getFile("final", this.$route.query.id);
+      let res = await getFile("final", id);
 
-      var a = document.createElement("a");
-      a.href = res.data.url;
-      a.download = res.data.fileName;
-      var ev = document.createEvent("MouseEvents");
-      ev.initEvent("click", false, true);
-      a.dispatchEvent(ev);
+      if (res.success) {
+        var a = document.createElement("a");
+        a.href = res.data.url;
+        a.download = res.data.fileName;
+        var ev = document.createEvent("MouseEvents");
+        ev.initEvent("click", false, true);
+        a.dispatchEvent(ev);
 
-      await downloaded(this.$route.query.id);
+        await downloaded(id);
+      } else {
+
+        res.msg && this.$message.error(res.msg);
+
+      }
     }
   }
 };

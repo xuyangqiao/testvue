@@ -56,7 +56,7 @@ export default {
     data() {
         return {
             loading: false,
-            tab: 'system',
+            tab: 'person',
             page: {
                 system: {
                     index: 1,

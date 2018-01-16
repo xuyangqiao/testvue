@@ -257,7 +257,7 @@
                                 <li class="bpd-li box-flex-media-box">
                                     <div class="flex1">
                                         <div class="box-flex-media-box">
-                                            <p class="user-header"><img :src="bill.subTasks[0].url||''" /></p>
+                                            <p class="user-header"><img :src="`${bill.subTasks[0].url||''}?x-oss-process=image/resize,w_50`" /></p>
                                             <p class="name flex1" @click="toTaskDetail(bill.subTasks[0])">{{bill.subTasks[0].projectName}}</p>
                                         </div>
                                     </div>
@@ -268,7 +268,7 @@
                                 <li class="bpd-li box-flex-media-box">
                                     <div class="flex1">
                                         <div class="box-flex-media-box">
-                                            <p class="user-header"><img :src="item.url||''" /></p>
+                                            <p class="user-header"><img :src="`${item.url||''}?x-oss-process=image/resize,w_50`" /></p>
                                             <p class="name flex1" @click="toTaskDetail(item)">{{item.projectName}}</p>
                                         </div>
                                     </div>
@@ -321,7 +321,7 @@
                                 <li class="bpd-li box-flex-media-box">
                                     <div class="flex1">
                                         <div class="box-flex-media-box">
-                                            <p class="user-header"><img :src="bill.subTasks[0].url||''" /></p>
+                                            <p class="user-header"><img :src="`${bill.subTasks[0].url||''}?x-oss-process=image/resize,w_50`" /></p>
                                             <p class="name flex1" @click="toTaskDetail(bill.subTasks[0])">{{bill.subTasks[0].projectName}}</p>
                                         </div>
                                     </div>
@@ -332,7 +332,7 @@
                                 <li class="bpd-li box-flex-media-box">
                                     <div class="flex1">
                                         <div class="box-flex-media-box">
-                                            <p class="user-header"><img :src="item.url||''" /></p>
+                                            <p class="user-header"><img :src="`${item.url||''}?x-oss-process=image/resize,w_50`" /></p>
                                             <p class="name flex1" @click="toTaskDetail(item)">{{item.projectName}}</p>
                                         </div>
                                     </div>
@@ -383,7 +383,7 @@
                                 <li class="bpd-li box-flex-media-box">
                                     <div class="flex1">
                                         <div class="box-flex-media-box">
-                                            <p class="user-header"><img :src="bill.subTasks[0].url||''" /></p>
+                                            <p class="user-header"><img :src="`${bill.subTasks[0].url||''}?x-oss-process=image/resize,w_50`" /></p>
                                             <p class="name flex1" @click="toTaskDetail(bill.subTasks[0])">{{bill.subTasks[0].projectName}}</p>
                                         </div>
                                     </div>
@@ -394,7 +394,7 @@
                                 <li class="bpd-li box-flex-media-box">
                                     <div class="flex1">
                                         <div class="box-flex-media-box">
-                                            <p class="user-header"><img :src="item.url||''" /></p>
+                                            <p class="user-header"><img :src="`${item.url||''}?x-oss-process=image/resize,w_50`" /></p>
                                             <p class="name flex1" @click="toTaskDetail(item)">{{item.projectName}}</p>
                                         </div>
                                     </div>
@@ -553,562 +553,629 @@
 </template>
 
 <script>
-import { addRecharge, getAliapyInfo, createWXPayOrder, checkByOrderId, getMoney, cancelOrder, addAtms, balancePay } from '@/apis/money'
-import { getUser } from '@/apis/storage'
-import { atmsList, rechargeList, orderList, recordList } from '@/apis/person'
-import { formatNumber } from '@/apis/util'
-import axios from 'axios'
+import {
+  addRecharge,
+  getAliapyInfo,
+  createWXPayOrder,
+  checkByOrderId,
+  getMoney,
+  cancelOrder,
+  addAtms,
+  balancePay
+} from "@/apis/money";
+import { getUser } from "@/apis/storage";
+import { atmsList, rechargeList, orderList, recordList } from "@/apis/person";
+import { formatNumber } from "@/apis/util";
+import axios from "axios";
 
 export default {
-    data() {
-        return {
-            userId: "",
-            loading1: false,
-            loading2: false,
-            collapse: [],
-            dialogVisible: false,
-            nextTo: false,
-            navIndex: 1,//总nav
-            operateType: "index",//资金页操作类型
-            billIndex: 1,//账单页tab
-            chargeType: 1,//充值方式
-            cashType: 1,//提现方式
-            chargeForm: { money: "" },
-            cashForm: {
-                withdrawalsMoney: "",
-                withdrawalsName: "",
-                withdrawalsAlipayNum: "",
-                withdrawalsBankName: "",
-                withdrawalsBankNum: ""
-            },
-            orderIndex: 1,//支付管理tab
-            billTable11: [],//流水1
-            billTable12: [],//流水2
-            billTable13: [],//流水3
-            billTable14: [],//流水4
-            billTable21: [],//支付管理
-            billTable22: [],//支付管理
-            billTable23: [],//支付管理
-            billTable3: [],//支付列表
-            billTable4: [],//提现列表
-            //分页参数
-            pagiOpt11: {
-                total: 0,
-                page: 1,
-                row: 5
-            },
-            pagiOpt12: {
-                total: 0,
-                page: 1,
-                row: 5
-            },
-            pagiOpt13: {
-                total: 0,
-                page: 1,
-                row: 5
-            },
-            pagiOpt14: {
-                total: 0,
-                page: 1,
-                row: 5
-            },
-            pagiOpt21: {
-                total: 0,
-                page: 1,
-                row: 6
-            },
-            pagiOpt22: {
-                total: 0,
-                page: 1,
-                row: 6
-            },
-            pagiOpt23: {
-                total: 0,
-                page: 1,
-                row: 6
-            },
-            pagiOpt3: {
-                total: 0,
-                page: 1,
-                row: 5
-            },
-            pagiOpt4: {
-                total: 0,
-                page: 1,
-                row: 5
-            },
-            chargeRules: {
-                money: [{ validator: this.validateMoney, trigger: 'blur' }],
-            },
-            cashRules: {
-                withdrawalsMoney: [{ validator: this.validateMoney, trigger: 'blur' }],
-                withdrawalsName: [{ validator: this.validateName, trigger: 'blur' }],
-            },
-            totalMoney: 0,
-            WXPayOrderId: "",
-            WXPayImgShow: false,
-            WXImgSrc: "",
-            WXPayTimes: "",
-            payDialogVisible: false,
-            payDialogTotal: 0,
-            payDialogOrderId: "",
-            payDialogCashType: 1
+  data() {
+    return {
+      userId: "",
+      loading1: false,
+      loading2: false,
+      collapse: [],
+      dialogVisible: false,
+      nextTo: false,
+      navIndex: 1, //总nav
+      operateType: "index", //资金页操作类型
+      billIndex: 1, //账单页tab
+      chargeType: 1, //充值方式
+      cashType: 1, //提现方式
+      chargeForm: { money: "" },
+      cashForm: {
+        withdrawalsMoney: "",
+        withdrawalsName: "",
+        withdrawalsAlipayNum: "",
+        withdrawalsBankName: "",
+        withdrawalsBankNum: ""
+      },
+      orderIndex: 1, //支付管理tab
+      billTable11: [], //流水1
+      billTable12: [], //流水2
+      billTable13: [], //流水3
+      billTable14: [], //流水4
+      billTable21: [], //支付管理
+      billTable22: [], //支付管理
+      billTable23: [], //支付管理
+      billTable3: [], //支付列表
+      billTable4: [], //提现列表
+      //分页参数
+      pagiOpt11: {
+        total: 0,
+        page: 1,
+        row: 5
+      },
+      pagiOpt12: {
+        total: 0,
+        page: 1,
+        row: 5
+      },
+      pagiOpt13: {
+        total: 0,
+        page: 1,
+        row: 5
+      },
+      pagiOpt14: {
+        total: 0,
+        page: 1,
+        row: 5
+      },
+      pagiOpt21: {
+        total: 0,
+        page: 1,
+        row: 6
+      },
+      pagiOpt22: {
+        total: 0,
+        page: 1,
+        row: 6
+      },
+      pagiOpt23: {
+        total: 0,
+        page: 1,
+        row: 6
+      },
+      pagiOpt3: {
+        total: 0,
+        page: 1,
+        row: 5
+      },
+      pagiOpt4: {
+        total: 0,
+        page: 1,
+        row: 5
+      },
+      chargeRules: {
+        money: [{ validator: this.validateMoney, trigger: "blur" }]
+      },
+      cashRules: {
+        withdrawalsMoney: [{ validator: this.validateMoney, trigger: "blur" }],
+        withdrawalsName: [{ validator: this.validateName, trigger: "blur" }]
+      },
+      totalMoney: 0,
+      WXPayOrderId: "",
+      WXPayImgShow: false,
+      WXImgSrc: "",
+      WXPayTimes: "",
+      payDialogVisible: false,
+      payDialogTotal: 0,
+      payDialogOrderId: "",
+      payDialogCashType: 1
+    };
+  },
+  created() {
+    this.userId = this.$route.query.userId || getUser().userId;
+    this.navIndex = this.$route.query.index || "1";
+    this.getTotalMoney();
+    this.recordList($lang("支付佣金"), 1); //流水
+    this.orderList("-1", 1); //支付管理
+    this.rechargeList(); //订单充值
+    this.atmsList(); //提现订单
+  },
+  mounted() {
+    const me = this;
+    const state = me.$route.query.state; //加个页面状态，1：充值成功返回
+  },
+  methods: {
+    setCollapse(index) {
+      this.$set(this.collapse, index, !this.collapse[index]);
+    },
+    validateMoney(rule, value, callback) {
+      if (value === "") {
+        callback(new Error($lang("金额不能为空")));
+      } else if (!/^[+]?[\d]+(([\.]{1}[\d]+)|([\d]*))$/.test(value)) {
+        callback(new Error($lang("请输入正确的金额")));
+      } else {
+        callback();
+      }
+    },
+    validateName(rule, value, callback) {
+      if (value === "") {
+        callback(new Error($lang("账户名不能为空")));
+      } else {
+        callback();
+      }
+    },
+    formatNum(str) {
+      return formatNumber(str);
+    },
+    //我的资金
+    async getTotalMoney() {
+      const me = this;
+      let userId = me.userId;
+      const moneyData = await getMoney({ userId });
+      if (moneyData.success) me.totalMoney = moneyData.data.money;
+    },
+    doSubmit(formName) {
+      const me = this;
+      me.$refs[formName].validate(valid => {
+        if (valid) {
+          if (formName == "cashForm") {
+            me.loading2 = true;
+            me.withdrawals("index");
+          } else {
+            me.loading1 = true;
+            me.recharge("index");
+          }
+        } else {
+          return false;
         }
+      });
     },
-    created() {
-        this.userId = this.$route.query.userId || getUser().userId;
-        this.navIndex = this.$route.query.index || '1';
-        this.getTotalMoney();
-        this.recordList($lang('支付佣金'), 1);//流水
-        this.orderList('-1', 1);//支付管理
-        this.rechargeList();//订单充值
-        this.atmsList();//提现订单
+    WXPayImgClose() {
+      const me = this;
+      me
+        .$confirm($lang("确认取消支付？"))
+        .then(data => {
+          if (data == "confirm") {
+            me.WXImgSrc = "";
+            me.WXPayOrderId = "";
+            me.WXPayImgShow = false;
+            clearInterval(me.WXPayTimes);
+          }
+        })
+        .catch(data => {});
     },
-    mounted() {
-        const me = this;
-        const state = me.$route.query.state;//加个页面状态，1：充值成功返回
+    async queryWXPayState() {
+      const me = this;
+      const orderId = me.WXPayOrderId;
+      const WXPayState = await checkByOrderId({ orderId, type: 2 });
+      if (WXPayState.data.state == "2") {
+        me.$message.success($lang("支付成功"));
+        clearInterval(me.WXPayTimes);
+        me.WXPayImgShow = false;
+        me.WXImgSrc = "";
+        me.operateType = "index";
+        me.getTotalMoney();
+        me.rechargeList();
+      } else if (WXPayState.data.state == "3") {
+        me.$message.error($lang("支付失败"));
+        clearInterval(me.WXPayTimes);
+        me.WXPayImgShow = false;
+        me.WXImgSrc = "";
+        me.operateType = "index";
+      }
     },
-    methods: {
-        setCollapse(index) {
-            this.$set(this.collapse, index, !this.collapse[index])
-        },
-        validateMoney(rule, value, callback) {
-            if (value === '') {
-                callback(new Error($lang('金额不能为空')));
-            } else if (!(/^[+]?[\d]+(([\.]{1}[\d]+)|([\d]*))$/.test(value))) {
-                callback(new Error($lang('请输入正确的金额')));
-            } else {
-                callback();
-            }
-        },
-        validateName(rule, value, callback) {
-            if (value === '') {
-                callback(new Error($lang('账户名不能为空')));
-            } else {
-                callback();
-            }
-        },
-        formatNum(str) {
-            return formatNumber(str);
-        },
-        //我的资金
-        async getTotalMoney() {
-            const me = this;
-            let userId = me.userId;
-            const moneyData = await getMoney({ userId });
-            if (moneyData.success) me.totalMoney = moneyData.data.money;
-        },
-        doSubmit(formName) {
-            const me = this;
-            me.$refs[formName].validate((valid) => {
-                if (valid) {
-                    if (formName == "cashForm") {
-                        me.loading2 = true;
-                        me.withdrawals('index');
-                    } else {
-                        me.loading1 = true;
-                        me.recharge('index');
-                    }
-                } else {
-                    return false;
-                }
-            })
-        },
-        WXPayImgClose() {
-            const me = this;
-            me.$confirm($lang('确认取消支付？')).then(data => {
-                if (data == 'confirm') {
-                    me.WXImgSrc = "";
-                    me.WXPayOrderId = "";
-                    me.WXPayImgShow = false;
-                    clearInterval(me.WXPayTimes);
-                }
-            }).catch(data => {
-
-            });
-        },
-        async queryWXPayState() {
-            const me = this;
-            const orderId = me.WXPayOrderId;
-            const WXPayState = await checkByOrderId({ orderId, type: 2 });
-            if (WXPayState.data.state == "2") {
-                me.$message.success($lang("支付成功"));
-                clearInterval(me.WXPayTimes);
-                me.WXPayImgShow = false;
-                me.WXImgSrc = "";
-                me.operateType = "index";
-                me.getTotalMoney();
-                me.rechargeList();
-            } else if (WXPayState.data.state == "3") {
-                me.$message.error($lang('支付失败'));
-                clearInterval(me.WXPayTimes);
-                me.WXPayImgShow = false;
-                me.WXImgSrc = "";
-                me.operateType = "index";
-            }
-        },
-        async recharge(index) {
-            const me = this;
-            const money = me.chargeForm.money;
-            if (money == 0 || money == "") {
-                me.$message({ type: 'warning', message: $lang('金额不能为空，也不能为0') });
-                return
-            }
-            if (!/^\d+(\.\d{2})?$/.test(money * 1)) {
-                me.$message.error($lang('价格格式不对，请输入正确的价格'));
-                return;
-            }
-            const chargeType = me.chargeType;
-            const rechangeData = await addRecharge({ money });
-            if (!rechangeData.success) {
-                me.$message({ type: 'error', message: rechangeData.msg });
-                return
-            }
-            if (chargeType == 1) {//支付宝
-                const alipayData = await getAliapyInfo({ outTradeNo: rechangeData.data.orderId, subject: $lang("用户充值：") + rechangeData.data.orderId, totalFee: rechangeData.data.money, body: `2&&${location.href}` });
-                let div = document.createElement("div");
-                div.innerHTML = alipayData.data;
-                //"<form id="alipaysubmit" name="alipaysubmit" action="https://mapi.alipay.com/gateway.do?_input_charset=utf-8" method="get"><input type="hidden" name="_input_charset" value="utf-8"/><input type="hidden" name="subject" value="用户充值：1707131107009671cd1020b5user-1"/><input type="hidden" name="sign" value="22b97558611e4aec5ae4808bd8f73ab7"/><input type="hidden" name="notify_url" value="http://combo.xin:80/vswork/api/alipay/notify_url"/><input type="hidden" name="body" value="2"/><input type="hidden" name="payment_type" value="1"/><input type="hidden" name="out_trade_no" value="1707131107009671cd1020b5user-1"/><input type="hidden" name="partner" value="2088811329319614"/><input type="hidden" name="service" value="create_direct_pay_by_user"/><input type="hidden" name="total_fee" value="111"/><input type="hidden" name="app_pay" value="Y"/><input type="hidden" name="return_url" value="http://combo.xin:80/vswork/api/alipay/return_url"/><input type="hidden" name="sign_type" value="MD5"/><input type="hidden" name="seller_id" value="2088811329319614"/><input type="submit" value="确认" style="display:none;"></form>"
-                document.body.appendChild(div);
-                document.forms['alipaysubmit'].submit();
-            } else if (chargeType == 2) {//微信
-                me.loading1 = false;
-                me.WXPayImgShow = true;
-                me.WXImgSrc = `${axios.defaults.baseURL}/wxpay/createOrder?orderId=${rechangeData.data.orderId}&attach=2`;
-                me.WXPayOrderId = rechangeData.data.orderId;
-                me.WXPayTimes = setInterval(me.queryWXPayState, 5000);
-            }
-        },
-        async withdrawals(index) {
-            const me = this;
-            let atmType = me.cashType,
-                money = me.cashForm.withdrawalsMoney,
-                name = me.cashForm.withdrawalsName,
-                cardNum,
-                bankName = "";
-            if (me.cashType == 1) {//支付宝提现
-                cardNum = me.cashForm.withdrawalsAlipayNum;
-            } else if (me.cashType == 2) {//银联提现
-                cardNum = me.cashForm.withdrawalsBankNum;
-                bankName = me.cashForm.withdrawalsBankName;
-            }
-            const atomData = await addAtms({ atmType, money, name, cardNum, bankName });
-            this.loading2 = false;
-            if (atomData.success) {
-                me.$message($lang("提现成功"));
-                me.getTotalMoney();
-                me.operateType = index;
-                me.atmsList();
-            } else {
-                me.$message.error(atomData.msg)
-            }
-        },
-        //我的账单流水
-        async recordList(type, index) {
-            this.billIndex = index;
-            const res = await recordList({ type: type, page: this['pagiOpt1' + index].page, row: this['pagiOpt1' + index].row })
-            if (res.success) {
-                this['billTable1' + index] = res.data.list;
-                this['pagiOpt1' + index].total = res.data.total;
-            } else {
-                this.$message.error(res.msg);
-            }
-        },
-        sizeChange11(i) {
-            this.pagiOpt11.row = i;
-            this.recordList($lang('支付佣金'), 1);
-        },
-        currentChange11(i) {
-            this.pagiOpt11.page = i;
-            this.recordList($lang('支付佣金'), 1);
-        },
-        sizeChange12(i) {
-            this.pagiOpt12.row = i;
-            this.recordList($lang('任务退款'), 2);
-        },
-        currentChange12(i) {
-            this.pagiOpt12.page = i;
-            this.recordList($lang('任务退款'), 2);
-        },
-        sizeChange13(i) {
-            this.pagiOpt13.row = i;
-            this.recordList($lang('充值'), 3);
-        },
-        currentChange13(i) {
-            this.pagiOpt13.page = i;
-            this.recordList($lang('充值'), 3);
-        },
-        sizeChange14(i) {
-            this.pagiOpt14.row = i;
-            this.recordList($lang('提现'), 4);
-        },
-        currentChange14(i) {
-            this.pagiOpt14.page = i;
-            this.recordList($lang('提现'), 4);
-        },
-        toTaskDetail(item) {
-            if (item.id) {
-                this.$router.push({ name: "B_TaskChildDetail", query: { id: item.id } })
-            } else {
-                this.$message($lang('任务不存在'));
-            }
-        },
-        //支付管理
-        async orderList(state, index) {
-            this.orderIndex = index
-            const res = await orderList({ state: state, page: this['pagiOpt2' + index].page, row: this['pagiOpt2' + index].row })
-            if (res.success) {
-                this['billTable2' + index] = res.data.list;
-                this['pagiOpt2' + index].total = res.data.total;
-            } else {
-                this.$message.error(res.msg);
-            }
-        },
-        getState5(i) {
-            let state = ''
-            switch (i) {
-                case '1':
-                    state = $lang('申请支付中');
-                    break;
-                case '2':
-                    state = $lang('支付成功');
-                    break;
-                case '3':
-                    state = $lang('支付失败');
-                    break;
-                case '4':
-                    state = $lang('废弃申请');
-                    break;
-                default:
-                    state = $lang('申请支付中');
-            }
-            return state
-        },
-        sizeChange21(i) {
-            this.pagiOpt21.row = i;
-            this.orderList(-1, 1);
-        },
-        currentChange21(i) {
-            this.pagiOpt21.page = i;
-            this.orderList(-1, 1);
-        },
-        sizeChange22(i) {
-            this.pagiOpt22.row = i;
-            this.orderList(1, 2);
-        },
-        currentChange22(i) {
-            this.pagiOpt22.page = i;
-            this.orderList(1, 2);
-        },
-        sizeChange23(i) {
-            this.pagiOpt23.row = i;
-            this.orderList(2, 3);
-        },
-        currentChange23(i) {
-            this.pagiOpt23.page = i;
-            this.orderList(2, 3);
-        },
-        //订单充值
-        async rechargeList() {
-            const res = await rechargeList({ state: "", payType: "", page: this.pagiOpt3.page, row: this.pagiOpt3.row })
-            if (res.success) {
-                this.billTable3 = res.data.list;
-                this.pagiOpt3.total = res.data.total;
-            } else {
-                this.$message.error(res.msg);
-            }
-        },
-        getState6(i) {
-            let state = ''
-            switch (i) {
-                case '1':
-                    state = $lang('创建');
-                    break;
-                case '2':
-                    state = $lang('支付成功 ');
-                    break;
-                case '3':
-                    state = $lang('支付失败');
-                    break;
-                default:
-                    state = $lang('创建');
-            }
-            return state
-        },
-        getType6(i) {
-            let type = ''
-            switch (i) {
-                case '1':
-                    type = $lang('微信');
-                    break;
-                case '2':
-                    type = $lang('支付宝 ');
-                    break;
-                default:
-                    type = $lang('未支付');
-            }
-            return type
-        },
-        sizeChange3(i) {
-            this.pagiOpt3.row = i;
-            this.rechargeList();
-        },
-        currentChange3(i) {
-            this.pagiOpt3.page = i;
-            this.rechargeList();
-        },
-        //提现订单
-        async atmsList() {
-            const res = await atmsList({ state: "", atmType: "", page: this.pagiOpt4.page, row: this.pagiOpt4.row })
-            if (res.success) {
-                this.billTable4 = res.data.list;
-                this.pagiOpt4.total = res.data.total;
-            } else {
-                this.$message.error(res.msg);
-            }
-        },
-        getState7(i) {
-            let state = ''
-            switch (i) {
-                case '1':
-                    state = $lang('已提交申请');
-                    break;
-                case '2':
-                    state = $lang('同意');
-                    break;
-                case '3':
-                    state = $lang('拒绝');
-                    break;
-                case '4':
-                    state = $lang('取消');
-                    break;
-                default:
-                    state = $lang('已提交申请');
-            }
-            return state
-        },
-        getType7(i) {
-            let type = ''
-            switch (i) {
-                case '1':
-                    type = $lang('支付宝');
-                    break;
-                case '2':
-                    type = $lang('银行卡');
-                    break;
-                default:
-                    type = $lang('未提现');
-            }
-            return type
-        },
-        sizeChange4(i) {
-            this.pagiOpt4.row = i;
-            this.atmsList();
-        },
-        currentChange4(i) {
-            this.pagiOpt4.page = i;
-            this.atmsList();
-        },
-        cancalEdit() {
-            this.$router.push({ name: this.nextTo })
-            this.dialogVisible = false;
-        },
-        toPayRecordOrder(orderId, total) {
-            const me = this;
-            //                const orderData = await checkByOrderId({orderId, type: 1});
-            me.payDialogVisible = true;
-            me.orderId = orderId;
-            me.payDialogTotal = total;
-            //                console.log(orderData);
-        },
-        async payDialogCashTypeToPay() {
-            const me = this;
-            const res = await checkByOrderId({ orderId: me.orderId, type: 1 });
-            if (me.payDialogCashType == 3) {//余额支付
-                if (me.totalMoney < me.payDialogTotal) {
-                    me.$message($lang('余额不足'));
-                    return
-                }
-                me.$confirm($lang('确定用余额支付') + me.payDialogTotal + $lang('元')).then(async data => {
-                    if (data == 'confirm') {
-                        const data = await balancePay({ orderId: res.data.orderId });
-                        if (data.success) {
-                            me.$message($lang('操作成功'));
-                            setTimeout(function() {
-                                me.$router.push({ name: 'B-userInfo-bag', query: { id: getUser().userId, index: 3 } })
-                                history.go(0)
-                            }, 200)
-                        } else {
-                            me.$message.error(data.msg)
-                        }
-                    }
-                }).catch(data => {
-
-                });
-            }
-            if (me.payDialogCashType == 1) {//支付宝支付
-                const alipayData = await getAliapyInfo({ outTradeNo: res.data.orderId, subject: $lang("订单支付：") + res.data.orderId, totalFee: res.data.total, body: `1&&${location.href}` });
-                let div = document.createElement("div");
-                div.innerHTML = alipayData.data;
-                document.body.appendChild(div);
-                document.forms['alipaysubmit'].submit();
-            }
-            if (me.payDialogCashType == 2) {//微信支付
-                me.WXPayImgShow = true;
-                me.WXImgSrc = `${axios.defaults.baseURL}/wxpay/createOrder?orderId=${res.data.orderId}&attach=1`;
-                me.WXPaying = true;
-                me.WXPayTimes = setInterval(me.queryWXPayState, 5000);
-            }
-
-        },
-        payDialogClose() {
-            const me = this;
-            me.$confirm($lang('确认取消支付？')).then(data => {
-                if (data == 'confirm') {
-                    me.payDialogTotal = 0;
-                    me.payDialogOrderId = "";
-                    me.payDialogVisible = false;
-                }
-            }).catch(data => {
-            });
-        },
-        //取消流水订单
-        cancelRecordOrder(orderId) {
-            const me = this;
-            me.$confirm($lang('确定取消该订单？'), $lang('提示'), {
-                confirmButtonText: $lang('确定取消'),
-                cancelButtonText: $lang('放弃操作'),
-                type: 'warning'
-            }).then(async () => {
-                const res = await cancelOrder({ orderId });
-                if (res.success) {
-                    me.$message({
-                        type: 'success',
-                        message: $lang('取消成功!')
-                    });
-                    setTimeout(function() {
-                        me.$router.push({ name: 'B-userInfo-bag', query: { id: getUser().userId, index: 3 } })
-                        history.go(0)
-                    }, 200)
-                    me.recordList($lang('支付佣金'), 1);//流水
-                }
-            }).catch(() => {
-            });
+    async recharge(index) {
+      const me = this;
+      const money = me.chargeForm.money;
+      if (money == 0 || money == "") {
+        me.$message({ type: "warning", message: $lang("金额不能为空，也不能为0") });
+        return;
+      }
+      if (!/^\d+(\.\d{2})?$/.test(money * 1)) {
+        me.$message.error($lang("价格格式不对，请输入正确的价格"));
+        return;
+      }
+      const chargeType = me.chargeType;
+      const rechangeData = await addRecharge({ money });
+      if (!rechangeData.success) {
+        me.$message({ type: "error", message: rechangeData.msg });
+        return;
+      }
+      if (chargeType == 1) {
+        //支付宝
+        const alipayData = await getAliapyInfo({
+          outTradeNo: rechangeData.data.orderId,
+          subject: $lang("用户充值：") + rechangeData.data.orderId,
+          totalFee: rechangeData.data.money,
+          body: `2&&${location.href}`
+        });
+        let div = document.createElement("div");
+        div.innerHTML = alipayData.data;
+        //"<form id="alipaysubmit" name="alipaysubmit" action="https://mapi.alipay.com/gateway.do?_input_charset=utf-8" method="get"><input type="hidden" name="_input_charset" value="utf-8"/><input type="hidden" name="subject" value="用户充值：1707131107009671cd1020b5user-1"/><input type="hidden" name="sign" value="22b97558611e4aec5ae4808bd8f73ab7"/><input type="hidden" name="notify_url" value="http://combo.xin:80/vswork/api/alipay/notify_url"/><input type="hidden" name="body" value="2"/><input type="hidden" name="payment_type" value="1"/><input type="hidden" name="out_trade_no" value="1707131107009671cd1020b5user-1"/><input type="hidden" name="partner" value="2088811329319614"/><input type="hidden" name="service" value="create_direct_pay_by_user"/><input type="hidden" name="total_fee" value="111"/><input type="hidden" name="app_pay" value="Y"/><input type="hidden" name="return_url" value="http://combo.xin:80/vswork/api/alipay/return_url"/><input type="hidden" name="sign_type" value="MD5"/><input type="hidden" name="seller_id" value="2088811329319614"/><input type="submit" value="确认" style="display:none;"></form>"
+        document.body.appendChild(div);
+        document.forms["alipaysubmit"].submit();
+      } else if (chargeType == 2) {
+        //微信
+        me.loading1 = false;
+        me.WXPayImgShow = true;
+        me.WXImgSrc = `${axios.defaults
+          .baseURL}/wxpay/createOrder?orderId=${rechangeData.data
+          .orderId}&attach=2`;
+        me.WXPayOrderId = rechangeData.data.orderId;
+        me.WXPayTimes = setInterval(me.queryWXPayState, 5000);
+      }
+    },
+    async withdrawals(index) {
+      const me = this;
+      let atmType = me.cashType,
+        money = me.cashForm.withdrawalsMoney,
+        name = me.cashForm.withdrawalsName,
+        cardNum,
+        bankName = "";
+      if (me.cashType == 1) {
+        //支付宝提现
+        cardNum = me.cashForm.withdrawalsAlipayNum;
+      } else if (me.cashType == 2) {
+        //银联提现
+        cardNum = me.cashForm.withdrawalsBankNum;
+        bankName = me.cashForm.withdrawalsBankName;
+      }
+      const atomData = await addAtms({
+        atmType,
+        money,
+        name,
+        cardNum,
+        bankName
+      });
+      this.loading2 = false;
+      if (atomData.success) {
+        me.$message($lang("提现成功"));
+        me.getTotalMoney();
+        me.operateType = index;
+        me.atmsList();
+      } else {
+        me.$message.error(atomData.msg);
+      }
+    },
+    //我的账单流水
+    async recordList(type, index) {
+      this.billIndex = index;
+      const res = await recordList({
+        type: type,
+        page: this["pagiOpt1" + index].page,
+        row: this["pagiOpt1" + index].row
+      });
+      if (res.success) {
+        this["billTable1" + index] = res.data.list;
+        this["pagiOpt1" + index].total = res.data.total;
+      } else {
+        this.$message.error(res.msg);
+      }
+    },
+    sizeChange11(i) {
+      this.pagiOpt11.row = i;
+      this.recordList($lang("支付佣金"), 1);
+    },
+    currentChange11(i) {
+      this.pagiOpt11.page = i;
+      this.recordList($lang("支付佣金"), 1);
+    },
+    sizeChange12(i) {
+      this.pagiOpt12.row = i;
+      this.recordList($lang("任务退款"), 2);
+    },
+    currentChange12(i) {
+      this.pagiOpt12.page = i;
+      this.recordList($lang("任务退款"), 2);
+    },
+    sizeChange13(i) {
+      this.pagiOpt13.row = i;
+      this.recordList($lang("充值"), 3);
+    },
+    currentChange13(i) {
+      this.pagiOpt13.page = i;
+      this.recordList($lang("充值"), 3);
+    },
+    sizeChange14(i) {
+      this.pagiOpt14.row = i;
+      this.recordList($lang("提现"), 4);
+    },
+    currentChange14(i) {
+      this.pagiOpt14.page = i;
+      this.recordList($lang("提现"), 4);
+    },
+    toTaskDetail(item) {
+      if (item.id) {
+        this.$router.push({
+          name: "B_TaskChildDetail",
+          query: { id: item.id }
+        });
+      } else {
+        this.$message($lang("任务不存在"));
+      }
+    },
+    //支付管理
+    async orderList(state, index) {
+      this.orderIndex = index;
+      const res = await orderList({
+        state: state,
+        page: this["pagiOpt2" + index].page,
+        row: this["pagiOpt2" + index].row
+      });
+      if (res.success) {
+        this["billTable2" + index] = res.data.list;
+        this["pagiOpt2" + index].total = res.data.total;
+      } else {
+        this.$message.error(res.msg);
+      }
+    },
+    getState5(i) {
+      let state = "";
+      switch (i) {
+        case "1":
+          state = $lang("申请支付中");
+          break;
+        case "2":
+          state = $lang("支付成功");
+          break;
+        case "3":
+          state = $lang("支付失败");
+          break;
+        case "4":
+          state = $lang("废弃申请");
+          break;
+        default:
+          state = $lang("申请支付中");
+      }
+      return state;
+    },
+    sizeChange21(i) {
+      this.pagiOpt21.row = i;
+      this.orderList(-1, 1);
+    },
+    currentChange21(i) {
+      this.pagiOpt21.page = i;
+      this.orderList(-1, 1);
+    },
+    sizeChange22(i) {
+      this.pagiOpt22.row = i;
+      this.orderList(1, 2);
+    },
+    currentChange22(i) {
+      this.pagiOpt22.page = i;
+      this.orderList(1, 2);
+    },
+    sizeChange23(i) {
+      this.pagiOpt23.row = i;
+      this.orderList(2, 3);
+    },
+    currentChange23(i) {
+      this.pagiOpt23.page = i;
+      this.orderList(2, 3);
+    },
+    //订单充值
+    async rechargeList() {
+      const res = await rechargeList({
+        state: "",
+        payType: "",
+        page: this.pagiOpt3.page,
+        row: this.pagiOpt3.row
+      });
+      if (res.success) {
+        this.billTable3 = res.data.list;
+        this.pagiOpt3.total = res.data.total;
+      } else {
+        this.$message.error(res.msg);
+      }
+    },
+    getState6(i) {
+      let state = "";
+      switch (i) {
+        case "1":
+          state = $lang("创建");
+          break;
+        case "2":
+          state = $lang("支付成功 ");
+          break;
+        case "3":
+          state = $lang("支付失败");
+          break;
+        default:
+          state = $lang("创建");
+      }
+      return state;
+    },
+    getType6(i) {
+      let type = "";
+      switch (i) {
+        case "1":
+          type = $lang("微信");
+          break;
+        case "2":
+          type = $lang("支付宝 ");
+          break;
+        default:
+          type = $lang("未支付");
+      }
+      return type;
+    },
+    sizeChange3(i) {
+      this.pagiOpt3.row = i;
+      this.rechargeList();
+    },
+    currentChange3(i) {
+      this.pagiOpt3.page = i;
+      this.rechargeList();
+    },
+    //提现订单
+    async atmsList() {
+      const res = await atmsList({
+        state: "",
+        atmType: "",
+        page: this.pagiOpt4.page,
+        row: this.pagiOpt4.row
+      });
+      if (res.success) {
+        this.billTable4 = res.data.list;
+        this.pagiOpt4.total = res.data.total;
+      } else {
+        this.$message.error(res.msg);
+      }
+    },
+    getState7(i) {
+      let state = "";
+      switch (i) {
+        case "1":
+          state = $lang("已提交申请");
+          break;
+        case "2":
+          state = $lang("同意");
+          break;
+        case "3":
+          state = $lang("拒绝");
+          break;
+        case "4":
+          state = $lang("取消");
+          break;
+        default:
+          state = $lang("已提交申请");
+      }
+      return state;
+    },
+    getType7(i) {
+      let type = "";
+      switch (i) {
+        case "1":
+          type = $lang("支付宝");
+          break;
+        case "2":
+          type = $lang("银行卡");
+          break;
+        default:
+          type = $lang("未提现");
+      }
+      return type;
+    },
+    sizeChange4(i) {
+      this.pagiOpt4.row = i;
+      this.atmsList();
+    },
+    currentChange4(i) {
+      this.pagiOpt4.page = i;
+      this.atmsList();
+    },
+    cancalEdit() {
+      this.$router.push({ name: this.nextTo });
+      this.dialogVisible = false;
+    },
+    toPayRecordOrder(orderId, total) {
+      const me = this;
+      //                const orderData = await checkByOrderId({orderId, type: 1});
+      me.payDialogVisible = true;
+      me.orderId = orderId;
+      me.payDialogTotal = total;
+      //                console.log(orderData);
+    },
+    async payDialogCashTypeToPay() {
+      const me = this;
+      const res = await checkByOrderId({ orderId: me.orderId, type: 1 });
+      if (me.payDialogCashType == 3) {
+        //余额支付
+        if (me.totalMoney < me.payDialogTotal) {
+          me.$message($lang("余额不足"));
+          return;
         }
+        me
+          .$confirm($lang("确定用余额支付") + me.payDialogTotal + $lang("元"))
+          .then(async data => {
+            if (data == "confirm") {
+              const data = await balancePay({ orderId: res.data.orderId });
+              if (data.success) {
+                me.$message($lang("操作成功"));
+                setTimeout(function() {
+                  me.$router.push({
+                    name: "B-userInfo-bag",
+                    query: { id: getUser().userId, index: 3 }
+                  });
+                  history.go(0);
+                }, 200);
+              } else {
+                me.$message.error(data.msg);
+              }
+            }
+          })
+          .catch(data => {});
+      }
+      if (me.payDialogCashType == 1) {
+        //支付宝支付
+        const alipayData = await getAliapyInfo({
+          outTradeNo: res.data.orderId,
+          subject: $lang("订单支付：") + res.data.orderId,
+          totalFee: res.data.total,
+          body: `1&&${location.href}`
+        });
+        let div = document.createElement("div");
+        div.innerHTML = alipayData.data;
+        document.body.appendChild(div);
+        document.forms["alipaysubmit"].submit();
+      }
+      if (me.payDialogCashType == 2) {
+        //微信支付
+        me.WXPayImgShow = true;
+        me.WXImgSrc = `${axios.defaults.baseURL}/wxpay/createOrder?orderId=${res
+          .data.orderId}&attach=1`;
+        me.WXPaying = true;
+        me.WXPayTimes = setInterval(me.queryWXPayState, 5000);
+      }
     },
-    beforeRouteLeave(to, from, next) {
-        next();
-        // if (this.operateType == 'charge' || this.operateType == 'cash') {
-        //     this.dialogVisible = true;
-        //     if (this.nextTo) {
-        //         next()
-        //     } else {
-        //         next(false)
-        //         this.nextTo = to.name
-        //     }
-        // } else {
-        //     next()
-        // }
+    payDialogClose() {
+      const me = this;
+      me
+        .$confirm($lang("确认取消支付？"))
+        .then(data => {
+          if (data == "confirm") {
+            me.payDialogTotal = 0;
+            me.payDialogOrderId = "";
+            me.payDialogVisible = false;
+          }
+        })
+        .catch(data => {});
+    },
+    //取消流水订单
+    cancelRecordOrder(orderId) {
+      const me = this;
+      me
+        .$confirm($lang("确定取消该订单？"), $lang("提示"), {
+          confirmButtonText: $lang("确定取消"),
+          cancelButtonText: $lang("放弃操作"),
+          type: "warning"
+        })
+        .then(async () => {
+          const res = await cancelOrder({ orderId });
+          if (res.success) {
+            me.$message({
+              type: "success",
+              message: $lang("取消成功!")
+            });
+            setTimeout(function() {
+              me.$router.push({
+                name: "B-userInfo-bag",
+                query: { id: getUser().userId, index: 3 }
+              });
+              history.go(0);
+            }, 200);
+            me.recordList($lang("支付佣金"), 1); //流水
+          }
+        })
+        .catch(() => {});
     }
-}
+  },
+  beforeRouteLeave(to, from, next) {
+    next();
+    // if (this.operateType == 'charge' || this.operateType == 'cash') {
+    //     this.dialogVisible = true;
+    //     if (this.nextTo) {
+    //         next()
+    //     } else {
+    //         next(false)
+    //         this.nextTo = to.name
+    //     }
+    // } else {
+    //     next()
+    // }
+  }
+};
 </script>
