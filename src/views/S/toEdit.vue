@@ -114,7 +114,7 @@ export default {
       this.$router.push({ name: "S_toBaoMing", query: { id: id } });
     },
     toRedirectCreate() {
-      const id = this.$route.query.id;
+      const id = this.$route.query.taskId;
       let maxTotal = -1;
       if (this.form.totalType == 1) {
         maxTotal = this.form.total;
@@ -129,7 +129,7 @@ export default {
       });
     },
     toRedirectEdit(childid) {
-      const id = this.$route.query.id;
+      const id = this.$route.query.taskId;
       this.$router.push({ name: "S_CreateTask", query: { id, childid } });
     },
     async toDelete(id) {
