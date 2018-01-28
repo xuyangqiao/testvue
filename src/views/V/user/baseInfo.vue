@@ -8,9 +8,9 @@
         <div v-if="navIndex==2" class="gzqj-wrap" v-loading="loading">
             <el-form ref="form" label-width="90">
                 <el-form-item :label="$lang('工作区间:')">
-                    <el-time-select :placeholder="$lang('起始时间')" v-model="startTime" :disabled="!hasEdit">
+                    <el-time-select :placeholder="$lang('起始时间')" v-model="startTime" :disabled="!hasEdit" :picker-options="{start:'00:00',end:'23:59' }">
                     </el-time-select>
-                    <el-time-select :placeholder="$lang('结束时间')" v-model="endTime" :disabled="!hasEdit" :picker-options="{ minTime: startTime }">
+                    <el-time-select :placeholder="$lang('结束时间')" v-model="endTime" :disabled="!hasEdit" :picker-options="{ start:'00:00',end:'23:59',minTime: startTime }">
                     </el-time-select>
                 </el-form-item>
             </el-form>
@@ -34,94 +34,100 @@
 </template>
 
 <script>
-import BaseUserInfo from '@/components/BaseUserInfo'
-import { UpdateWorkIntervalV, CheckUserInfoV } from '@/apis/person'
-import { isLogin, getUser } from '@/apis/storage'
+import BaseUserInfo from "@/components/BaseUserInfo";
+import { UpdateWorkIntervalV, CheckUserInfoV } from "@/apis/person";
+import { isLogin, getUser } from "@/apis/storage";
 export default {
-    components: {
-        BaseUserInfo
+  components: {
+    BaseUserInfo
+  },
+  data() {
+    return {
+      loading: false,
+      dialogVisible: false,
+      nextTo: false,
+      navIndex: 1,
+      hasEdit: true,
+      userId: "",
+      id: "",
+      startTime: "",
+      endTime: "",
+      oldStartTime: "",
+      oldendTime: ""
+    };
+  },
+  created() {
+    this.userId = this.$route.query.userId || getUser().userId;
+    this.hasEdit = getUser().userType == "V";
+    this.getData(this.userId);
+  },
+  methods: {
+    cancle() {
+      this.navIndex = 1;
+      this.edit = false;
+      [this.startTime, this.endTime] = [this.oldStartTime, this.oldendTime];
     },
-    data() {
-        return {
-            loading: false,
-            dialogVisible: false,
-            nextTo: false,
-            navIndex: 1,
-            hasEdit: true,
-            userId: "",
-            id: "",
-            startTime: "",
-            endTime: "",
-            oldStartTime: "",
-            oldendTime: "",
+    async getData(id) {
+      const me = this;
+      const res = await CheckUserInfoV({ userId: id || "" });
+      if (res.success) {
+        let UserInfo = res.data;
+        if (UserInfo.workInterval) {
+          this.id = UserInfo.id;
+          [me.startTime, me.endTime] = [
+            me.oldStartTime,
+            me.oldendTime
+          ] = UserInfo.workInterval.split("-");
         }
+      } else {
+        this.$message.error(res.msg);
+      }
     },
-    created() {
-        this.userId = this.$route.query.userId || getUser().userId;
-        this.hasEdit = getUser().userType == 'V';
-        this.getData(this.userId);
-    },
-    methods: {
-        cancle() {
-            this.navIndex = 1;
-            this.edit = false;
-            [this.startTime, this.endTime] = [this.oldStartTime, this.oldendTime]
-        },
-        async getData(id) {
-            const me = this;
-            const res = await CheckUserInfoV({ userId: id || "" });
-            if (res.success) {
-                let UserInfo = res.data;
-                if (UserInfo.workInterval) {
-                    this.id = UserInfo.id;
-                    [me.startTime, me.endTime] = [me.oldStartTime, me.oldendTime] = UserInfo.workInterval.split('-')
-                }
-            } else {
-                this.$message.error(res.msg)
-            }
-        },
-        async modifyWorkInterval() {
-            if (!this.startTime) {
-                this.$message.warning($lang('请选择起始时间'));
-            } else if (!this.endTime) {
-                this.$message.warning($lang('请选择结束时间'));
-            } else {
-                this.loading = true;
-                let param = {
-                    workInterval: this.startTime + '-' + this.endTime,
-                    userId: this.userId,
-                    id: this.id
-                }
-                const res = await UpdateWorkIntervalV(param);
-                this.loading = false;
-                if (res.success) {
-                    this.$message.success($lang("操作成功！"))
-                    let workInterval = res.data.workInterval;
-                    [this.startTime, this.endTime] = [this.oldStartTime, this.oldendTime] = workInterval.split('-');
-                    this.navIndex = 1;
-                } else {
-                    this.$message.error(res.msg);
-                }
-            }
-        },
-        cancalEdit() {
-            this.$router.push({ name: this.nextTo })
-            this.dialogVisible = false;
+    async modifyWorkInterval() {
+      if (!this.startTime) {
+        this.$message.warning($lang("请选择起始时间"));
+      } else if (!this.endTime) {
+        this.$message.warning($lang("请选择结束时间"));
+      } else {
+        this.loading = true;
+        let param = {
+          workInterval: this.startTime + "-" + this.endTime,
+          userId: this.userId,
+          id: this.id
+        };
+        const res = await UpdateWorkIntervalV(param);
+        this.loading = false;
+        if (res.success) {
+          this.$message.success($lang("操作成功！"));
+          let workInterval = res.data.workInterval;
+          [this.startTime, this.endTime] = [
+            this.oldStartTime,
+            this.oldendTime
+          ] = workInterval.split("-");
+          this.navIndex = 1;
+        } else {
+          this.$message.error(res.msg);
         }
+      }
     },
-    beforeRouteLeave(to, from, next) {
-        next();
-        // if ((this.$refs.baseInfo && this.$refs.baseInfo.edit) || this.navIndex == 2) {
-        //     this.dialogVisible = true;
-        //     if (this.nextTo) {
-        //         next()
-        //     } else {
-        //         next(false)
-        //         this.nextTo = to.name
-        //     }
-        // } else {
-        //     next()
-        // }
+    cancalEdit() {
+      this.$router.push({ name: this.nextTo });
+      this.dialogVisible = false;
     }
-}
+  },
+  beforeRouteLeave(to, from, next) {
+    next();
+    // if ((this.$refs.baseInfo && this.$refs.baseInfo.edit) || this.navIndex == 2) {
+    //     this.dialogVisible = true;
+    //     if (this.nextTo) {
+    //         next()
+    //     } else {
+    //         next(false)
+    //         this.nextTo = to.name
+    //     }
+    // } else {
+    //     next()
+    // }
+  }
+};
 </script>

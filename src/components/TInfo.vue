@@ -1,7 +1,7 @@
 <template>
     <div class="content-wrapper">
         <div class="all-task-wrapper">
-            <TsInfo :tid="tid" :onload="onloadCallBack" :title="title" :isZong="isZong" :role="role" :name="stateName" :userType="userType" ref="tsInfo">
+            <TsInfo :tid="tid" :onload="onloadCallBack" :title="title" :isZong="isZong" :role="role" :name="stateName" :userType="userType" @loaded="loaded=true" ref="tsInfo">
             </TsInfo>
 
             <slot name="middle"></slot>
@@ -96,7 +96,7 @@
             <div style="text-align:center;">
                 <el-button type="sure" v-if="['7','8'].includes(this.$refs.tsInfo&&this.$refs.tsInfo.form.state)" @click="toProview">预览</el-button>
             </div>
-            <slot name="footer"></slot>
+            <slot name="footer" v-if="loaded"></slot>
         </div>
         <!--图片预览的小弹窗-->
         <!--封装的时候:visible.sync="dialogVisible"作为父元素传给子元素的属性有问题-->
@@ -149,7 +149,8 @@ export default {
       fileList: [],
       dialogVisible: false,
       dialogImageUrl: "",
-      dialogImageIndex: 0
+      dialogImageIndex: 0,
+      loaded: false
     };
   },
   async mounted() {
@@ -204,6 +205,8 @@ export default {
          "sUserId": null,
          "taskEndTime": "1"
          }*/
+
+    setTimeout(() => this.$emit("loaded"), 500);
   },
   methods: {
     onloadCallBack(taskInfo, fileData) {

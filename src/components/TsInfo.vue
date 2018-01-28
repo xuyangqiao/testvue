@@ -72,120 +72,137 @@
     </div>
 </template>
 <script>
-import { TaskInfoById, ChildTaskInfo, TaskState, ChildTaskState } from '@/apis/task'
-import { getAllFile } from '@/apis/files'
-import { CheckUserInfoV } from '@/apis/person.js'
-import { getUser } from '@/apis/storage'
-import SlideBtns from '@/components/SlideBtns'
+import {
+  TaskInfoById,
+  ChildTaskInfo,
+  TaskState,
+  ChildTaskState
+} from "@/apis/task";
+import { getAllFile } from "@/apis/files";
+import { CheckUserInfoV } from "@/apis/person.js";
+import { getUser } from "@/apis/storage";
+import SlideBtns from "@/components/SlideBtns";
 
 export default {
-    components: {
-        SlideBtns
+  components: {
+    SlideBtns
+  },
+  props: {
+    tid: null,
+    onload: Function,
+    title: {
+      type: String,
+      default() {
+        return $lang("总任务详情");
+      }
     },
-    props: {
-        tid: null,
-        onload: Function,
-        title: {
-            type: String,
-            default() {
-                return $lang("总任务详情");
-            }
-        },
-        isZong: {
-            type: Boolean,
-            default: true
-        },
-        role: {
-            type: String,
-            default: "B"
-        },
-        name: String,
-        userType: String
+    isZong: {
+      type: Boolean,
+      default: true
     },
-    data() {
-        return {
-            form: {
-                projectName: '',
-                state: '',
-                total: '',
-                packageType: '',
-                taskEndTime: '',
-                entryEndTime: '',
-                group: '',
-                groupName: '',
-                vUserId: '',
-                sUserId: '',
-                bUserId: '',
-                url: ''
-            },
-            User: {
-                success: false,
-                nickName: "",
-                headUrl: "http://vsdata.oss-cn-hangzhou.aliyuncs.com/head.jpg"
-            },
-            imageUrl: '',
-            showHead: false,
+    role: {
+      type: String,
+      default: "B"
+    },
+    name: String,
+    userType: String
+  },
+  data() {
+    return {
+      form: {
+        projectName: "",
+        state: "",
+        total: "",
+        packageType: "",
+        taskEndTime: "",
+        entryEndTime: "",
+        group: "",
+        groupName: "",
+        vUserId: "",
+        sUserId: "",
+        bUserId: "",
+        url: ""
+      },
+      User: {
+        success: false,
+        nickName: "",
+        headUrl: "http://vsdata.oss-cn-hangzhou.aliyuncs.com/head.jpg"
+      },
+      imageUrl: "",
+      showHead: false,
 
-
-            fileData: null
-        }
-    },
-    created() {
-        this.showHead = getUser().userType == "S"
-    },
-    computed: {
-        stateName() {
-            if (this.name) {
-                return this.name;
-            } else {
-                if (this.isZong) {
-                    return TaskState(this.role, this.form.state)
-                } else {
-                    return ChildTaskState(this.role, this.form.state)
-                }
-            }
-        },
-        packageTypeName() {
-            const map = ["公开", "私密"]
-            return map[this.form.packageType || 0]
-        },
-        userTypeName() {
-            return this.userType ? { "B": "雇主 :", "S": "平台 :", "V": "服务商 :" }[this.userType] : ""
-        }
-    },
-    methods: {
-        toBuserInfo() {
-            this.form.bUserInfo && this.form.bUserInfo.userId ? this.$router.push({ name: 'S-BuserInfo', query: { userId: this.form.bUserInfo.userId } }) : null
-        }
-    },
-    async mounted() {
-        const me = this;
-        let id = this.tid || this.$route.query.id, res;
+      fileData: null
+    };
+  },
+  created() {
+    this.showHead = getUser().userType == "S";
+  },
+  computed: {
+    stateName() {
+      if (this.name) {
+        return this.name;
+      } else {
         if (this.isZong) {
-            res = await TaskInfoById(id);
-            Object.assign(this.form, res.data)
-            console.log("...总任务...", this.form)
+          return TaskState(this.role, this.form.state);
         } else {
-            res = await ChildTaskInfo(id);
-            if (!res.success) {
-                console.log("子任务查询失败" + res.msg)
-                return;
-            }
-            console.log("...子任务...", res)
-            if (res && res.data && res.data.subTask) {
-                Object.assign(this.form, res.data.subTask);
-            }
+          return ChildTaskState(this.role, this.form.state);
         }
-        if (this.showHead) {
-            if (this.form.bUserInfo && this.form.bUserInfo.userId) {
-                this.User.headUrl = this.form.bUserInfo.headUrl || "http://vsdata.oss-cn-hangzhou.aliyuncs.com/head.jpg";
-                this.User.nickName = this.form.bUserInfo.nickName || "";
-            }
-        }
-        const fileRes = await getAllFile("", id);
-        let fileData = fileRes.data;
-        this.fileData = (fileRes.data || []).sort((a, b) => new Date(a.createTime) > new Date(b.createTime) ? -1 : 1)[0];
-        this.onload && this.onload(this.form, fileData);
+      }
+    },
+    packageTypeName() {
+      const map = ["公开", "私密"];
+      return map[this.form.packageType || 0];
+    },
+    userTypeName() {
+      return this.userType
+        ? { B: "雇主 :", S: "平台 :", V: "服务商 :" }[this.userType]
+        : "";
     }
-}
+  },
+  methods: {
+    toBuserInfo() {
+      this.form.bUserInfo && this.form.bUserInfo.userId
+        ? this.$router.push({
+            name: "S-BuserInfo",
+            query: { userId: this.form.bUserInfo.userId }
+          })
+        : null;
+    }
+  },
+  async mounted() {
+    const me = this;
+    let id = this.tid || this.$route.query.id,
+      res;
+    if (this.isZong) {
+      res = await TaskInfoById(id);
+      Object.assign(this.form, res.data);
+      console.log("...总任务...", this.form);
+    } else {
+      res = await ChildTaskInfo(id);
+      if (!res.success) {
+        console.log("子任务查询失败" + res.msg);
+        return;
+      }
+      console.log("...子任务...", res);
+      if (res && res.data && res.data.subTask) {
+        Object.assign(this.form, res.data.subTask);
+      }
+    }
+    if (this.showHead) {
+      if (this.form.bUserInfo && this.form.bUserInfo.userId) {
+        this.User.headUrl =
+          this.form.bUserInfo.headUrl ||
+          "http://vsdata.oss-cn-hangzhou.aliyuncs.com/head.jpg";
+        this.User.nickName = this.form.bUserInfo.nickName || "";
+      }
+    }
+    const fileRes = await getAllFile("", id);
+    let fileData = fileRes.data;
+    this.fileData = (fileRes.data || []).sort(
+      (a, b) => (new Date(a.createTime) > new Date(b.createTime) ? -1 : 1)
+    )[0];
+    this.onload && this.onload(this.form, fileData);
+    this.$emit("loaded");
+  }
+};
 </script>
