@@ -309,9 +309,9 @@
 .allot-task-li .el-button{ padding: 3px 2px; width: 65px; font-size: 14px; color: #fff;}
 .allot-task-li{ padding:10px  0; border-bottom: 1px dashed  #b5b5b5;}
 .allot-task-li p{ float: left; font-size: 14px; line-height: 20px;overflow: hidden;white-space: nowrap; text-overflow: ellipsis;}
-.allot-task-li p:first-child{ width: 300px;}
+.allot-task-li p:first-child{ width: 220px;}
 .allot-task-li p:nth-child(2){ width: 150px;}
-.allot-task-li p:nth-child(3){ width: 150px;}
+.allot-task-li p:nth-child(3){ width: 100px;}
 .allot-task-li p:nth-child(4){ width: 150px;}
 .allot-task-li p:nth-child(5){ width: 330px;}
 .jdx-add-task{ padding: 10px 0; border-bottom: 1px dashed #b5b5b5;border-top: 1px dashed #b5b5b5; margin-bottom: 20px;}

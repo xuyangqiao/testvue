@@ -11,6 +11,7 @@
           <li class="allot-task-li clearfix" v-for="(item,i) in list" :key="i">
             <p>{{$lang('任务名称：')}}{{item.projectName}}</p>
             <p>{{$lang('任务出价：')}}{{item.total}}</p>
+            <p>{{$lang('已报名：')}}{{item.entryTotal||0}}</p>
             <p>{{$lang('任务状态：')}}{{stateName(item.state)}}</p>
             <p style="width:270px;">
               <span>{{$lang('截止时间：')}}</span>
