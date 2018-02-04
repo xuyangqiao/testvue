@@ -7,7 +7,7 @@
     <div class="footer-wrapper" style="display:block;">
       <!--<p>Copyright © 2013-2017 TUYIYI.COM - 优秀UI设计师互动平台 -粤ICP备12010950号-3</p>-->
       <p>
-        <a style="color: #FFF;" href="http://www.miitbeian.gov.cn/">{{$lang('Copyright 2013-2017 VSWORK.COM - 优秀社会化协作平台 - 苏ICP备14020371号-2')}}</a>
+        <a style="color: #FFF;" href="http://www.miitbeian.gov.cn/">{{$lang(`Copyright 2013-${new Date().getFullYear()} VSWORK.COM - 优秀社会化协作平台 - 苏ICP备14020371号-2`)}}</a>
       </p>
     </div>
   </div>
@@ -16,23 +16,28 @@
 <script>
 export default {
   metaInfo: {
-    title: 'VSWORK', // set a title
-    meta: [{                 // set meta
-      name: 'keyWords',
-      content: 'VSWORK,协作平台,vswork,三维建模,AR,VR,MR,在线验收'
-    },
-    {                 // set meta
-      name: 'description',
-      content: 'VSWORK是国内领先的数字内容在线协作平台，通过V（在线工作者）和S（项目管理者）的透明化协作实现数字内容的无差错交付。'
-    }
+    title: "VSWORK", // set a title
+    meta: [
+      {
+        // set meta
+        name: "keyWords",
+        content: "VSWORK,协作平台,vswork,三维建模,AR,VR,MR,在线验收"
+      },
+      {
+        // set meta
+        name: "description",
+        content:
+          "VSWORK是国内领先的数字内容在线协作平台，通过V（在线工作者）和S（项目管理者）的透明化协作实现数字内容的无差错交付。"
+      }
     ]
   },
   created() {
-    if (JSON.parse(localStorage.UserInfo || '{}').id && !this.$root.timer) {
-      this.$root.updateCount(), this.$root.timer = setInterval(() => this.$root.updateCount(), 30000);
+    if (JSON.parse(localStorage.UserInfo || "{}").id && !this.$root.timer) {
+      this.$root.updateCount(),
+        (this.$root.timer = setInterval(() => this.$root.updateCount(), 30000));
     }
   }
-}
+};
 </script>
 
 
