@@ -357,7 +357,7 @@ export default {
         appAreas: "",
         packageType: "",
         state: "7,8",
-        vUserId: id,
+        //vUserId: id,
         page: 1,
         row: 0
       });
