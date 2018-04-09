@@ -16,7 +16,7 @@
       <div class="allot-public">
         <div class="userinfo-nav">
           <el-button :type="type==1?'sure':'text'" @click="queryType(1)">{{$lang('已报名列表')}}</el-button>
-          <el-button :type="type==2?'sure':'text'" @click="queryType(2)">{{$lang('所有v端列表')}}</el-button>
+          <el-button v-if="showTab === '1'" :type="type==2?'sure':'text'" @click="queryType(2)">{{$lang('所有v端列表')}}</el-button>
         </div>
       </div>
 
@@ -80,6 +80,7 @@
 import TsInfo from "@/components/TsInfo";
 import VUserInfo from "./VUserInfo";
 import { UserList } from "@/apis/person";
+import { getUserInfo } from "@/apis/storage";
 import {
   SubentrySignUp,
   SubentryList,
@@ -89,6 +90,8 @@ import {
 export default {
   components: { TsInfo, VUserInfo },
   data() {
+      console.log('haha');
+      console.log(getUserInfo().pageTypePermissoins);
     return {
       vlist: [],
       currentRow: null,
@@ -110,7 +113,8 @@ export default {
           show: false,
           id: ""
         }
-      }
+      },
+      showTab:getUserInfo().pageTypePermissoins
     };
   },
   async mounted() {
