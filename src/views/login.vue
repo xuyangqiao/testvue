@@ -85,9 +85,9 @@ export default {
     },
     async getUserInfo(id, userType) {
       const res1 = await CheckUserInfoV({ userId: id });
-      if (res1.success) {
-        localStorage.setItem("UserInfo", JSON.stringify(res1.data));
-      }
+      // if (res1.success) {
+      //   localStorage.setItem("UserInfo", JSON.stringify(res1.data));
+      // }
       // this.$router.push({ name: userType })
       this.$router.push(userType);
     },
@@ -104,6 +104,7 @@ export default {
         };
         localStorage.setItem("user_token", res.data.token);
         localStorage.setItem("LoginUser", JSON.stringify(userInfo));
+        localStorage.setItem("UserInfo", JSON.stringify(res.data.user));
         const TaskParam = await getTackParam();
         if (TaskParam) {
           localStorage.setItem("TaskParam", JSON.stringify(TaskParam));
