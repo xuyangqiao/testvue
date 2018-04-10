@@ -355,6 +355,8 @@ import {
   applyRefund
 } from "@/apis/task";
 import { SToVpayMoney, SToVTopayMoney } from "@/apis/money";
+import {getUser} from '@/apis/storage';
+
 var shouji = require("../../assets/images/phone.jpg");
 export default {
   components: { Chat, SlideBtns },
@@ -426,6 +428,15 @@ export default {
         qq.data.sChatUser &&
         qq.data.sChatUser.entities
       ) {
+          const LoginUser=JSON.parse(localStorage.getItem('LoginUser'));
+          let bUserType=LoginUser.bUserType||"0";
+          let name = '';
+          if(bUserType === '1'){
+              name = qq.data.targetUser.info.nickName + '/' + qq.data.targetUser.info.name;
+          } else {
+              name = qq.data.targetUser.info.name;
+          }
+
         this.chatConfig = {
           groupid: qq.data.groupDetails.data[0].id,
           userid: qq.data.sChatUser.entities[0].username,
@@ -434,7 +445,7 @@ export default {
           userphone: qq.data.sUser.phone,
           username: qq.data.sUser.info.nickName || qq.data.sUser.phone,
           youname:
-            qq.data.targetUser.info.nickName +
+             name +
             '<img class="shoujiicon" src="' +
             shouji +
             '" /> ' +

@@ -66,6 +66,7 @@
                 <img :src="User.headUrl" />
             </div>
             <p>{{$lang('雇主：')}}{{User.nickName}}</p>
+            <p>{{User.companyName}}</p>
         </div>
         <SlideBtns :type="'back'" v-if="!tid"></SlideBtns>
 
@@ -126,6 +127,7 @@ export default {
       User: {
         success: false,
         nickName: "",
+          companyName:"",
         headUrl: "http://vsdata.oss-cn-hangzhou.aliyuncs.com/head.jpg"
       },
       imageUrl: "",
