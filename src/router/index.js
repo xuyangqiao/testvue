@@ -17,7 +17,7 @@ import Chat from '@/views/chat'
 
 import Notices from '@/views/notices'
 
-
+import ue from '../views/editor/editor';
 
 const g = [
   {
@@ -33,6 +33,7 @@ const g = [
   { path: '/registe', name: "registe", component: Register },
   { path: '/forget', name: "forget", component: Password },
   { path: '/error', name: "error", component: Error },
+    {path: '/editor', component: ue, name: 'editor'}
 ]
 //游客端
 import Index from '@/views/index'

@@ -18,6 +18,13 @@ import './apis/axiosConfig.js'
 import { getChatConfig } from '@/apis/task'
 import { count } from '@/apis/notices'
 import MetaInfo from 'vue-meta-info'
+
+
+import '../static/UE/ueditor.config.js'
+import '../static/UE/ueditor.all.min.js'
+import '../static/UE/lang/zh-cn/zh-cn.js'
+import '../static/UE/ueditor.parse.min.js'
+
 window.store = {
   parentTaskState: -1,
   childTaskState: -1
