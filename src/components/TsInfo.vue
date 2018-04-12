@@ -23,6 +23,10 @@
                             <dd class="flex1">{{packageTypeName}}</dd>
                         </dl>
                         <dl class="box-flex info-show" v-if="!isZong">
+                            <dt>{{$lang('创建时间:')}}</dt>
+                            <dd class="flex1">{{form.createTime}}</dd>
+                        </dl>
+                        <dl class="box-flex info-show" v-if="!isZong">
                             <dt>{{$lang('任务报名时间:')}}</dt>
                             <dd class="flex1">{{form.entryEndTime}}</dd>
                         </dl>
@@ -115,6 +119,7 @@ export default {
         state: "",
         total: "",
         packageType: "",
+          createTime:"",
         taskEndTime: "",
         entryEndTime: "",
         group: "",
