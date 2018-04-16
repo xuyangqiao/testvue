@@ -80,6 +80,25 @@ async function CreateChildTask(taskInfo, state) {
     const res = await axios.post(`/subtask/save/${state}`, { ...taskInfo, modelStyle, chartlatFormat, chartlatProperty1, entryEndTime, taskEndTime })
     return res.data;
 }
+
+//创建子任务模版
+async function CreateChildTaskDraft(taskInfo, state) {
+    let { modelStyle, chartlatFormat, chartlatProperty1, rangeTime } = taskInfo;
+    if (Array.isArray(modelStyle)) {
+        modelStyle = modelStyle.join(',');
+    }
+    // if(Array.isArray(chartlatFormat)){
+    //     chartlatFormat=chartlatFormat.join(',');
+    // }
+    if (Array.isArray(chartlatProperty1)) {
+        chartlatProperty1 = chartlatProperty1.join(',');
+    }
+    let entryEndTime = moment(new Date(rangeTime[0])).format("YYYY-MM-DD HH:mm:ss");
+    let taskEndTime = moment(new Date(rangeTime[1])).format("YYYY-MM-DD HH:mm:ss");
+    const res = await axios.post(`/subtask/savetemplet/${state}`, { ...taskInfo, modelStyle, chartlatFormat, chartlatProperty1, entryEndTime, taskEndTime })
+    return res.data;
+}
+
 //保存更新子任务
 async function UpdateChildTask(taskInfo, state) {
     let { modelStyle, chartlatFormat, chartlatProperty1, rangeTime } = taskInfo;

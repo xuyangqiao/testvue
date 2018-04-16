@@ -251,6 +251,7 @@
 import { Loading, Message } from "element-ui";
 import {
   CreateChildTask,
+    CreateChildTaskDraft,
   UpdateChildTask,
   ChildTaskInfo,
   CreateChildTaskStage,
@@ -396,7 +397,7 @@ export default {
       loadinginstace: null,
 
 
-        defaultMsg: '<span style="orphans: 2; widows: 2; font-size: 22px; font-family: KaiTi_GB2312; background-color: rgb(229, 51, 51);"><strong>夏钧姗：成功的投资需具备哪些心态和掌握哪些重要止损位</strong></span>',
+        defaultMsg: '',
         config: {
             initialFrameWidth: null,
             initialFrameHeight: 350
@@ -632,7 +633,7 @@ export default {
               return false;
           }
           this.loadinginstace = Loading.service({ fullscreen: true });
-          const res = await this._CreateChildTask(this.form, this.form.state);
+          const res = await this._CreateChildTaskDraft(this.form, this.form.state);
           this.loadinginstace.close();
       },
     validatefn() {
@@ -796,7 +797,8 @@ export default {
               });
           }
 
-          const res = await CreateChildTask(form, state);
+          form.isModel = "1";
+          const res = await CreateChildTaskDraft(form, state);
           if (res.success) {
               //删除java服务器文件
               if (this.removeFileList.length > 0) {
