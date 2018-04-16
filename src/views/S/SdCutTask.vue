@@ -798,6 +798,7 @@ export default {
           }
 
           form.isModel = "1";
+          form.templetName = "TODO功能 用弹出框接收";
           const res = await CreateChildTaskDraft(form, state);
           if (res.success) {
               //删除java服务器文件
