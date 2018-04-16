@@ -2,7 +2,19 @@
     <div class="content-wrapper">
         <div class="new-task-wrapper">
             <el-form ref="form" :model="form" :rules="rules" label-width="260px">
-                <h3 class="main-title">{{title}}</h3>
+
+                <el-row>
+                    <el-col :span="20">
+                        <h3 class="main-title">{{title}}</h3>
+                    </el-col>
+                    <el-col :span="4">
+                        <el-select v-model="form.appAreas" :placeholder="$lang('请选择模版')" class="select-width-all">
+                            <el-option v-for="item in configs.areaList" :key="item.key" :label="item.cnValue" :value="item.key"></el-option>
+                        </el-select>
+                    </el-col>
+                </el-row>
+
+
                 <div class="new-task-base">
                     <el-row>
                         <el-col :span="12">
@@ -26,6 +38,7 @@
                                                                                                                                                                                 </el-form-item>-->
                         </el-col>
                         <el-col :span="10" :offset="3">
+
                             <div class="new-tast-upload">
                                 <img v-if="form.src" :src="form.src" />
                             </div>
@@ -157,7 +170,7 @@
                         </el-form-item>
                         <el-row>
                             <el-col :span="12" class="update-text">
-                                <el-form-item :label="$lang('附件:')">
+                                <el-form-item :label="$lang('附件:')" required>
                                     <el-upload class="upload-demo" ref="EnclosureFile" action="https://jsonplaceholder.typicode.com/posts/" :on-remove="removeFile" :file-list="EnclosureFileList" :auto-upload="false" :multiple="true">
                                         <el-button slot="trigger" size="small" type="primary">{{$lang('添加文件')}}</el-button>
                                     </el-upload>
@@ -175,15 +188,20 @@
                         <el-form-item :label="$lang('备注:')">
                             <el-input type="textarea" v-model="form.remarks" :rows="5" :placeholder="$lang('请输入内容')" class="textarea-width-790"></el-input>
                         </el-form-item>
+                        <el-form-item :label="$lang('备注:')">
+                            <UE :defaultMsg=defaultMsg :config=config :id=ue1 ref="ue"></UE>
+                        </el-form-item>
 
                     </el-row>
                     <div class="creart-task-btn" v-if="!childid">
                         <el-button type="cancle" @click="$router.go(-1)">{{$lang('取消')}}</el-button>
                         <el-button type="sure" @click="submitTask">{{$lang('提交任务')}}</el-button>
+                        <el-button type="sure" @click="submitTaskDraft">{{$lang('保存模版')}}</el-button>
                     </div>
                     <div class="creart-task-btn" v-if="childid">
                         <el-button type="cancle" @click="$router.go(-1)">{{$lang('取消')}}</el-button>
                         <el-button type="sure" @click="updateTask">{{$lang('修改任务')}}</el-button>
+                        <el-button type="sure" @click="submitTaskDraft">{{$lang('保存模版')}}</el-button>
                     </div>
                 </div>
             </el-form>
@@ -247,8 +265,11 @@ import { uploadFile, deleteOssFile } from "@/apis/uploadFile";
 import TypeSelect from "@/components/TypeSelect";
 import SlideBtns from "@/components/SlideBtns";
 import moment from "moment";
+import UE from '../../components/ue/ue.vue';
+
+
 export default {
-  components: { TypeSelect, SlideBtns },
+  components: { TypeSelect, SlideBtns,  UE },
   data() {
     return {
       title: $lang("任务拆分"),
@@ -372,7 +393,15 @@ export default {
       // dialogVisible: false
       // activityDate: [],
       maxTotal: 0,
-      loadinginstace: null
+      loadinginstace: null,
+
+
+        defaultMsg: '<span style="orphans: 2; widows: 2; font-size: 22px; font-family: KaiTi_GB2312; background-color: rgb(229, 51, 51);"><strong>夏钧姗：成功的投资需具备哪些心态和掌握哪些重要止损位</strong></span>',
+        config: {
+            initialFrameWidth: null,
+            initialFrameHeight: 350
+        },
+        ue1: "ue1", // 不同编辑器必须不同的id
     };
   },
   async mounted() {
@@ -508,6 +537,24 @@ export default {
     this.loadinginstace.close();
   },
   methods: {
+      getUEContent() {
+          let content = this.$refs.ue.getUEContent(); // 调用子组件方法
+          this.$notify({
+              title: '获取成功，可在控制台查看！',
+              message: content,
+              type: 'success'
+          });
+          console.log(content)
+      },
+      getUEContentTxt() {
+          let content = this.$refs.ue.getUEContentTxt(); // 调用子组件方法
+          this.$notify({
+              title: '获取成功，可在控制台查看！',
+              message: content,
+              type: 'success'
+          });
+          console.log(content)
+      },
     AppClassChange(value, arrs) {
       this.form.appType = value;
     },
@@ -537,6 +584,15 @@ export default {
         }
       });
     },
+      async submitTaskDraft() {
+          this.$refs["form"].validate(valid => {
+              if (valid) {
+                  this.__submitTaskDraft();
+              } else {
+                  return false;
+              }
+          });
+      },
     async updateTask() {
       this.$refs["form"].validate(valid => {
         if (valid) {
@@ -568,6 +624,17 @@ export default {
       //     }
       // });
     },
+      async __submitTaskDraft() {
+          const id = this.$route.query.id;
+
+          const validate = this.validatefn();
+          if (!validate) {
+              return false;
+          }
+          this.loadinginstace = Loading.service({ fullscreen: true });
+          const res = await this._CreateChildTask(this.form, this.form.state);
+          this.loadinginstace.close();
+      },
     validatefn() {
       // rules: {
       //     projectName: [{required: true, message: '请输入活动名称', trigger: 'blur'}],
@@ -705,6 +772,41 @@ export default {
       }
       return res;
     },
+      //TODO
+      async _CreateChildTaskDraft(form, state) {
+          const treenode = this.$refs.tree.getCheckedNodes();
+          this.form.chartlatProperty1 = treenode
+              .filter(node => !node.children)
+              .map(node => node.label);
+          if (
+              this.stage.stageName &&
+              this.stage.stageEndTime &&
+              this.stage.stageRemarks
+          ) {
+              form.taskStages.push({
+                  backup: {
+                      stageName: this.stage.stageName,
+                      stageEndTime: moment(this.stage.stageEndTime).format("YYYY-MM-DD"),
+                      stageRemarks: this.stage.stageRemarks
+                  },
+                  editable: false,
+                  stageName: this.stage.stageName,
+                  stageEndTime: moment(this.stage.stageEndTime).format("YYYY-MM-DD"),
+                  stageRemarks: this.stage.stageRemarks
+              });
+          }
+
+          const res = await CreateChildTask(form, state);
+          if (res.success) {
+              //删除java服务器文件
+              if (this.removeFileList.length > 0) {
+                  deleteFileByIds(me.removeFileList);
+                  deleteOssFile(me.removeFileNameList);
+              }
+              this.uploadAllFile(res.data.id);
+          }
+          return res;
+      },
     async createStage() {
       if (!this.stage.stageName) {
         this.$message.warning($lang("请填入阶段名称"));

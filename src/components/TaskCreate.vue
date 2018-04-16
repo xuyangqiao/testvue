@@ -114,6 +114,9 @@
                         <el-form-item :label="$lang('备注:')">
                             <el-input type="textarea" v-model="form1.remarks" :rows="5" :placeholder="$lang('请输入内容')" class="textarea-width-790"></el-input>
                         </el-form-item>
+                        <el-form-item :label="$lang('备注:')">
+                            <UE :defaultMsg=defaultMsg :config=config :id=ue1 ref="ue"></UE>
+                        </el-form-item>
                     </el-form>
                 </el-row>
                 <div class="creart-task-btn">
@@ -181,8 +184,10 @@ import {
 import { uploadFile, deleteOssFile } from "@/apis/uploadFile";
 import SlideBtns from "@/components/SlideBtns";
 
+import UE from '../components/ue/ue.vue';
+
 export default {
-  components: { TypeSelect, SlideBtns },
+  components: { TypeSelect, SlideBtns,  UE},
   data() {
     return {
       pickerOptions: {
@@ -236,7 +241,16 @@ export default {
       removeFileNameList: [],
 
       TypeSelectValue: "",
-      loadinginstace: null
+      loadinginstace: null,
+
+
+
+        defaultMsg: '<span style="orphans: 2; widows: 2; font-size: 22px; font-family: KaiTi_GB2312; background-color: rgb(229, 51, 51);"><strong>夏钧姗：成功的投资需具备哪些心态和掌握哪些重要止损位</strong></span>',
+        config: {
+            initialFrameWidth: null,
+            initialFrameHeight: 350
+        },
+        ue1: "ue1", // 不同编辑器必须不同的id
     };
   },
   async mounted() {
@@ -761,7 +775,7 @@ export default {
       //                        self.submit(state, param, self.isUpdate);
       //                    });
       //                }
-    }
+    },
     //            addEnclosure(){
     //                debugger
     //            },
@@ -799,6 +813,26 @@ export default {
     //                    alert('请选择要上传的文件');
     //                }
     //            }
+
+
+      getUEContent() {
+          let content = this.$refs.ue.getUEContent(); // 调用子组件方法
+          this.$notify({
+              title: '获取成功，可在控制台查看！',
+              message: content,
+              type: 'success'
+          });
+          console.log(content)
+      },
+      getUEContentTxt() {
+          let content = this.$refs.ue.getUEContentTxt(); // 调用子组件方法
+          this.$notify({
+              title: '获取成功，可在控制台查看！',
+              message: content,
+              type: 'success'
+          });
+          console.log(content)
+      }
   }
 };
 </script>

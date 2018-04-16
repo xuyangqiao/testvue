@@ -5,11 +5,34 @@
                 <div class="flex1 chart-left-title">
                     <h3>{{taskInfo.projectName}}</h3>
                 </div>
-                <el-button type="sure" @click="$router.push({name:'toEdit',query:$route.query})">{{$lang('编辑任务')}}</el-button>
-                <el-button type="sure" @click="toRedirectT">{{$lang('查看任务')}}&gt;</el-button>
+                <el-button type="sure" @click="$router.push({name:'toEdit',query:$route.query})">{{$lang('编辑任务11111')}}</el-button>
+                <el-button type="sure" @click="toRedirectT">{{$lang('查看任务1111111')}}&gt;</el-button>
             </div>
             <div class="chart-left-list">
                 <ul class="chart-left-ul">
+                    <!--补充资料-->
+                    <li class="chart-left-li">
+                        <div class="box-flex-media-box cl-top">
+                            <a href="javascript:;" class="title flex1">
+                                <h4>{{$lang('待补充资料')}}</h4>
+                            </a>
+                        </div>
+                        <ul class="chose-people-ul" v-if="getChilds(0).length">
+                            <li class="chose-people-li box-flex-media-box" v-for="(m,i) in getChilds(0)" :key="i">
+                                <div class="flex1">
+                                    <div class="box-flex-media-box">
+                                        <p class="user-header">
+                                            <img :src="`${m.url}?x-oss-process=image/resize,w_50,h_50`" />
+                                        </p>
+                                        <p class="name">{{m.projectName}}</p>
+                                    </div>
+                                </div>
+                                <!--<a href="javascript:;" class="more" @click="changStateToPay(m.id)">{{$lang('确认')}}&gt;</a>&nbsp;&nbsp;&nbsp;-->
+                                <a href="javascript:;" class="more" @click="$router.push({name:'S_SonTaskInfo',query: { id: m.id }})">{{$lang('查看')}}&gt;</a>
+                            </li>
+                        </ul>
+                    </li>
+
                     <!--待确认-->
                     <li class="chart-left-li">
                         <div class="box-flex-media-box cl-top">
@@ -111,7 +134,7 @@
                     <li class="chart-left-li">
                         <div class="box-flex-media-box cl-top">
                             <a href="javascript:;" class="title flex1">
-                                <h4>{{$lang('验收中')}}</h4>
+                                <h4>{{$lang('S验收中/B验收中')}}</h4>
                             </a>
                         </div>
                         <ul class="chose-people-ul" v-if="getChilds(4).length">
