@@ -99,6 +99,12 @@ async function CreateChildTaskDraft(taskInfo, state) {
     return res.data;
 }
 
+//子任务模版列表
+async function subTaskDraftList() {
+    const res = await axios.get(`/subtask/queryTempletList`);
+    return res.data.data;
+}
+
 //保存更新子任务
 async function UpdateChildTask(taskInfo, state) {
     let { modelStyle, chartlatFormat, chartlatProperty1, rangeTime } = taskInfo;
@@ -325,6 +331,7 @@ export {
 
     getSubTaskParam,
     CreateChildTask,
+    CreateChildTaskDraft,
     UpdateChildTask,
     UpdateChildTaskForSure,
     ChildTaskInfo,
@@ -358,5 +365,6 @@ export {
 
     removeTask,
 
-    UpdateTime
+    UpdateTime,
+    subTaskDraftList
 }

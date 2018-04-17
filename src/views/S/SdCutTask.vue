@@ -8,8 +8,8 @@
                         <h3 class="main-title">{{title}}</h3>
                     </el-col>
                     <el-col :span="4">
-                        <el-select v-model="form.appAreas" :placeholder="$lang('请选择模版')" class="select-width-all">
-                            <el-option v-for="item in configs.areaList" :key="item.key" :label="item.cnValue" :value="item.key"></el-option>
+                        <el-select v-model="form.draftTemplate" :placeholder="$lang('请选择模版')" class="select-width-all">
+                            <el-option v-for="item in subTaskDraftList" :key="item.key" :label="item.cnValue" :value="item.key"></el-option>
                         </el-select>
                     </el-col>
                 </el-row>
@@ -252,6 +252,7 @@ import { Loading, Message } from "element-ui";
 import {
   CreateChildTask,
     CreateChildTaskDraft,
+    subTaskDraftList,
   UpdateChildTask,
   ChildTaskInfo,
   CreateChildTaskStage,
@@ -290,6 +291,7 @@ export default {
         packageType: "0",
         total: "",
         appAreas: "",
+          draftTemplate:"",
         vevironments: "",
         appType: "",
         groupId: "",
@@ -369,6 +371,7 @@ export default {
       configs: {
         AppClass: [],
         areaList: [],
+          draftList: [],
         enviList: [],
         mapAtrr: [],
         mapModelList: [],
@@ -378,6 +381,7 @@ export default {
         modelAccuracy: [],
         sightUnit: []
       },
+        subTaskDraftList:[],
       groupName: "",
       childid: "",
 
@@ -408,6 +412,24 @@ export default {
   async mounted() {
     this.loadinginstace = Loading.service({ fullscreen: true });
     //        this.maxTotal = this.$route.params.maxTotal || -1;
+
+
+      // const subTaskDraftList = await subTaskDraftList();
+      // console.log("subTaskDraftList", subTaskDraftList);
+      // this.subTaskDraftList = subTaskDraftList.map(item => {
+      //     return {
+      //         label: item.cnValue,
+      //         id: item.key,
+      //         children: item.list.map(m => {
+      //             return {
+      //                 label: m.cnValue,
+      //                 id: m.key
+      //             };
+      //         })
+      //     };
+      // });
+
+
     const id = this.$route.query.id;
     this.form.taskId = id;
     const res = await getSubTaskParam(id);
